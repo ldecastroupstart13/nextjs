@@ -7,7 +7,7 @@ export default function LandingPage() {
   const handleStart = () => {
     // 👉 força login diretamente no Google e manda pro dashboard
     signIn("google", {
-      callbackUrl: "/dashboard",
+      callbackUrl: `${process.env.NEXTAUTH_URL}/dashboard`,
     })
   }
 
