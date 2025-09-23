@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button"
 
 export default function LandingPage() {
   const handleStart = () => {
-    // 👉 força login diretamente no Google
+    // 👉 força login diretamente no Google e manda pro dashboard
     signIn("google", {
-      callbackUrl: "/dashboard/expectant-mother",
+      callbackUrl: "/dashboard",
     })
   }
 
