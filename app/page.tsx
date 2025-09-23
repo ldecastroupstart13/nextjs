@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button"
 
 export default function LandingPage() {
   const handleStart = () => {
-    // Login com Google → se der certo, vai para o dashboard
-    signIn("google", { callbackUrl: "/dashboard/expectant-mother" })
+    // 👉 força login diretamente no Google
+    signIn("google", {
+      callbackUrl: "/dashboard/expectant-mother",
+    })
   }
 
   return (
