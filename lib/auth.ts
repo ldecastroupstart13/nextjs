@@ -12,7 +12,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user }) {
       if (!user.email) return false
 
       const isAllowedEmail = ALLOWED_EMAILS.includes(user.email)
@@ -35,8 +35,7 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: "/auth/signin",
-    error: "/unauthorized",
+    error: "/unauthorized", // 🚀 mantém só o erro
   },
   session: {
     strategy: "jwt",
