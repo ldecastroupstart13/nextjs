@@ -5,19 +5,21 @@ export default withAuth(
   function middleware(req) {
     // Permite acesso a rotas públicas
     if (
-      req.nextUrl.pathname === "/" ||
-      req.nextUrl.pathname.startsWith("/api/auth") ||
-      req.nextUrl.pathname === "/unauthorized"
+      req.nextUrl.pathname === "/" || // Landing page
+      req.nextUrl.pathname.startsWith("/api/auth") || // Rotas internas do NextAuth
+      req.nextUrl.pathname === "/unauthorized" // Página de erro
     ) {
       return NextResponse.next()
     }
 
-    // Se não estiver autenticado → volta para a Landing Page
+    // 🚨 Se não estiver autenticado → força login com Google
     if (!req.nextauth.token) {
-      return NextResponse.redirect(new URL("/", req.url))
+      return NextResponse.redirect(
+        new URL("/api/auth/signin/google", req.url) // chama direto o provedor Google
+      )
     }
 
-    // Verifica se o usuário tem acesso (email autorizado ou domínio permitido)
+    // 🔐 Verifica se o usuário tem acesso (email específico ou domínio permitido)
     const email = req.nextauth.token.email as string
     const ALLOWED_EMAILS = ["leonardo.decastro.brazil@gmail.com"]
     const ALLOWED_DOMAIN = "@upstart13.com"
@@ -34,7 +36,7 @@ export default withAuth(
   {
     callbacks: {
       authorized: ({ token, req }) => {
-        // Permite rotas públicas
+        // Libera as rotas públicas
         if (
           req.nextUrl.pathname === "/" ||
           req.nextUrl.pathname.startsWith("/api/auth") ||
@@ -43,13 +45,14 @@ export default withAuth(
           return true
         }
 
-        // Para rotas protegidas, precisa estar autenticado
+        // Para rotas protegidas, só segue se tiver token
         return !!token
       },
     },
   },
 )
 
+// 🔗 Middleware só roda nas rotas protegidas
 export const config = {
   matcher: ["/dashboard/:path*", "/api/track-action"],
 }
