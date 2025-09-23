@@ -35,10 +35,10 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    error: "/unauthorized", // 🚀 mantém só o erro
+    error: "/unauthorized", // só mantém a tela de erro
   },
   session: {
     strategy: "jwt",
-    maxAge: 30 * 60, // 30 minutes
+    maxAge: 30 * 60,
   },
 }
