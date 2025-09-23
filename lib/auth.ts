@@ -22,8 +22,8 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.sub!
-        session.user.loginTime = new Date().toISOString()
+        (session.user as any).id = token.sub as string
+        (session.user as any).loginTime = new Date().toISOString()
       }
       return session
     },
@@ -35,10 +35,10 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    error: "/unauthorized", // só mantém a tela de erro
+    error: "/unauthorized",
   },
   session: {
     strategy: "jwt",
-    maxAge: 30 * 60,
+    maxAge: 30 * 60, // 30 minutos
   },
 }
