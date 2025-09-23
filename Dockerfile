@@ -1,55 +1,40 @@
-# Use the official Node.js 18 image
-FROM node:18-alpine AS base
+# ================================
+# Etapa 1: Build
+# ================================
+FROM node:18-alpine AS builder
 
-# Install dependencies only when needed
-FROM base AS deps
-RUN apk add --no-cache libc6-compat
+# Definir diretório de trabalho
 WORKDIR /app
 
-# Install dependencies based on the preferred package manager
-COPY package.json package-lock.json* pnpm-lock.yaml* ./
-RUN \
-  if [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then npm ci; \
-  else echo "Lockfile not found." && exit 1; \
-  fi
+# Copiar apenas arquivos de dependência
+COPY package.json pnpm-lock.yaml* ./
 
-# Rebuild the source code only when needed
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+# Instalar pnpm e dependências
+RUN npm install -g pnpm && pnpm install --frozen-lockfile
+
+# Copiar o restante do projeto
 COPY . .
 
-# Build the application
-RUN \
-  if [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
-  else npm run build; \
-  fi
+# Rodar build (gera saída standalone por causa do next.config.mjs)
+RUN pnpm build
 
-# Production image, copy all the files and run next
-FROM base AS runner
+# ================================
+# Etapa 2: Runtime
+# ================================
+FROM node:18-alpine AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
+# Definir ambiente de produção
+ENV NODE_ENV=production
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
+# Copiar apenas arquivos necessários do build
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 
-# Set the correct permission for prerender cache
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
+# Cloud Run usa a porta 8080
+ENV PORT=8080
+EXPOSE 8080
 
-# Automatically leverage output traces to reduce image size
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-USER nextjs
-
-EXPOSE 3000
-
-ENV PORT 3000
-ENV HOSTNAME "0.0.0.0"
-
+# Comando de inicialização
 CMD ["node", "server.js"]
