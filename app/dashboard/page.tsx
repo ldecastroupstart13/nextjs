@@ -683,19 +683,20 @@ export default function GladneyDashboard() {
                     <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-64 z-[9999]">
-                  <DropdownMenuItem
-                    onClick={() => handleViewSelect("expectant", "overview_ads")}
-                    className={`hover:bg-muted ${selectedDropdownItem === "overview_ads" ? "bg-primary text-primary-foreground" : ""}`}
-                  >
+                <DropdownMenuContent
+                  className="w-64 z-[99999]"
+                  side="bottom"
+                  align="start"
+                  sideOffset={4}
+                >
+                  <DropdownMenuItem onClick={() => handleViewSelect("expectant", "overview_ads")}>
                     Overview - ads & hubspot
                   </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => handleViewSelect("expectant", "overview_ga4")}
-                    className={`hover:bg-muted ${selectedDropdownItem === "overview_ga4" ? "bg-primary text-primary-foreground" : ""}`}
-                  >
+                  <DropdownMenuItem onClick={() => handleViewSelect("expectant", "overview_ga4")}>
                     Overview - GA4
                   </DropdownMenuItem>
+                  {/* ...outros itens... */}
+                </DropdownMenuContent>
                   <DropdownMenuItem
                     onClick={() => handleViewSelect("expectant", "recent")}
                     className={`hover:bg-muted ${selectedDropdownItem === "recent" ? "bg-primary text-primary-foreground" : ""}`}
