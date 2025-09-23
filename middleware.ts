@@ -3,7 +3,7 @@ import { NextResponse } from "next/server"
 
 export default withAuth(
   function middleware(req) {
-    // Allow access to public routes
+    // Permite acesso a rotas públicas
     if (
       req.nextUrl.pathname === "/" ||
       req.nextUrl.pathname.startsWith("/api/auth") ||
@@ -12,17 +12,18 @@ export default withAuth(
       return NextResponse.next()
     }
 
-    // Check if user is authenticated
+    // Se não estiver autenticado → volta para a Landing Page
     if (!req.nextauth.token) {
-      return NextResponse.redirect(new URL("/api/auth/signin", req.url))
+      return NextResponse.redirect(new URL("/", req.url))
     }
 
-    // Check if user has access (domain or allowed email)
+    // Verifica se o usuário tem acesso (email autorizado ou domínio permitido)
     const email = req.nextauth.token.email as string
     const ALLOWED_EMAILS = ["leonardo.decastro.brazil@gmail.com"]
     const ALLOWED_DOMAIN = "@upstart13.com"
 
-    const hasAccess = ALLOWED_EMAILS.includes(email) || email.endsWith(ALLOWED_DOMAIN)
+    const hasAccess =
+      ALLOWED_EMAILS.includes(email) || email.endsWith(ALLOWED_DOMAIN)
 
     if (!hasAccess) {
       return NextResponse.redirect(new URL("/unauthorized", req.url))
@@ -33,7 +34,7 @@ export default withAuth(
   {
     callbacks: {
       authorized: ({ token, req }) => {
-        // Allow public routes
+        // Permite rotas públicas
         if (
           req.nextUrl.pathname === "/" ||
           req.nextUrl.pathname.startsWith("/api/auth") ||
@@ -42,7 +43,7 @@ export default withAuth(
           return true
         }
 
-        // Require authentication for protected routes
+        // Para rotas protegidas, precisa estar autenticado
         return !!token
       },
     },
