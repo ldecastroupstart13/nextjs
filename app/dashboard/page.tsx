@@ -151,12 +151,13 @@ export default function GladneyDashboard() {
   }
 
   useEffect(() => {
-    if (status === "loading") return // Still loading
+    if (status === "loading") return
     if (!session) {
-      router.push("/api/auth/signin")
+      // 👉 troca o push pelo signIn direto
+      signIn("google", { callbackUrl: "/dashboard/expectant-mother" })
       return
     }
-  }, [session, status, router])
+  }, [session, status])
 
   const trackAction = async (action: string, route?: string) => {
     try {

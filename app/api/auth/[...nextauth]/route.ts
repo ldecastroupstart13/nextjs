@@ -9,11 +9,6 @@ const handler = NextAuth({
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
-
-  // 👇 força NextAuth a ir direto no Google
-  pages: {
-    signIn: "/api/auth/signin/google",
-  },
 })
 
 export { handler as GET, handler as POST }
