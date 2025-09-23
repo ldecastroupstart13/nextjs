@@ -9,6 +9,11 @@ const handler = NextAuth({
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
+
+  // 👇 força o NextAuth a nunca usar /auth/signin
+  pages: {
+    signIn: "/api/auth/signin/google",
+  },
 })
 
 export { handler as GET, handler as POST }
