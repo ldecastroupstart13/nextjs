@@ -6,9 +6,9 @@ import { Button } from "@/components/ui/button"
 export default function LandingPage() {
   const handleStart = () => {
     // 👉 força login diretamente no Google e manda pro dashboard
-           signIn("google", {
+               signIn("google", {
       callbackUrl: "/dashboard",
-      prompt: "login" // força o Google a pedir email/senha
+      prompt: "select_account" // sempre pede para escolher ou logar
     })
   }
 
