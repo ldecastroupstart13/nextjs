@@ -1,31 +1,43 @@
 "use client"
 
-import { useRouter } from "next/navigation"
+import { signIn } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 
 export default function LandingPage() {
-  const router = useRouter()
-
   const handleStart = () => {
-    router.push("/dashboard")
+    // Login com Google → se der certo, vai para o dashboard
+    signIn("google", { callbackUrl: "/dashboard/expectant-mother" })
   }
 
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Video Background */}
-      <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover z-0">
-        <source src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/fundo-C9BEgXdGTxzTfRSysIokXLMc4ZNe34.mp4" type="video/mp4" />
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover z-0"
+      >
+        <source
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/fundo-C9BEgXdGTxzTfRSysIokXLMc4ZNe34.mp4"
+          type="video/mp4"
+        />
         Your browser does not support HTML5 video.
       </video>
 
-      {/* Overlay for better text readability */}
+      {/* Overlay */}
       <div className="absolute inset-0 bg-black/20 z-10" />
 
       {/* Content */}
       <div className="relative z-20 flex items-center justify-center min-h-screen p-4">
         <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-12 text-center shadow-2xl max-w-lg w-full">
-          <h1 className="text-4xl font-bold text-primary mb-4">Welcome to the Gladney Insight Center</h1>
-          <p className="text-lg text-muted-foreground mb-8">Behind every number, there's a family waiting for hope.</p>
+          <h1 className="text-4xl font-bold text-primary mb-4">
+            Welcome to the Gladney Insight Center
+          </h1>
+          <p className="text-lg text-muted-foreground mb-8">
+            Behind every number, there's a family waiting for hope.
+          </p>
           <Button
             onClick={handleStart}
             size="lg"
