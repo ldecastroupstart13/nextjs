@@ -5,13 +5,31 @@ import { Button } from "@/components/ui/button"
 
 export default function LandingPage() {
   const handleStart = () => {
-    // Força login direto no Google
+    // Login com Google → se der certo, vai para o dashboard
     signIn("google", { callbackUrl: "/dashboard/expectant-mother" })
   }
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* Background e conteúdo igual antes */}
+      {/* Video Background */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover z-0"
+      >
+        <source
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/fundo-C9BEgXdGTxzTfRSysIokXLMc4ZNe34.mp4"
+          type="video/mp4"
+        />
+        Your browser does not support HTML5 video.
+      </video>
+
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/20 z-10" />
+
+      {/* Content */}
       <div className="relative z-20 flex items-center justify-center min-h-screen p-4">
         <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-12 text-center shadow-2xl max-w-lg w-full">
           <h1 className="text-4xl font-bold text-primary mb-4">
