@@ -768,11 +768,46 @@ if (activePage === "gladney_business") {
 
     if (activePage === "dashboard_details") {
       return (
-        <div className="p-8">
-          <h2 className="text-xl font-semibold mb-4">Dashboard Details</h2>
-          <p className="text-muted-foreground">
-            Detailed reports and target metrics documentation.
-          </p>
+        <div className="w-full h-full p-8 space-y-8 overflow-auto">
+          <div className="max-w-none">
+            <p className="text-base text-muted-foreground mb-8 leading-relaxed text-pretty">
+              This section provides detailed information about the dashboards, including quality check reports and
+              target metrics documentation.
+            </p>
+
+            {/* Adjusted grid to better fill available space */}
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-12">
+              <div className="space-y-4">
+                <h3 className="text-xl font-semibold mb-4 text-foreground">Quality Check Reports</h3>
+                <div className="space-y-3">
+                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
+                    Quality Check Report - Expectant Mother Dashboard (PDF)
+                  </a>
+                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
+                    Quality Check Report - Gladney Business Performance (PDF)
+                  </a>
+                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
+                    Quality Check Report - Page Traffic Monitor (PDF)
+                  </a>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <h3 className="text-xl font-semibold mb-4 text-foreground">Target Metrics</h3>
+                <div className="space-y-3">
+                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
+                    Target Metrics - Expectant Mother (Google Sheets)
+                  </a>
+                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
+                    Target Metrics - Gladney Business Performance (Google Sheets)
+                  </a>
+                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
+                    Target Metrics - Page Traffic Monitor (Google Sheets)
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       )
     }
