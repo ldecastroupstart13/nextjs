@@ -449,7 +449,6 @@ const LOOKERS = {
 
 
 // 📄 Parte 3 — RenderPageContent (Gladney, Traffic, FAQ, Details, Notifications)
-// 📄 Parte 3 — RenderPageContent (Gladney, Traffic, FAQ, Details, Notifications)
 if (activePage === "gladney_business") {
   return (
     <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
@@ -586,8 +585,6 @@ if (activePage === "gladney_business") {
     </div>
   )
 }
-
-
 
 
   // Parte 3.1 - Traficc
