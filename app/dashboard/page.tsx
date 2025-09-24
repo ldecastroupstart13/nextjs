@@ -1,10 +1,19 @@
-// 📄 Parte 1 — Imports, States, LOOKERS, Utils
-
+// 📌 Parte 1 – Imports, States, LOOKERS, Helpers
 "use client"
 
 import type React from "react"
+
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+} from "@/components/ui/dropdown-menu"
 import {
   ChevronDownIcon,
   ChevronRightIcon,
@@ -32,161 +41,26 @@ import {
   SidebarProvider,
 } from "@/components/ui/sidebar"
 import { Card } from "@/components/ui/card"
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "@/components/ui/dropdown-menu"
 
 export default function GladneyDashboard() {
   const [selectedView, setSelectedView] = useState({ group: "expectant", key: "overview_ads" })
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [activePage, setActivePage] = useState("expectant_mother")
   const [selectedDropdownItem, setSelectedDropdownItem] = useState("overview_ads")
-  const [openDropdowns, setOpenDropdowns] = useState<Record<string, boolean>>({})
-
-const LOOKERS = {
-    expectant: {
-      overview_ads:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_03hj6qcmvd",
-      overview_ga4:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_8k5zdcvuvd",
-      recent: "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_rbf34iv8ud",
-      google_ads:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_8eecz0rovd",
-      campaign_break:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_tadcyerovd",
-      campaign_costs:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_ep8hx4qovd",
-      contact_cost:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_jvidqwqovd",
-      day_of_week:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_1cwm5jqovd",
-      campaign_ratios:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_zx6sodqovd",
-      contact_break:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_1r1tjgpovd",
-      spam_break:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_an0bb3povd",
-    },
-    marketing: {
-      performance_time:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_hxd854tovd",
-      cost_per:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_3i0yaalovd",
-      table_download:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_4wsin3lovd",
-      enroll_placements:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_p95uwh89vd",
-      enroll_admission:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_72wuuqv6vd",
-      enroll_creation:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_o9fkb2oavd",
-      enroll_timeseries:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_094a1q3nvd",
-    },
-    gladney: {
-      adoptive_performance:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_0cruxnlesd",
-      adoptive_recent:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_fs1i0mafsd",
-      adoptive_timeline:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_jaslgym7rd",
-      birth_overall:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_n5o80slctd",
-      birth_detailed:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_s68jx6lxtd",
-      birth_recent:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_ox7c5fxitd",
-      birth_breakdown:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_eoarhx0jtd",
-      birth_timeline:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_q9c5vyustd",
-      new_performance:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_pnl8efo3sd",
-      new_recent:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_dbfsn7afsd",
-      new_timeline:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_84ojqj4asd",
-      drilldown_domestic:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_g64kpxaatd",
-      drilldown_new:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_q32x6kaatd",
-    },
-    traffic: {
-      cover_page:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_z2i9rcdktd",
-      traffic_user_overview:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_bppth3a2sd",
-      sessions_overview:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_amhq0bb2sd",
-      user_overview:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_zs34w5f2sd",
-      google_ads_keywords:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_b5uzxjdktd",
-      demographic_info:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_snmx9lgltd",
-      events_top_pages:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_hdoejlb2sd",
-      conversion_events:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_od7jq6f2sd",
-      conversion_performance:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_pfbpeii2sd",
-      ai_vs_human:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_60iwvfimtd",
-      ai_deep_dive:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_m7azaxhmtd",
-      temporary_visualization:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_zpttqz0qtd",
-      google_analytics_dashboard:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_mppqixq3vd",
-    },
-  }
 
   const router = useRouter()
 
-  const toggleDropdown = (dropdownId: string) => {
-    setOpenDropdowns((prev) => ({
-      ...prev,
-      [dropdownId]: !prev[dropdownId],
-    }))
+  // URLs para os dashboards
+  const LOOKERS = {
+    expectant: { ... },
+    marketing: { ... },
+    gladney: { ... },
+    traffic: { ... }
   }
 
-  const closeAllDropdowns = () => {
-    setOpenDropdowns({})
-  }
-
-  const handleViewSelect = (group: string, key: string) => {
-    setSelectedView({ group, key })
-    setSelectedDropdownItem(key)
-    closeAllDropdowns()
-    const url = new URL(window.location.href)
-    url.searchParams.set("group", group)
-    url.searchParams.set("view", key)
-    window.history.replaceState({}, "", url.toString())
-  }
-
-
-
-
-
-// 📄 Parte 2 — Fullscreen, Utils, RenderPageContent (Expectant + Marketing)
-
-  const toggleFullscreen = () => {
-    const element = document.getElementById("iframe-container")
-    if (!document.fullscreenElement && element) {
-      element.requestFullscreen()
-      setIsFullscreen(true)
-    } else if (document.fullscreenElement) {
-      document.exitFullscreen()
-      setIsFullscreen(false)
-    }
-  }
-
+  // Navegação
   const handleNavigation = (page: string) => {
     setActivePage(page)
-    closeAllDropdowns()
     if (page === "expectant_mother") {
       setSelectedView({ group: "expectant", key: "overview_ads" })
       setSelectedDropdownItem("overview_ads")
@@ -202,6 +76,7 @@ const LOOKERS = {
     }
   }
 
+  // Atualiza seleção a partir da URL
   useEffect(() => {
     const url = new URL(window.location.href)
     const group = url.searchParams.get("group") || "expectant"
@@ -210,24 +85,35 @@ const LOOKERS = {
     setSelectedDropdownItem(view)
   }, [])
 
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      setIsFullscreen(!!document.fullscreenElement)
-      if (!document.fullscreenElement) {
-        closeAllDropdowns()
-      }
-    }
-    document.addEventListener("fullscreenchange", handleFullscreenChange)
-    return () => {
-      document.removeEventListener("fullscreenchange", handleFullscreenChange)
-    }
-  }, [])
+  // Função de seleção de view
+  const handleViewSelect = (group: string, key: string) => {
+    setSelectedView({ group, key })
+    setSelectedDropdownItem(key)
+    const url = new URL(window.location.href)
+    url.searchParams.set("group", group)
+    url.searchParams.set("view", key)
+    window.history.replaceState({}, "", url.toString())
+  }
 
-  const currentUrl =
-    LOOKERS[selectedView.group as keyof typeof LOOKERS]?.[
-      selectedView.key as keyof (typeof LOOKERS)[keyof typeof LOOKERS]
-    ] || "about:blank"
+  const toggleFullscreen = () => {
+    const element = document.getElementById("iframe-container")
+    if (!document.fullscreenElement && element) {
+      element.requestFullscreen()
+      setIsFullscreen(true)
+    } else if (document.fullscreenElement) {
+      document.exitFullscreen()
+      setIsFullscreen(false)
+    }
+  }
 
+  const handleLogout = () => {
+    router.push("/")
+  }
+
+
+
+// 📌 Parte 2 – Utilitários (Dropdowns customizados + Títulos de página)
+  // Retorna título da página no Header
   const getPageTitle = () => {
     switch (activePage) {
       case "expectant_mother":
@@ -247,23 +133,16 @@ const LOOKERS = {
     }
   }
 
-  const CustomDropdown = ({
-    id,
-    trigger,
-    children,
-    className = "",
-  }: {
+  // Dropdown customizado (para fullscreen)
+  const CustomDropdown = ({ id, trigger, children }: {
     id: string
     trigger: React.ReactNode
     children: React.ReactNode
-    className?: string
   }) => {
-    const isOpen = openDropdowns[id] || false
+    const [isOpen, setIsOpen] = useState(false)
     return (
-      <div className={`relative ${className}`}>
-        <div onClick={() => toggleDropdown(id)} className="cursor-pointer">
-          {trigger}
-        </div>
+      <div className="relative">
+        <div onClick={() => setIsOpen(!isOpen)}>{trigger}</div>
         {isOpen && (
           <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-[10001] min-w-64">
             {children}
@@ -295,18 +174,15 @@ const LOOKERS = {
   const CustomSubmenu = ({
     trigger,
     children,
-    parentId,
   }: {
     trigger: React.ReactNode
     children: React.ReactNode
-    parentId: string
   }) => {
-    const submenuId = `${parentId}_submenu`
-    const isOpen = openDropdowns[submenuId] || false
+    const [isOpen, setIsOpen] = useState(false)
     return (
       <div className="relative">
         <div
-          onClick={() => toggleDropdown(submenuId)}
+          onClick={() => setIsOpen(!isOpen)}
           className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm flex items-center justify-between"
         >
           {trigger}
@@ -321,58 +197,13 @@ const LOOKERS = {
     )
   }
 
-  const handleLogout = () => {
-    router.push("/")
-  }
-
-    // 🔖 Labels amigáveis para os menus
-  const LABELS: Record<string, string> = {
-    // Expectant
-    overview_ads: "Overview - Ads & Hubspot",
-    overview_ga4: "Overview - GA4",
-    recent: "Recent Perspective",
-    google_ads: "Google Ads Performance",
-    campaign_break: "Campaign Breakdown",
-    campaign_costs: "Campaign Costs",
-    contact_cost: "Contact x Cost",
-    day_of_week: "Day of the Week",
-    campaign_ratios: "Campaign Ratios",
-    contact_break: "Contact Breakdown",
-    spam_break: "Spam Breakdown",
-
-    // Marketing
-    performance_time: "Performance Over Time",
-    cost_per: "Cost Per Acquisition",
-    table_download: "Downloadable Table",
-    enroll_placements: "Enroll by Placement",
-    enroll_admission: "Enroll by Admission",
-    enroll_creation: "Enroll by Creation",
-    enroll_timeseries: "Enroll Time Series",
-
-    // Gladney - Adoptive Parents
-    adoptive_performance: "Performance",
-    adoptive_recent: "Recent Perspective",
-    adoptive_timeline: "Process Timeline",
-
-    // Gladney - Birth Parents
-    birth_overall: "Overall Performance",
-    birth_detailed: "Detailed Performance",
-    birth_recent: "Recent Perspective",
-    birth_breakdown: "Breakdown by State",
-    birth_timeline: "Process Timeline",
-
-    // Gladney - New Beginnings
-    new_performance: "Performance",
-    new_recent: "Recent Perspective",
-    new_timeline: "Process Timeline",
-
-    // Gladney - Drilldown
-    drilldown_domestic: "Domestic Infant",
-    drilldown_new: "New Beginnings",
-  }
 
 
+// 📌 Parte 3 – RenderPageContent (Menus Horizontais)
   const renderPageContent = () => {
+    // ==============================
+    // Expectant Mother + Marketing
+    // ==============================
     if (activePage === "expectant_mother") {
       return (
         <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
@@ -395,7 +226,7 @@ const LOOKERS = {
                 onClick={() => handleViewSelect("expectant", key)}
                 isSelected={selectedDropdownItem === key}
               >
-                {LABELS[key] || key}
+                {key}
               </CustomDropdownItem>
             ))}
           </CustomDropdown>
@@ -413,51 +244,49 @@ const LOOKERS = {
               </Button>
             }
           >
-            {/* Itens simples */}
             <CustomDropdownItem
               onClick={() => handleViewSelect("marketing", "performance_time")}
               isSelected={selectedDropdownItem === "performance_time"}
             >
-              {LABELS["performance_time"]}
+              Performance Over Time
             </CustomDropdownItem>
             <CustomDropdownItem
               onClick={() => handleViewSelect("marketing", "cost_per")}
               isSelected={selectedDropdownItem === "cost_per"}
             >
-              {LABELS["cost_per"]}
+              Cost Per Acquisition
             </CustomDropdownItem>
             <CustomDropdownItem
               onClick={() => handleViewSelect("marketing", "table_download")}
               isSelected={selectedDropdownItem === "table_download"}
             >
-              {LABELS["table_download"]}
+              Downloadable Table
             </CustomDropdownItem>
 
-            {/* Submenu Enrollment Rate */}
-            <CustomSubmenu parentId="marketing_dropdown" trigger="Enrollment Rate">
+            <CustomSubmenu trigger="Enrollment Rate">
               <CustomDropdownItem
                 onClick={() => handleViewSelect("marketing", "enroll_placements")}
                 isSelected={selectedDropdownItem === "enroll_placements"}
               >
-                {LABELS["enroll_placements"]}
+                Enroll by Placement
               </CustomDropdownItem>
               <CustomDropdownItem
                 onClick={() => handleViewSelect("marketing", "enroll_admission")}
                 isSelected={selectedDropdownItem === "enroll_admission"}
               >
-                {LABELS["enroll_admission"]}
+                Enroll by Admission
               </CustomDropdownItem>
               <CustomDropdownItem
                 onClick={() => handleViewSelect("marketing", "enroll_creation")}
                 isSelected={selectedDropdownItem === "enroll_creation"}
               >
-                {LABELS["enroll_creation"]}
+                Enroll by Creation
               </CustomDropdownItem>
               <CustomDropdownItem
                 onClick={() => handleViewSelect("marketing", "enroll_timeseries")}
                 isSelected={selectedDropdownItem === "enroll_timeseries"}
               >
-                {LABELS["enroll_timeseries"]}
+                Enroll Time Series
               </CustomDropdownItem>
             </CustomSubmenu>
           </CustomDropdown>
@@ -465,164 +294,97 @@ const LOOKERS = {
       )
     }
 
-
-
-
-
-
-// 📄 Parte 3 — RenderPageContent (Gladney, Traffic, FAQ, Details, Notifications)
-// 📄 Parte 3 — RenderPageContent (Gladney, Traffic, FAQ, Details, Notifications)
-if (activePage === "gladney_business") {
-  return (
-    <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
-      
-      {/* Domestic Infant */}
-      <CustomDropdown
-        id="domestic_dropdown"
-        trigger={
-          <Button
-            variant={
-              [
-                "adoptive_performance","adoptive_recent","adoptive_timeline",
-                "birth_overall","birth_detailed","birth_recent","birth_breakdown","birth_timeline"
-              ].includes(selectedDropdownItem) ? "default" : "outline"
+    // ==============================
+    // Gladney Business
+    // ==============================
+    if (activePage === "gladney_business") {
+      return (
+        <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
+          {/* Domestic Infant */}
+          <CustomDropdown
+            id="domestic_dropdown"
+            trigger={
+              <Button
+                variant={[
+                  "adoptive_performance","adoptive_recent","adoptive_timeline",
+                  "birth_overall","birth_detailed","birth_recent","birth_breakdown","birth_timeline"
+                ].includes(selectedDropdownItem) ? "default" : "outline"}
+                className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+              >
+                <span className="truncate">Domestic Infant</span>
+                <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+              </Button>
             }
-            className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
           >
-            <span className="truncate">Domestic Infant</span>
-            <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
-          </Button>
-        }
-      >
-        {/* Adoptive Parents */}
-        <CustomSubmenu parentId="domestic_adoptive" trigger="Adoptive Parents">
-          <CustomDropdownItem
-            onClick={() => handleViewSelect("gladney", "adoptive_performance")}
-            isSelected={selectedDropdownItem === "adoptive_performance"}
-          >
-            {LABELS["adoptive_performance"]}
-          </CustomDropdownItem>
-          <CustomDropdownItem
-            onClick={() => handleViewSelect("gladney", "adoptive_recent")}
-            isSelected={selectedDropdownItem === "adoptive_recent"}
-          >
-            {LABELS["adoptive_recent"]}
-          </CustomDropdownItem>
-          <CustomDropdownItem
-            onClick={() => handleViewSelect("gladney", "adoptive_timeline")}
-            isSelected={selectedDropdownItem === "adoptive_timeline"}
-          >
-            {LABELS["adoptive_timeline"]}
-          </CustomDropdownItem>
-        </CustomSubmenu>
+            <CustomSubmenu trigger="Adoptive Parents">
+              <CustomDropdownItem onClick={() => handleViewSelect("gladney", "adoptive_performance")}
+                isSelected={selectedDropdownItem === "adoptive_performance"}>Performance</CustomDropdownItem>
+              <CustomDropdownItem onClick={() => handleViewSelect("gladney", "adoptive_recent")}
+                isSelected={selectedDropdownItem === "adoptive_recent"}>Recent</CustomDropdownItem>
+              <CustomDropdownItem onClick={() => handleViewSelect("gladney", "adoptive_timeline")}
+                isSelected={selectedDropdownItem === "adoptive_timeline"}>Timeline</CustomDropdownItem>
+            </CustomSubmenu>
 
-        {/* Birth Parents */}
-        <CustomSubmenu parentId="domestic_birth" trigger="Birth Parents">
-          <CustomDropdownItem
-            onClick={() => handleViewSelect("gladney", "birth_overall")}
-            isSelected={selectedDropdownItem === "birth_overall"}
-          >
-            {LABELS["birth_overall"]}
-          </CustomDropdownItem>
-          <CustomDropdownItem
-            onClick={() => handleViewSelect("gladney", "birth_detailed")}
-            isSelected={selectedDropdownItem === "birth_detailed"}
-          >
-            {LABELS["birth_detailed"]}
-          </CustomDropdownItem>
-          <CustomDropdownItem
-            onClick={() => handleViewSelect("gladney", "birth_recent")}
-            isSelected={selectedDropdownItem === "birth_recent"}
-          >
-            {LABELS["birth_recent"]}
-          </CustomDropdownItem>
-          <CustomDropdownItem
-            onClick={() => handleViewSelect("gladney", "birth_breakdown")}
-            isSelected={selectedDropdownItem === "birth_breakdown"}
-          >
-            {LABELS["birth_breakdown"]}
-          </CustomDropdownItem>
-          <CustomDropdownItem
-            onClick={() => handleViewSelect("gladney", "birth_timeline")}
-            isSelected={selectedDropdownItem === "birth_timeline"}
-          >
-            {LABELS["birth_timeline"]}
-          </CustomDropdownItem>
-        </CustomSubmenu>
-      </CustomDropdown>
+            <CustomSubmenu trigger="Birth Parents">
+              <CustomDropdownItem onClick={() => handleViewSelect("gladney", "birth_overall")}
+                isSelected={selectedDropdownItem === "birth_overall"}>Overall</CustomDropdownItem>
+              <CustomDropdownItem onClick={() => handleViewSelect("gladney", "birth_detailed")}
+                isSelected={selectedDropdownItem === "birth_detailed"}>Detailed</CustomDropdownItem>
+              <CustomDropdownItem onClick={() => handleViewSelect("gladney", "birth_recent")}
+                isSelected={selectedDropdownItem === "birth_recent"}>Recent</CustomDropdownItem>
+              <CustomDropdownItem onClick={() => handleViewSelect("gladney", "birth_breakdown")}
+                isSelected={selectedDropdownItem === "birth_breakdown"}>Breakdown</CustomDropdownItem>
+              <CustomDropdownItem onClick={() => handleViewSelect("gladney", "birth_timeline")}
+                isSelected={selectedDropdownItem === "birth_timeline"}>Timeline</CustomDropdownItem>
+            </CustomSubmenu>
+          </CustomDropdown>
 
-      {/* New Beginnings */}
-      <CustomDropdown
-        id="new_beginnings_dropdown"
-        trigger={
-          <Button
-            variant={
-              ["new_performance","new_recent","new_timeline"].includes(selectedDropdownItem)
-                ? "default" : "outline"
+          {/* New Beginnings */}
+          <CustomDropdown
+            id="new_beginnings_dropdown"
+            trigger={
+              <Button
+                variant={["new_performance","new_recent","new_timeline"].includes(selectedDropdownItem) ? "default" : "outline"}
+                className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+              >
+                <span className="truncate">New Beginnings</span>
+                <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+              </Button>
             }
-            className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
           >
-            <span className="truncate">New Beginnings</span>
-            <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
-          </Button>
-        }
-      >
-        <CustomDropdownItem
-          onClick={() => handleViewSelect("gladney", "new_performance")}
-          isSelected={selectedDropdownItem === "new_performance"}
-        >
-          {LABELS["new_performance"]}
-        </CustomDropdownItem>
-        <CustomDropdownItem
-          onClick={() => handleViewSelect("gladney", "new_recent")}
-          isSelected={selectedDropdownItem === "new_recent"}
-        >
-          {LABELS["new_recent"]}
-        </CustomDropdownItem>
-        <CustomDropdownItem
-          onClick={() => handleViewSelect("gladney", "new_timeline")}
-          isSelected={selectedDropdownItem === "new_timeline"}
-        >
-          {LABELS["new_timeline"]}
-        </CustomDropdownItem>
-      </CustomDropdown>
+            <CustomDropdownItem onClick={() => handleViewSelect("gladney", "new_performance")}
+              isSelected={selectedDropdownItem === "new_performance"}>Performance</CustomDropdownItem>
+            <CustomDropdownItem onClick={() => handleViewSelect("gladney", "new_recent")}
+              isSelected={selectedDropdownItem === "new_recent"}>Recent</CustomDropdownItem>
+            <CustomDropdownItem onClick={() => handleViewSelect("gladney", "new_timeline")}
+              isSelected={selectedDropdownItem === "new_timeline"}>Timeline</CustomDropdownItem>
+          </CustomDropdown>
 
-      {/* Drilldown Tables */}
-      <CustomDropdown
-        id="drilldown_dropdown"
-        trigger={
-          <Button
-            variant={
-              ["drilldown_domestic","drilldown_new"].includes(selectedDropdownItem)
-                ? "default" : "outline"
+          {/* Drilldown */}
+          <CustomDropdown
+            id="drilldown_dropdown"
+            trigger={
+              <Button
+                variant={["drilldown_domestic","drilldown_new"].includes(selectedDropdownItem) ? "default" : "outline"}
+                className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+              >
+                <span className="truncate">Drilldown Tables</span>
+                <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+              </Button>
             }
-            className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
           >
-            <span className="truncate">Drilldown Tables</span>
-            <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
-          </Button>
-        }
-      >
-        <CustomDropdownItem
-          onClick={() => handleViewSelect("gladney", "drilldown_domestic")}
-          isSelected={selectedDropdownItem === "drilldown_domestic"}
-        >
-          {LABELS["drilldown_domestic"]}
-        </CustomDropdownItem>
-        <CustomDropdownItem
-          onClick={() => handleViewSelect("gladney", "drilldown_new")}
-          isSelected={selectedDropdownItem === "drilldown_new"}
-        >
-          {LABELS["drilldown_new"]}
-        </CustomDropdownItem>
-      </CustomDropdown>
-    </div>
-  )
-}
+            <CustomDropdownItem onClick={() => handleViewSelect("gladney", "drilldown_domestic")}
+              isSelected={selectedDropdownItem === "drilldown_domestic"}>Domestic</CustomDropdownItem>
+            <CustomDropdownItem onClick={() => handleViewSelect("gladney", "drilldown_new")}
+              isSelected={selectedDropdownItem === "drilldown_new"}>New Beginnings</CustomDropdownItem>
+          </CustomDropdown>
+        </div>
+      )
+    }
 
-
-
-  // Parte 3.1 - Traficc
+    // ==============================
+    // Traffic Monitor
+    // ==============================
     if (activePage === "page_traffic") {
       return (
         <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
@@ -639,307 +401,37 @@ if (activePage === "gladney_business") {
             Traffic & User Overview
           </Button>
 
-          {/* Traffic Analysis */}
-          <CustomDropdown
-            id="traffic_analysis_dropdown"
-            trigger={
-              <Button
-                variant="outline"
-                className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
-              >
-                <span className="truncate">Traffic Analysis</span>
-                <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
-              </Button>
-            }
-          >
-            <CustomDropdownItem
-              onClick={() => handleViewSelect("traffic", "sessions_overview")}
-              isSelected={selectedDropdownItem === "sessions_overview"}
-            >
-              Sessions Overview
-            </CustomDropdownItem>
-            <CustomDropdownItem
-              onClick={() => handleViewSelect("traffic", "user_overview")}
-              isSelected={selectedDropdownItem === "user_overview"}
-            >
-              User Overview
-            </CustomDropdownItem>
-            <CustomDropdownItem
-              onClick={() => handleViewSelect("traffic", "google_ads_keywords")}
-              isSelected={selectedDropdownItem === "google_ads_keywords"}
-            >
-              Google Ads Keywords
-            </CustomDropdownItem>
-            <CustomDropdownItem
-              onClick={() => handleViewSelect("traffic", "demographic_info")}
-              isSelected={selectedDropdownItem === "demographic_info"}
-            >
-              Demographic Information
-            </CustomDropdownItem>
+          <CustomDropdown id="traffic_dropdown" trigger={
+            <Button variant="outline" className="gap-2 w-full sm:w-auto justify-between sm:justify-center">
+              <span className="truncate">Traffic Analysis</span>
+              <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+            </Button>
+          }>
+            <CustomDropdownItem onClick={() => handleViewSelect("traffic", "sessions_overview")}
+              isSelected={selectedDropdownItem === "sessions_overview"}>Sessions Overview</CustomDropdownItem>
+            <CustomDropdownItem onClick={() => handleViewSelect("traffic", "user_overview")}
+              isSelected={selectedDropdownItem === "user_overview"}>User Overview</CustomDropdownItem>
+            <CustomDropdownItem onClick={() => handleViewSelect("traffic", "google_ads_keywords")}
+              isSelected={selectedDropdownItem === "google_ads_keywords"}>Google Ads Keywords</CustomDropdownItem>
           </CustomDropdown>
-
-          {/* Engagement & Pages */}
-          <CustomDropdown
-            id="engagement_dropdown"
-            trigger={
-              <Button
-                variant="outline"
-                className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
-              >
-                <span className="truncate">Engagement</span>
-                <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
-              </Button>
-            }
-          >
-            <CustomDropdownItem
-              onClick={() => handleViewSelect("traffic", "events_top_pages")}
-              isSelected={selectedDropdownItem === "events_top_pages"}
-            >
-              Events & Top Pages
-            </CustomDropdownItem>
-            <CustomDropdownItem
-              onClick={() => handleViewSelect("traffic", "conversion_events")}
-              isSelected={selectedDropdownItem === "conversion_events"}
-            >
-              Conversion Events Breakdown
-            </CustomDropdownItem>
-          </CustomDropdown>
-
-          <Button
-            variant={selectedView.key === "conversion_performance" ? "default" : "outline"}
-            onClick={() => handleViewSelect("traffic", "conversion_performance")}
-          >
-            Conversion Performance
-          </Button>
-
-          {/* AI Traffic */}
-          <CustomDropdown
-            id="ai_traffic_dropdown"
-            trigger={
-              <Button
-                variant="outline"
-                className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
-              >
-                <span className="truncate">AI Traffic</span>
-                <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
-              </Button>
-            }
-          >
-            <CustomDropdownItem
-              onClick={() => handleViewSelect("traffic", "ai_vs_human")}
-              isSelected={selectedDropdownItem === "ai_vs_human"}
-            >
-              AI vs Human
-            </CustomDropdownItem>
-            <CustomDropdownItem
-              onClick={() => handleViewSelect("traffic", "ai_deep_dive")}
-              isSelected={selectedDropdownItem === "ai_deep_dive"}
-            >
-              AI Deep Dive
-            </CustomDropdownItem>
-          </CustomDropdown>
-
-          <Button
-            variant={selectedView.key === "temporary_visualization" ? "default" : "outline"}
-            onClick={() => handleViewSelect("traffic", "temporary_visualization")}
-          >
-            Temporary Visualization
-          </Button>
-          <Button
-            variant={selectedView.key === "google_analytics_dashboard" ? "default" : "outline"}
-            onClick={() => handleViewSelect("traffic", "google_analytics_dashboard")}
-          >
-            Google Analytics Dashboard
-          </Button>
         </div>
       )
     }
 
-    if (activePage === "dashboard_faq") {
-      return (
-        <div className="w-full h-full p-8 space-y-8 overflow-auto">
-          <div className="space-y-6 max-w-none">
-            <div>
-              <p className="text-base text-muted-foreground leading-relaxed text-pretty">
-                The purpose of this section is to address common questions that may arise as the Gladney team begins
-                using the dashboards. We plan to continue expanding this section over time to ensure that frequently
-                asked questions are answered and that common areas of confusion are clarified. If you have any questions
-                that aren't covered here, please don't hesitate to reach out to us. Your feedback helps us improve the
-                dashboards and make them as intuitive and user-friendly as possible.
-              </p>
-            </div>
-
-            {/* Removed max-width constraint to use full width */}
-            <div className="space-y-4">
-              <Collapsible className="border border-border rounded-lg">
-                <CollapsibleTrigger className="flex w-full items-center justify-between p-4 text-left hover:bg-muted/50 transition-colors">
-                  <span className="font-medium text-base">
-                    <strong>1) What data sources are used to create the dashboards?</strong>
-                  </span>
-                  <ChevronRightIcon className="h-4 w-4 transition-transform group-data-[state=open]:rotate-90" />
-                </CollapsibleTrigger>
-                <CollapsibleContent className="px-4 pb-4">
-                  <div className="text-sm text-muted-foreground space-y-2 pl-4">
-                    <ul className="list-disc space-y-2">
-                      <li>
-                        <u>HubSpot:</u> Captures and stores information about leads and contacts, including form
-                        submissions, contact details, and marketing engagement.
-                      </li>
-                      <li>
-                        <u>Google Ads:</u> Provides data about paid advertising campaigns, such as impressions, clicks,
-                        conversions, and ad spend.
-                      </li>
-                      <li>
-                        <u>Google Analytics (GA4):</u> Tracks website visitor behavior, showing how users arrive at the
-                        site, which pages they visit, and how they interact with site content.
-                      </li>
-                      <li>
-                        <u>Informer:</u> A reporting tool used by Gladney to track internal operational data, such as
-                        intake progress, case status updates, and other key business metrics.
-                      </li>
-                      <li>
-                        <u>Google Sheets:</u> Used for uploading manually maintained reference data, such as KPI target
-                        values and other custom inputs provided by the Gladney team. (See link in the "Dashboard
-                        Details" section for more info.)
-                      </li>
-                      <li>
-                        <u>Sugar:</u> Gladney's customer relationship management (CRM) system, used to manage ongoing
-                        case workflows, track interactions with contacts, and store adoption-related records.
-                      </li>
-                    </ul>
-                  </div>
-                </CollapsibleContent>
-              </Collapsible>
-
-              <Collapsible className="border border-border rounded-lg">
-                <CollapsibleTrigger className="flex w-full items-center justify-between p-4 text-left hover:bg-muted/50 transition-colors">
-                  <span className="font-medium text-base">
-                    <strong>
-                      2) I checked the spam contacts for Monday yesterday and again today, and the numbers are
-                      different. Why might that be happening?
-                    </strong>
-                  </span>
-                  <ChevronRightIcon className="h-4 w-4 transition-transform group-data-[state=open]:rotate-90" />
-                </CollapsibleTrigger>
-                <CollapsibleContent className="px-4 pb-4">
-                  <div className="text-sm text-muted-foreground space-y-3 pl-4">
-                    <p className="text-pretty">
-                      Imagine this scenario: Today, you check the dashboard and see that there are 15 spam contacts
-                      recorded for July 10th. Then, tomorrow, you check again and notice that the number has increased
-                      to 17 spam contacts for the same date.
-                    </p>
-                    <p className="text-pretty">
-                      At first glance, you might think there's a mistake or a data error. However, what's likely
-                      happening is that the number of spam contacts has been updated. The Gladney team is constantly
-                      reviewing and refining contact classifications to ensure we accurately distinguish between
-                      legitimate, qualified contacts and spam. This review process often takes time.
-                    </p>
-                    <p className="text-pretty">
-                      Using this same example: On your first check, you saw 15 spam contacts, which were automatically
-                      flagged by our tools (e.g., HubSpot's spam detection). Out of a total of 30 contacts, that seemed
-                      correct at the time. However, after the Gladney team manually reviewed the list, they identified 2
-                      additional spam contacts that the automated system missed. That's why when you checked again, the
-                      total had increased to 17.
-                    </p>
-                    <p className="text-pretty">
-                      This kind of adjustment doesn't happen just with spam contacts—it can affect other classifications
-                      too. That's why we always encourage the Gladney team to notify us of any changes or concerns they
-                      notice in the dashboard, so we can keep everyone informed and ensure the data stays as accurate as
-                      possible.
-                    </p>
-                  </div>
-                </CollapsibleContent>
-              </Collapsible>
-            </div>
-          </div>
-        </div>
-      )
-    }
-
-    if (activePage === "dashboard_details") {
-      return (
-        <div className="w-full h-full p-8 space-y-8 overflow-auto">
-          <div className="max-w-none">
-            <p className="text-base text-muted-foreground mb-8 leading-relaxed text-pretty">
-              This section provides detailed information about the dashboards, including quality check reports and
-              target metrics documentation.
-            </p>
-
-            {/* Adjusted grid to better fill available space */}
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-12">
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold mb-4 text-foreground">Quality Check Reports</h3>
-                <div className="space-y-3">
-                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
-                    Quality Check Report - Expectant Mother Dashboard (PDF)
-                  </a>
-                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
-                    Quality Check Report - Gladney Business Performance (PDF)
-                  </a>
-                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
-                    Quality Check Report - Page Traffic Monitor (PDF)
-                  </a>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold mb-4 text-foreground">Target Metrics</h3>
-                <div className="space-y-3">
-                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
-                    Target Metrics - Expectant Mother (Google Sheets)
-                  </a>
-                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
-                    Target Metrics - Gladney Business Performance (Google Sheets)
-                  </a>
-                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
-                    Target Metrics - Page Traffic Monitor (Google Sheets)
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )
-    }
-
-    if (activePage === "notifications") {
-      return (
-        <div className="flex-1 p-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12">
-              <div className="text-center">
-                <img
-                  src="/no-notification.png"
-                  alt="No Notifications"
-                  className="w-32 h-auto mx-auto opacity-80 mb-6"
-                />
-                <h3 className="text-2xl font-semibold text-gray-800 mb-2">No Notifications</h3>
-                <p className="text-gray-600 text-lg">You're all caught up!</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )
-    }
-
-    return (
-      <div className="text-center text-muted-foreground">
-        <p>Selecione uma opção do menu para visualizar o dashboard.</p>
-      </div>
-    )
+    return <div className="text-center text-muted-foreground">Selecione uma opção.</div>
   }
 
 
 
 
-
-// 📄 Parte 4 — Layout Geral (Sidebar + Header + Cards + Iframe)
-    return (
+//📌 Parte 4 — Layout Geral
+  return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gray-50">
         {/* Sidebar */}
         <Sidebar className="border-r border-sidebar-border bg-sidebar flex-shrink-0 lg:flex hidden lg:relative absolute z-40 lg:z-auto w-64 min-w-64">
           <SidebarContent className="bg-background h-full flex flex-col">
+            
             {/* Header Sidebar */}
             <SidebarHeader className="h-16 flex items-center justify-between px-4 border-b border-sidebar-border">
               <div className="flex items-center gap-3">
@@ -955,6 +447,7 @@ if (activePage === "gladney_business") {
             <SidebarGroup className="flex-1 overflow-y-auto px-2 py-4">
               <SidebarGroupContent>
                 <SidebarMenu className="space-y-2">
+                  
                   {/* DASHBOARDS */}
                   <Collapsible defaultOpen className="group/collapsible">
                     <SidebarMenuItem>
@@ -962,7 +455,7 @@ if (activePage === "gladney_business") {
                         <SidebarMenuButton className="w-full hover:bg-sidebar-accent transition-colors rounded-lg">
                           <div className="flex items-center gap-3">
                             <ChartBarIcon className="h-5 w-5 text-primary flex-shrink-0" />
-                            <span className="font-medium">Dashboard</span>
+                            <span className="font-medium">Dashboards</span>
                           </div>
                           <ChevronRightIcon className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-90" />
                         </SidebarMenuButton>
@@ -981,22 +474,20 @@ if (activePage === "gladney_business") {
                               Expectant Mother
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
+
                           <SidebarMenuSubItem>
                             <SidebarMenuSubButton
                               onClick={() => handleNavigation("gladney_business")}
-                              className={`py-3 h-auto transition-colors rounded-lg ${
+                              className={`transition-colors rounded-lg ${
                                 activePage === "gladney_business"
                                   ? "bg-primary text-primary-foreground"
                                   : "hover:bg-sidebar-accent"
                               }`}
                             >
-                              <span className="text-sm leading-tight">
-                                Gladney Business
-                                <br />
-                                Performance
-                              </span>
+                              Gladney Business
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
+
                           <SidebarMenuSubItem>
                             <SidebarMenuSubButton
                               onClick={() => handleNavigation("page_traffic")}
@@ -1092,6 +583,7 @@ if (activePage === "gladney_business") {
 
         {/* Main Content */}
         <div className="flex-1 flex flex-col min-w-0">
+          
           {/* Header */}
           <header className="sticky top-0 z-50 bg-background border-b border-border h-16 flex-shrink-0">
             <div className="flex h-full items-center justify-between px-4 sm:px-6">
@@ -1104,8 +596,8 @@ if (activePage === "gladney_business") {
                 </h1>
               </div>
 
+              {/* Profile */}
               <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
-                {/* Profile Dropdown */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <div className="flex items-center gap-3 p-2 rounded-lg border border-border bg-slate-50 cursor-pointer hover:bg-slate-100 transition-colors">
@@ -1132,7 +624,8 @@ if (activePage === "gladney_business") {
 
           {/* Conteúdo principal */}
           <div className="flex-1 flex flex-col p-3 sm:p-6 bg-popover overflow-auto">
-            {/* Card superior (menus horizontais) */}
+            
+            {/* Menus horizontais */}
             {activePage !== "notifications" &&
               activePage !== "dashboard_details" &&
               activePage !== "dashboard_faq" && (
@@ -1155,10 +648,7 @@ if (activePage === "gladney_business") {
               )}
 
             {/* Iframe container */}
-            <Card
-              id="iframe-container"
-              className="flex-1 overflow-hidden border border-border min-h-0 bg-background"
-            >
+            <Card id="iframe-container" className="flex-1 overflow-hidden border border-border min-h-0 bg-background">
               {isFullscreen && (
                 <div className="fixed top-0 left-0 right-0 z-[10000] bg-background/95 backdrop-blur-sm border-b border-border">
                   <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2 sm:gap-4 p-3 sm:p-4">
@@ -1167,32 +657,15 @@ if (activePage === "gladney_business") {
                 </div>
               )}
 
-              {/* Conteúdo dinamico */}
               <div className={`w-full h-full ${isFullscreen ? "mt-20" : ""}`}>
-                {activePage === "notifications" ? (
-                  <div className="w-full h-full flex items-center justify-center p-8 bg-background">
-                    <div className="text-center">
-                      <img
-                        src="/no-notification.png"
-                        alt="No Notifications"
-                        className="w-32 h-auto mx-auto opacity-80 mb-6"
-                      />
-                      <h3 className="text-2xl font-semibold text-gray-800 mb-2">No Notifications</h3>
-                      <p className="text-gray-600 text-lg">You're all caught up!</p>
-                    </div>
-                  </div>
-                ) : activePage === "dashboard_details" || activePage === "dashboard_faq" ? (
-                  <div className="w-full h-full bg-background overflow-auto">{renderPageContent()}</div>
-                ) : (
-                  <iframe
-                    src={currentUrl}
-                    title="Gladney Dashboard"
-                    className="w-full h-full border-0 rounded-lg"
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-                  />
-                )}
+                <iframe
+                  src={currentUrl}
+                  title="Gladney Dashboard"
+                  className="w-full h-full border-0 rounded-lg"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+                />
               </div>
             </Card>
           </div>
@@ -1200,4 +673,3 @@ if (activePage === "gladney_business") {
       </div>
     </SidebarProvider>
   )
-}
