@@ -757,11 +757,101 @@ if (activePage === "gladney_business") {
 
     if (activePage === "dashboard_faq") {
       return (
-        <div className="p-8">
-          <h2 className="text-xl font-semibold mb-4">Dashboard FAQ</h2>
-          <p className="text-muted-foreground">
-            Common questions and clarifications will appear here.
-          </p>
+        <div className="w-full h-full p-8 space-y-8 overflow-auto">
+          <div className="space-y-6 max-w-none">
+            <div>
+              <p className="text-base text-muted-foreground leading-relaxed text-pretty">
+                The purpose of this section is to address common questions that may arise as the Gladney team begins
+                using the dashboards. We plan to continue expanding this section over time to ensure that frequently
+                asked questions are answered and that common areas of confusion are clarified. If you have any questions
+                that aren't covered here, please don't hesitate to reach out to us. Your feedback helps us improve the
+                dashboards and make them as intuitive and user-friendly as possible.
+              </p>
+            </div>
+
+            {/* Removed max-width constraint to use full width */}
+            <div className="space-y-4">
+              <Collapsible className="border border-border rounded-lg">
+                <CollapsibleTrigger className="flex w-full items-center justify-between p-4 text-left hover:bg-muted/50 transition-colors">
+                  <span className="font-medium text-base">
+                    <strong>1) What data sources are used to create the dashboards?</strong>
+                  </span>
+                  <ChevronRightIcon className="h-4 w-4 transition-transform group-data-[state=open]:rotate-90" />
+                </CollapsibleTrigger>
+                <CollapsibleContent className="px-4 pb-4">
+                  <div className="text-sm text-muted-foreground space-y-2 pl-4">
+                    <ul className="list-disc space-y-2">
+                      <li>
+                        <u>HubSpot:</u> Captures and stores information about leads and contacts, including form
+                        submissions, contact details, and marketing engagement.
+                      </li>
+                      <li>
+                        <u>Google Ads:</u> Provides data about paid advertising campaigns, such as impressions, clicks,
+                        conversions, and ad spend.
+                      </li>
+                      <li>
+                        <u>Google Analytics (GA4):</u> Tracks website visitor behavior, showing how users arrive at the
+                        site, which pages they visit, and how they interact with site content.
+                      </li>
+                      <li>
+                        <u>Informer:</u> A reporting tool used by Gladney to track internal operational data, such as
+                        intake progress, case status updates, and other key business metrics.
+                      </li>
+                      <li>
+                        <u>Google Sheets:</u> Used for uploading manually maintained reference data, such as KPI target
+                        values and other custom inputs provided by the Gladney team. (See link in the "Dashboard
+                        Details" section for more info.)
+                      </li>
+                      <li>
+                        <u>Sugar:</u> Gladney's customer relationship management (CRM) system, used to manage ongoing
+                        case workflows, track interactions with contacts, and store adoption-related records.
+                      </li>
+                    </ul>
+                  </div>
+                </CollapsibleContent>
+              </Collapsible>
+
+              <Collapsible className="border border-border rounded-lg">
+                <CollapsibleTrigger className="flex w-full items-center justify-between p-4 text-left hover:bg-muted/50 transition-colors">
+                  <span className="font-medium text-base">
+                    <strong>
+                      2) I checked the spam contacts for Monday yesterday and again today, and the numbers are
+                      different. Why might that be happening?
+                    </strong>
+                  </span>
+                  <ChevronRightIcon className="h-4 w-4 transition-transform group-data-[state=open]:rotate-90" />
+                </CollapsibleTrigger>
+                <CollapsibleContent className="px-4 pb-4">
+                  <div className="text-sm text-muted-foreground space-y-3 pl-4">
+                    <p className="text-pretty">
+                      Imagine this scenario: Today, you check the dashboard and see that there are 15 spam contacts
+                      recorded for July 10th. Then, tomorrow, you check again and notice that the number has increased
+                      to 17 spam contacts for the same date.
+                    </p>
+                    <p className="text-pretty">
+                      At first glance, you might think there's a mistake or a data error. However, what's likely
+                      happening is that the number of spam contacts has been updated. The Gladney team is constantly
+                      reviewing and refining contact classifications to ensure we accurately distinguish between
+                      legitimate, qualified contacts and spam. This review process often takes time.
+                    </p>
+                    <p className="text-pretty">
+                      Using this same example: On your first check, you saw 15 spam contacts, which were automatically
+                      flagged by our tools (e.g., HubSpot's spam detection). Out of a total of 30 contacts, that seemed
+                      correct at the time. However, after the Gladney team manually reviewed the list, they identified 2
+                      additional spam contacts that the automated system missed. That's why when you checked again, the
+                      total had increased to 17.
+                    </p>
+                    <p className="text-pretty">
+                      This kind of adjustment doesn't happen just with spam contacts—it can affect other classifications
+                      too. That's why we always encourage the Gladney team to notify us of any changes or concerns they
+                      notice in the dashboard, so we can keep everyone informed and ensure the data stays as accurate as
+                      possible.
+                    </p>
+                  </div>
+                </CollapsibleContent>
+              </Collapsible>
+            </div>
+          </div>
         </div>
       )
     }
