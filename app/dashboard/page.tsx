@@ -628,7 +628,7 @@ export default function GladneyDashboard() {
       } else {
         return (
           <>
-            <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 overflow-visible">
               <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
                   <Button
@@ -639,7 +639,7 @@ export default function GladneyDashboard() {
                     <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-64 z-[9999]">
+                <DropdownMenuContent className="w-64 z-[10001]">
                   <DropdownMenuItem
                     onClick={() => handleViewSelect("expectant", "overview_ads")}
                     className={`hover:bg-muted ${selectedDropdownItem === "overview_ads" ? "bg-primary text-primary-foreground" : ""}`}
