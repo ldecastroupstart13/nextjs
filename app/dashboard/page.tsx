@@ -1,3 +1,5 @@
+// 📄 Parte 1 — Imports, States, LOOKERS, Utils
+
 "use client"
 
 import type React from "react"
@@ -126,7 +128,7 @@ export default function GladneyDashboard() {
 
 
 
-
+// 📄 Parte 2 — Fullscreen, Utils, RenderPageContent (Expectant + Marketing)
   const toggleFullscreen = () => {
     const element = document.getElementById("iframe-container")
     if (!document.fullscreenElement && element) {
@@ -338,9 +340,7 @@ export default function GladneyDashboard() {
 
 
 
-
-
-
+// 📄 Parte 3 — RenderPageContent (Gladney, Traffic, FAQ, Details, Notifications)
     if (activePage === "gladney_business") {
       return (
         <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
@@ -660,8 +660,8 @@ export default function GladneyDashboard() {
 
 
 
-
-  return (
+// 📄 Parte 4 — Layout Geral (Sidebar + Header + Cards + Iframe)
+    return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gray-50">
         {/* Sidebar */}
