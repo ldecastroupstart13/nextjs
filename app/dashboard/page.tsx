@@ -1,9 +1,7 @@
 "use client"
 
 import type React from "react"
-import HorizontalMenuExpectant from "@/components/HorizontalMenuExpectant"
-import HorizontalMenuGladney from "@/components/HorizontalMenuGladney"
-import HorizontalMenuTraffic from "@/components/HorizontalMenuTraffic"
+
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import {
@@ -484,34 +482,898 @@ export default function GladneyDashboard() {
       )
     }
 
- if (activePage === "expectant_mother") {
-  return (
-    <HorizontalMenuExpectant
-      selectedView={selectedView}
-      selectedDropdownItem={selectedDropdownItem}
-      isFullscreen={isFullscreen}
-      handleViewSelect={handleViewSelect}
-    />
-  )
-} else if (activePage === "gladney_business") {
-  return (
-    <HorizontalMenuGladney
-      selectedView={selectedView}
-      selectedDropdownItem={selectedDropdownItem}
-      isFullscreen={isFullscreen}
-      handleViewSelect={handleViewSelect}
-    />
-  )
-} else if (activePage === "page_traffic") {
-  return (
-    <HorizontalMenuTraffic
-      selectedView={selectedView}
-      selectedDropdownItem={selectedDropdownItem}
-      isFullscreen={isFullscreen}
-      handleViewSelect={handleViewSelect}
-    />
-  )
-}
+    if (activePage === "expectant_mother") {
+      if (isFullscreen) {
+        return (
+          <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
+            <CustomDropdown
+              id="expectant_dropdown"
+              trigger={
+                <Button
+                  variant={selectedView.group === "expectant" ? "default" : "outline"}
+                  className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+                >
+                  <span className="truncate">Expectant Mother</span>
+                  <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+                </Button>
+              }
+            >
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("expectant", "overview_ads")}
+                isSelected={selectedDropdownItem === "overview_ads"}
+              >
+                Overview - ads & hubspot
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("expectant", "overview_ga4")}
+                isSelected={selectedDropdownItem === "overview_ga4"}
+              >
+                Overview - GA4
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("expectant", "recent")}
+                isSelected={selectedDropdownItem === "recent"}
+              >
+                Recent Perspective
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("expectant", "google_ads")}
+                isSelected={selectedDropdownItem === "google_ads"}
+              >
+                Google Ads Performance
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("expectant", "campaign_break")}
+                isSelected={selectedDropdownItem === "campaign_break"}
+              >
+                Campaign Breakdown
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("expectant", "campaign_costs")}
+                isSelected={selectedDropdownItem === "campaign_costs"}
+              >
+                Campaign Costs
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("expectant", "contact_cost")}
+                isSelected={selectedDropdownItem === "contact_cost"}
+              >
+                Contact x Cost
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("expectant", "day_of_week")}
+                isSelected={selectedDropdownItem === "day_of_week"}
+              >
+                Day of the Week
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("expectant", "campaign_ratios")}
+                isSelected={selectedDropdownItem === "campaign_ratios"}
+              >
+                Campaign Ratios
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("expectant", "contact_break")}
+                isSelected={selectedDropdownItem === "contact_break"}
+              >
+                Contact Breakdown
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("expectant", "spam_break")}
+                isSelected={selectedDropdownItem === "spam_break"}
+              >
+                Spam Breakdown
+              </CustomDropdownItem>
+            </CustomDropdown>
+
+            <CustomDropdown
+              id="marketing_dropdown"
+              trigger={
+                <Button
+                  variant={selectedView.group === "marketing" ? "default" : "outline"}
+                  className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+                >
+                  <span className="truncate">Marketing Performance</span>
+                  <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+                </Button>
+              }
+            >
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("marketing", "performance_time")}
+                isSelected={selectedDropdownItem === "performance_time"}
+              >
+                Performance over time
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("marketing", "cost_per")}
+                isSelected={selectedDropdownItem === "cost_per"}
+              >
+                Cost per…
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("marketing", "table_download")}
+                isSelected={selectedDropdownItem === "table_download"}
+              >
+                Table for download
+              </CustomDropdownItem>
+              <CustomSubmenu parentId="marketing_dropdown" trigger="Enrollment Rate">
+                <CustomDropdownItem
+                  onClick={() => handleViewSelect("marketing", "enroll_placements")}
+                  isSelected={selectedDropdownItem === "enroll_placements"}
+                >
+                  Filter by Placements in Sugar
+                </CustomDropdownItem>
+                <CustomDropdownItem
+                  onClick={() => handleViewSelect("marketing", "enroll_admission")}
+                  isSelected={selectedDropdownItem === "enroll_admission"}
+                >
+                  Filter by Admission in Sugar
+                </CustomDropdownItem>
+                <CustomDropdownItem
+                  onClick={() => handleViewSelect("marketing", "enroll_creation")}
+                  isSelected={selectedDropdownItem === "enroll_creation"}
+                >
+                  Filter by Creation in Hubspot
+                </CustomDropdownItem>
+                <CustomDropdownItem
+                  onClick={() => handleViewSelect("marketing", "enroll_timeseries")}
+                  isSelected={selectedDropdownItem === "enroll_timeseries"}
+                >
+                  Time Series
+                </CustomDropdownItem>
+              </CustomSubmenu>
+            </CustomDropdown>
+          </div>
+        )
+      } else {
+        return (
+          <>
+            <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant={selectedView.group === "expectant" ? "default" : "outline"}
+                    className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+                  >
+                    <span className="truncate">Expectant Mother</span>
+                    <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-64">
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("expectant", "overview_ads")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "overview_ads" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    Overview - ads & hubspot
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("expectant", "overview_ga4")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "overview_ga4" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    Overview - GA4
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("expectant", "recent")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "recent" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    Recent Perspective
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("expectant", "google_ads")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "google_ads" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    Google Ads Performance
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("expectant", "campaign_break")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "campaign_break" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    Campaign Breakdown
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("expectant", "campaign_costs")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "campaign_costs" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    Campaign Costs
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("expectant", "contact_cost")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "contact_cost" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    Contact x Cost
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("expectant", "day_of_week")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "day_of_week" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    Day of the Week
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("expectant", "campaign_ratios")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "campaign_ratios" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    Campaign Ratios
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("expectant", "contact_break")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "contact_break" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    Contact Breakdown
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("expectant", "spam_break")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "spam_break" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    Spam Breakdown
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant={selectedView.group === "marketing" ? "default" : "outline"}
+                    className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+                  >
+                    <span className="truncate">Marketing Performance</span>
+                    <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-64">
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("marketing", "performance_time")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "performance_time" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    Performance over time
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("marketing", "cost_per")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "cost_per" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    Cost per…
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("marketing", "table_download")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "table_download" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    Table for download
+                  </DropdownMenuItem>
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger className="hover:bg-muted">Enrollment Rate</DropdownMenuSubTrigger>
+                    <DropdownMenuSubContent className="w-64">
+                      <DropdownMenuItem
+                        onClick={() => handleViewSelect("marketing", "enroll_placements")}
+                        className={`hover:bg-muted ${selectedDropdownItem === "enroll_placements" ? "bg-primary text-primary-foreground" : ""}`}
+                      >
+                        Filter by Placements in Sugar
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => handleViewSelect("marketing", "enroll_admission")}
+                        className={`hover:bg-muted ${selectedDropdownItem === "enroll_admission" ? "bg-primary text-primary-foreground" : ""}`}
+                      >
+                        Filter by Admission in Sugar
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => handleViewSelect("marketing", "enroll_creation")}
+                        className={`hover:bg-muted ${selectedDropdownItem === "enroll_creation" ? "bg-primary text-primary-foreground" : ""}`}
+                      >
+                        Filter by Creation in Hubspot
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => handleViewSelect("marketing", "enroll_timeseries")}
+                        className={`hover:bg-muted ${selectedDropdownItem === "enroll_timeseries" ? "bg-primary text-primary-foreground" : ""}`}
+                      >
+                        Time Series
+                      </DropdownMenuItem>
+                    </DropdownMenuSubContent>
+                  </DropdownMenuSub>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </>
+        )
+      }
+    } else if (activePage === "gladney_business") {
+      if (isFullscreen) {
+        return (
+          <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
+            <CustomDropdown
+              id="domestic_dropdown"
+              trigger={
+                <Button
+                  variant={
+                    selectedView.group === "gladney" &&
+                    ["adoptive_performance", "adoptive_recent", "adoptive_timeline"].includes(selectedView.key)
+                      ? "default"
+                      : "outline"
+                  }
+                  className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+                >
+                  <span className="truncate">Domestic Infant</span>
+                  <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+                </Button>
+              }
+            >
+              <CustomSubmenu parentId="domestic_dropdown" trigger="Adoptive Parents">
+                <CustomDropdownItem
+                  onClick={() => handleViewSelect("gladney", "adoptive_performance")}
+                  isSelected={selectedDropdownItem === "adoptive_performance"}
+                >
+                  Performance
+                </CustomDropdownItem>
+                <CustomDropdownItem
+                  onClick={() => handleViewSelect("gladney", "adoptive_recent")}
+                  isSelected={selectedDropdownItem === "adoptive_recent"}
+                >
+                  Recent Perspective
+                </CustomDropdownItem>
+                <CustomDropdownItem
+                  onClick={() => handleViewSelect("gladney", "adoptive_timeline")}
+                  isSelected={selectedDropdownItem === "adoptive_timeline"}
+                >
+                  Process Timeline
+                </CustomDropdownItem>
+              </CustomSubmenu>
+              <CustomSubmenu parentId="domestic_dropdown" trigger="Birth Parents">
+                <CustomDropdownItem
+                  onClick={() => handleViewSelect("gladney", "birth_overall")}
+                  isSelected={selectedDropdownItem === "birth_overall"}
+                >
+                  Overall Performance
+                </CustomDropdownItem>
+                <CustomDropdownItem
+                  onClick={() => handleViewSelect("gladney", "birth_detailed")}
+                  isSelected={selectedDropdownItem === "birth_detailed"}
+                >
+                  Detailed Performance
+                </CustomDropdownItem>
+                <CustomDropdownItem
+                  onClick={() => handleViewSelect("gladney", "birth_recent")}
+                  isSelected={selectedDropdownItem === "birth_recent"}
+                >
+                  Recent Perspective
+                </CustomDropdownItem>
+                <CustomDropdownItem
+                  onClick={() => handleViewSelect("gladney", "birth_breakdown")}
+                  isSelected={selectedDropdownItem === "birth_breakdown"}
+                >
+                  Breakdown by State
+                </CustomDropdownItem>
+                <CustomDropdownItem
+                  onClick={() => handleViewSelect("gladney", "birth_timeline")}
+                  isSelected={selectedDropdownItem === "birth_timeline"}
+                >
+                  Process Timeline
+                </CustomDropdownItem>
+              </CustomSubmenu>
+            </CustomDropdown>
+
+            <CustomDropdown
+              id="new_beginnings_dropdown"
+              trigger={
+                <Button
+                  variant={
+                    selectedView.group === "gladney" &&
+                    ["new_performance", "new_recent", "new_timeline"].includes(selectedView.key)
+                      ? "default"
+                      : "outline"
+                  }
+                  className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+                >
+                  <span className="truncate">New Beginnings</span>
+                  <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+                </Button>
+              }
+            >
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("gladney", "new_performance")}
+                isSelected={selectedDropdownItem === "new_performance"}
+              >
+                Performance
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("gladney", "new_recent")}
+                isSelected={selectedDropdownItem === "new_recent"}
+              >
+                Recent Perspective
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("gladney", "new_timeline")}
+                isSelected={selectedDropdownItem === "new_timeline"}
+              >
+                Process Timeline
+              </CustomDropdownItem>
+            </CustomDropdown>
+
+            <CustomDropdown
+              id="drilldown_dropdown"
+              trigger={
+                <Button
+                  variant={
+                    selectedView.group === "gladney" &&
+                    ["drilldown_domestic", "drilldown_new"].includes(selectedView.key)
+                      ? "default"
+                      : "outline"
+                  }
+                  className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+                >
+                  <span className="truncate">Drilldown Tables</span>
+                  <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+                </Button>
+              }
+            >
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("gladney", "drilldown_domestic")}
+                isSelected={selectedDropdownItem === "drilldown_domestic"}
+              >
+                Domestic Infant
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("gladney", "drilldown_new")}
+                isSelected={selectedDropdownItem === "drilldown_new"}
+              >
+                New Beginnings
+              </CustomDropdownItem>
+            </CustomDropdown>
+          </div>
+        )
+      } else {
+        return (
+          <>
+            <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant={
+                      selectedView.group === "gladney" &&
+                      ["adoptive_performance", "adoptive_recent", "adoptive_timeline"].includes(selectedView.key)
+                        ? "default"
+                        : "outline"
+                    }
+                    className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+                  >
+                    <span className="truncate">Domestic Infant</span>
+                    <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-64">
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger className="hover:bg-muted">Adoptive Parents</DropdownMenuSubTrigger>
+                    <DropdownMenuSubContent className="w-64">
+                      <DropdownMenuItem
+                        onClick={() => handleViewSelect("gladney", "adoptive_performance")}
+                        className={`hover:bg-muted ${selectedDropdownItem === "adoptive_performance" ? "bg-primary text-primary-foreground" : ""}`}
+                      >
+                        Performance
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => handleViewSelect("gladney", "adoptive_recent")}
+                        className={`hover:bg-muted ${selectedDropdownItem === "adoptive_recent" ? "bg-primary text-primary-foreground" : ""}`}
+                      >
+                        Recent Perspective
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => handleViewSelect("gladney", "adoptive_timeline")}
+                        className={`hover:bg-muted ${selectedDropdownItem === "adoptive_timeline" ? "bg-primary text-primary-foreground" : ""}`}
+                      >
+                        Process Timeline
+                      </DropdownMenuItem>
+                    </DropdownMenuSubContent>
+                  </DropdownMenuSub>
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger className="hover:bg-muted">Birth Parents</DropdownMenuSubTrigger>
+                    <DropdownMenuSubContent className="w-64">
+                      <DropdownMenuItem
+                        onClick={() => handleViewSelect("gladney", "birth_overall")}
+                        className={`hover:bg-muted ${selectedDropdownItem === "birth_overall" ? "bg-primary text-primary-foreground" : ""}`}
+                      >
+                        Overall Performance
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => handleViewSelect("gladney", "birth_detailed")}
+                        className={`hover:bg-muted ${selectedDropdownItem === "birth_detailed" ? "bg-primary text-primary-foreground" : ""}`}
+                      >
+                        Detailed Performance
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => handleViewSelect("gladney", "birth_recent")}
+                        className={`hover:bg-muted ${selectedDropdownItem === "birth_recent" ? "bg-primary text-primary-foreground" : ""}`}
+                      >
+                        Recent Perspective
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => handleViewSelect("gladney", "birth_breakdown")}
+                        className={`hover:bg-muted ${selectedDropdownItem === "birth_breakdown" ? "bg-primary text-primary-foreground" : ""}`}
+                      >
+                        Breakdown by State
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => handleViewSelect("gladney", "birth_timeline")}
+                        className={`hover:bg-muted ${selectedDropdownItem === "birth_timeline" ? "bg-primary text-primary-foreground" : ""}`}
+                      >
+                        Process Timeline
+                      </DropdownMenuItem>
+                    </DropdownMenuSubContent>
+                  </DropdownMenuSub>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant={
+                      selectedView.group === "gladney" &&
+                      ["new_performance", "new_recent", "new_timeline"].includes(selectedView.key)
+                        ? "default"
+                        : "outline"
+                    }
+                    className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+                  >
+                    <span className="truncate">New Beginnings</span>
+                    <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-64">
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("gladney", "new_performance")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "new_performance" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    Performance
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("gladney", "new_recent")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "new_recent" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    Recent Perspective
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("gladney", "new_timeline")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "new_timeline" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    Process Timeline
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant={
+                      selectedView.group === "gladney" &&
+                      ["drilldown_domestic", "drilldown_new"].includes(selectedView.key)
+                        ? "default"
+                        : "outline"
+                    }
+                    className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+                  >
+                    <span className="truncate">Drilldown Tables</span>
+                    <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-64">
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("gladney", "drilldown_domestic")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "drilldown_domestic" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    Domestic Infant
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("gladney", "drilldown_new")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "drilldown_new" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    New Beginnings
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </>
+        )
+      }
+    } else if (activePage === "page_traffic") {
+      if (isFullscreen) {
+        return (
+          <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
+            <Button
+              onClick={() => handleViewSelect("traffic", "cover_page")}
+              variant={selectedDropdownItem === "cover_page" ? "default" : "outline"}
+              className="w-full sm:w-auto"
+            >
+              Cover Page
+            </Button>
+
+            <Button
+              onClick={() => handleViewSelect("traffic", "traffic_user_overview")}
+              variant={selectedDropdownItem === "traffic_user_overview" ? "default" : "outline"}
+              className="w-full sm:w-auto"
+            >
+              Traffic & User Overview
+            </Button>
+
+            <CustomDropdown
+              id="traffic_analysis_dropdown"
+              trigger={
+                <Button
+                  variant={
+                    selectedView.group === "traffic" &&
+                    ["sessions_overview", "user_overview", "google_ads_keywords", "demographic_info"].includes(
+                      selectedView.key,
+                    )
+                      ? "default"
+                      : "outline"
+                  }
+                  className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+                >
+                  <span className="truncate">Traffic Analysis</span>
+                  <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+                </Button>
+              }
+            >
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("traffic", "sessions_overview")}
+                isSelected={selectedDropdownItem === "sessions_overview"}
+              >
+                Sessions Overview & Entry Pages
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("traffic", "user_overview")}
+                isSelected={selectedDropdownItem === "user_overview"}
+              >
+                User Overview & Entry Pages
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("traffic", "google_ads_keywords")}
+                isSelected={selectedDropdownItem === "google_ads_keywords"}
+              >
+                Google Ads Keywords
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("traffic", "demographic_info")}
+                isSelected={selectedDropdownItem === "demographic_info"}
+              >
+                Demographic Information
+              </CustomDropdownItem>
+            </CustomDropdown>
+
+            <CustomDropdown
+              id="engagement_dropdown"
+              trigger={
+                <Button
+                  variant={
+                    selectedView.group === "traffic" &&
+                    ["events_top_pages", "conversion_events"].includes(selectedView.key)
+                      ? "default"
+                      : "outline"
+                  }
+                  className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+                >
+                  <span className="truncate">Engagement & Pages</span>
+                  <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+                </Button>
+              }
+            >
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("traffic", "events_top_pages")}
+                isSelected={selectedDropdownItem === "events_top_pages"}
+              >
+                Events & Top Pages
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("traffic", "conversion_events")}
+                isSelected={selectedDropdownItem === "conversion_events"}
+              >
+                Conversion Events Breakdown
+              </CustomDropdownItem>
+            </CustomDropdown>
+
+            <Button
+              onClick={() => handleViewSelect("traffic", "conversion_performance")}
+              variant={selectedDropdownItem === "conversion_performance" ? "default" : "outline"}
+              className="w-full sm:w-auto"
+            >
+              Conversion Performance
+            </Button>
+
+            <CustomDropdown
+              id="ai_traffic_dropdown"
+              trigger={
+                <Button
+                  variant={
+                    selectedView.group === "traffic" && ["ai_vs_human", "ai_deep_dive"].includes(selectedView.key)
+                      ? "default"
+                      : "outline"
+                  }
+                  className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+                >
+                  <span className="truncate">AI Traffic Analysis</span>
+                  <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+                </Button>
+              }
+            >
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("traffic", "ai_vs_human")}
+                isSelected={selectedDropdownItem === "ai_vs_human"}
+              >
+                AI vs Human Traffic – Overview
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("traffic", "ai_deep_dive")}
+                isSelected={selectedDropdownItem === "ai_deep_dive"}
+              >
+                AI Traffic Deep Dive
+              </CustomDropdownItem>
+            </CustomDropdown>
+
+            <Button
+              onClick={() => handleViewSelect("traffic", "temporary_visualization")}
+              variant={selectedDropdownItem === "temporary_visualization" ? "default" : "outline"}
+              className="w-full sm:w-auto"
+            >
+              Temporary Visualization
+            </Button>
+
+            <Button
+              onClick={() => handleViewSelect("traffic", "google_analytics_dashboard")}
+              variant={selectedDropdownItem === "google_analytics_dashboard" ? "default" : "outline"}
+              className="w-full sm:w-auto"
+            >
+              Google Analytics Dashboard
+            </Button>
+          </div>
+        )
+      } else {
+        return (
+          <>
+            <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
+              <Button
+                onClick={() => handleViewSelect("traffic", "cover_page")}
+                variant={selectedDropdownItem === "cover_page" ? "default" : "outline"}
+                className="w-full sm:w-auto"
+              >
+                Cover Page
+              </Button>
+
+              <Button
+                onClick={() => handleViewSelect("traffic", "traffic_user_overview")}
+                variant={selectedDropdownItem === "traffic_user_overview" ? "default" : "outline"}
+                className="w-full sm:w-auto"
+              >
+                Traffic & User Overview
+              </Button>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant={
+                      selectedView.group === "traffic" &&
+                      ["sessions_overview", "user_overview", "google_ads_keywords", "demographic_info"].includes(
+                        selectedView.key,
+                      )
+                        ? "default"
+                        : "outline"
+                    }
+                    className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+                  >
+                    <span className="truncate">Traffic Analysis</span>
+                    <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-64">
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("traffic", "sessions_overview")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "sessions_overview" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    Sessions Overview & Entry Pages
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("traffic", "user_overview")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "user_overview" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    User Overview & Entry Pages
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("traffic", "google_ads_keywords")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "google_ads_keywords" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    Google Ads Keywords
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("traffic", "demographic_info")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "demographic_info" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    Demographic Information
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant={
+                      selectedView.group === "traffic" &&
+                      ["events_top_pages", "conversion_events"].includes(selectedView.key)
+                        ? "default"
+                        : "outline"
+                    }
+                    className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+                  >
+                    <span className="truncate">Engagement & Pages</span>
+                    <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-64">
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("traffic", "events_top_pages")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "events_top_pages" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    Events & Top Pages
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("traffic", "conversion_events")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "conversion_events" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    Conversion Events Breakdown
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <Button
+                onClick={() => handleViewSelect("traffic", "conversion_performance")}
+                variant={selectedDropdownItem === "conversion_performance" ? "default" : "outline"}
+                className="w-full sm:w-auto"
+              >
+                Conversion Performance
+              </Button>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant={
+                      selectedView.group === "traffic" && ["ai_vs_human", "ai_deep_dive"].includes(selectedView.key)
+                        ? "default"
+                        : "outline"
+                    }
+                    className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+                  >
+                    <span className="truncate">AI Traffic Analysis</span>
+                    <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-64">
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("traffic", "ai_vs_human")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "ai_vs_human" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    AI vs Human Traffic – Overview
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handleViewSelect("traffic", "ai_deep_dive")}
+                    className={`hover:bg-muted ${selectedDropdownItem === "ai_deep_dive" ? "bg-primary text-primary-foreground" : ""}`}
+                  >
+                    AI Traffic Deep Dive
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <Button
+                onClick={() => handleViewSelect("traffic", "temporary_visualization")}
+                variant={selectedDropdownItem === "temporary_visualization" ? "default" : "outline"}
+                className="w-full sm:w-auto"
+              >
+                Temporary Visualization
+              </Button>
+
+              <Button
+                onClick={() => handleViewSelect("traffic", "google_analytics_dashboard")}
+                variant={selectedDropdownItem === "google_analytics_dashboard" ? "default" : "outline"}
+                className="w-full sm:w-auto"
+              >
+                Google Analytics Dashboard
+              </Button>
+            </div>
+          </>
+        )
+      }
+    }
 
     // ADDED NOTIFICATIONS PAGE
     if (activePage === "notifications") {
@@ -726,130 +1588,70 @@ export default function GladneyDashboard() {
             </div>
           </header>
 
-<div className="flex-1 flex flex-col p-3 sm:p-6 bg-popover overflow-auto">
-  {/* Mantém o card superior, mas delega o menu para o componente modular */}
-  {activePage !== "notifications" &&
-    activePage !== "dashboard_details" &&
-    activePage !== "dashboard_faq" && (
-      <Card className="p-4 sm:p-6 mb-4 sm:mb-6 border border-border bg-popover">
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            {/* Aqui você usa o componente modular no lugar do renderPageContent */}
-            {activePage === "expectant_mother" && (
-              <HorizontalMenuExpectant
-                isFullscreen={isFullscreen}
-                selectedView={selectedView}
-                selectedDropdownItem={selectedDropdownItem}
-                handleViewSelect={handleViewSelect}
-              />
-            )}
-            
-            {activePage === "gladney_business" && (
-              <HorizontalMenuGladney
-                isFullscreen={isFullscreen}
-                selectedView={selectedView}
-                selectedDropdownItem={selectedDropdownItem}
-                handleViewSelect={handleViewSelect}
-              />
-            )}
-            
-            {activePage === "page_traffic" && (
-              <HorizontalMenuTraffic
-                isFullscreen={isFullscreen}
-                selectedView={selectedView}
-                selectedDropdownItem={selectedDropdownItem}
-                handleViewSelect={handleViewSelect}
-              />
+          <div className="flex-1 flex flex-col p-3 sm:p-6 bg-popover overflow-auto">
+            {/* CHANGE: Hide upper card when on notifications, dashboard_details, or dashboard_faq pages */}
+            {activePage !== "notifications" && activePage !== "dashboard_details" && activePage !== "dashboard_faq" && (
+              <Card className="p-4 sm:p-6 mb-4 sm:mb-6 border border-border bg-popover">
+                <div className="flex flex-col gap-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    {renderPageContent()}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={toggleFullscreen}
+                      className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors self-start sm:self-auto bg-transparent"
+                    >
+                      {/* CHANGE: Use ArrowsPointingOutIcon instead of Maximize2 */}
+                      <ArrowsPointingOutIcon className="h-4 w-4" />
+                      <span className="hidden sm:inline">Expandir</span>
+                    </Button>
+                  </div>
+                </div>
+              </Card>
             )}
 
-            {/* mantém o botão de expandir */}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={toggleFullscreen}
-              className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors self-start sm:self-auto bg-transparent"
-            >
-              <ArrowsPointingOutIcon className="h-4 w-4" />
-              <span className="hidden sm:inline">Expandir</span>
-            </Button>
+            <Card id="iframe-container" className="flex-1 overflow-hidden border border-border min-h-0 bg-background">
+              {isFullscreen && (
+                <div className="fixed top-0 left-0 right-0 z-[10000] bg-background/95 backdrop-blur-sm border-b border-border">
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2 sm:gap-4 p-3 sm:p-4">
+                    {renderPageContent()}
+                  </div>
+                </div>
+              )}
+
+              {/* CHANGE: Added margin-top when fullscreen to account for fixed menu */}
+              <div className={`w-full h-full ${isFullscreen ? "mt-20" : ""}`}>
+                {activePage === "notifications" ? (
+                  <div className="w-full h-full flex items-center justify-center p-8 bg-background">
+                    <div className="text-center">
+                      <div className="mb-6">
+                        <img
+                          src="/no-notification.png"
+                          alt="No Notifications"
+                          className="w-32 h-auto mx-auto opacity-80"
+                        />
+                      </div>
+                      <h3 className="text-2xl font-semibold text-gray-800 mb-2">No Notifications</h3>
+                      <p className="text-gray-600 text-lg">You're all caught up!</p>
+                    </div>
+                  </div>
+                ) : activePage === "dashboard_details" || activePage === "dashboard_faq" ? (
+                  <div className="w-full h-full bg-background overflow-auto">{renderPageContent()}</div>
+                ) : (
+                  <iframe
+                    src={currentUrl}
+                    title="Gladney Dashboard"
+                    className="w-full h-full border-0 rounded-lg"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+                  />
+                )}
+              </div>
+            </Card>
           </div>
-        </div>
-      </Card>
-    )}
-
-  <Card
-    id="iframe-container"
-    className="flex-1 overflow-hidden border border-border min-h-0 bg-background"
-  >
-    {isFullscreen && (
-      <div className="fixed top-0 left-0 right-0 z-[10000] bg-background/95 backdrop-blur-sm border-b border-border">
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2 sm:gap-4 p-3 sm:p-4">
-          {/* Também usa o menu modular quando fullscreen */}
-          {activePage === "expectant_mother" && (
-            <HorizontalMenuExpectant
-              isFullscreen={isFullscreen}
-              selectedView={selectedView}
-              selectedDropdownItem={selectedDropdownItem}
-              handleViewSelect={handleViewSelect}
-            />
-          )}
-          
-          {activePage === "gladney_business" && (
-            <HorizontalMenuGladney
-              isFullscreen={isFullscreen}
-              selectedView={selectedView}
-              selectedDropdownItem={selectedDropdownItem}
-              handleViewSelect={handleViewSelect}
-            />
-          )}
-          
-          {activePage === "page_traffic" && (
-            <HorizontalMenuTraffic
-              isFullscreen={isFullscreen}
-              selectedView={selectedView}
-              selectedDropdownItem={selectedDropdownItem}
-              handleViewSelect={handleViewSelect}
-            />
-          )}
-
         </div>
       </div>
-    )}
-
-    {/* mantém a lógica de iframe e páginas especiais */}
-    <div className={`w-full h-full ${isFullscreen ? "mt-20" : ""}`}>
-      {activePage === "notifications" ? (
-        <div className="w-full h-full flex items-center justify-center p-8 bg-background">
-          <div className="text-center">
-            <div className="mb-6">
-              <img
-                src="/no-notification.png"
-                alt="No Notifications"
-                className="w-32 h-auto mx-auto opacity-80"
-              />
-            </div>
-            <h3 className="text-2xl font-semibold text-gray-800 mb-2">
-              No Notifications
-            </h3>
-            <p className="text-gray-600 text-lg">You're all caught up!</p>
-          </div>
-        </div>
-      ) : activePage === "dashboard_details" ||
-        activePage === "dashboard_faq" ? (
-        <div className="w-full h-full bg-background overflow-auto">
-          {renderPageContent()}
-        </div>
-      ) : (
-        <iframe
-          src={currentUrl}
-          title="Gladney Dashboard"
-          className="w-full h-full border-0 rounded-lg"
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-        />
-      )}
-    </div>
-  </Card>
-</div>
-
+    </SidebarProvider>
+  )
+}
