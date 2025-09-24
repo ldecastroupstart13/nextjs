@@ -2,7 +2,8 @@
 
 import type React from "react"
 import HorizontalMenuExpectant from "@/components/HorizontalMenuExpectant"
-
+import HorizontalMenuGladney from "@/components/HorizontalMenuGladney"
+import HorizontalMenuTraffic from "@/components/HorizontalMenuTraffic"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import {
@@ -1606,6 +1607,25 @@ export default function GladneyDashboard() {
                 handleViewSelect={handleViewSelect}
               />
             )}
+            
+            {activePage === "gladney_business" && (
+              <HorizontalMenuGladney
+                isFullscreen={isFullscreen}
+                selectedView={selectedView}
+                selectedDropdownItem={selectedDropdownItem}
+                handleViewSelect={handleViewSelect}
+              />
+            )}
+            
+            {activePage === "page_traffic" && (
+              <HorizontalMenuTraffic
+                isFullscreen={isFullscreen}
+                selectedView={selectedView}
+                selectedDropdownItem={selectedDropdownItem}
+                handleViewSelect={handleViewSelect}
+              />
+            )}
+
             {/* mantém o botão de expandir */}
             <Button
               variant="outline"
@@ -1637,6 +1657,25 @@ export default function GladneyDashboard() {
               handleViewSelect={handleViewSelect}
             />
           )}
+          
+          {activePage === "gladney_business" && (
+            <HorizontalMenuGladney
+              isFullscreen={isFullscreen}
+              selectedView={selectedView}
+              selectedDropdownItem={selectedDropdownItem}
+              handleViewSelect={handleViewSelect}
+            />
+          )}
+          
+          {activePage === "page_traffic" && (
+            <HorizontalMenuTraffic
+              isFullscreen={isFullscreen}
+              selectedView={selectedView}
+              selectedDropdownItem={selectedDropdownItem}
+              handleViewSelect={handleViewSelect}
+            />
+          )}
+
         </div>
       </div>
     )}
