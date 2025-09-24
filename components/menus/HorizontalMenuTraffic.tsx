@@ -6,6 +6,9 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
 } from "@/components/ui/dropdown-menu"
 import { ChevronDownIcon } from "@heroicons/react/24/outline"
 
@@ -20,53 +23,34 @@ export default function HorizontalMenuTraffic({
 }) {
   return (
     <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
+
       {/* Cover Page */}
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant={selectedView.group === "traffic" && selectedView.key === "cover_page" ? "default" : "outline"}
-            className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
-          >
-            <span className="truncate">Cover Page</span>
-            <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-64">
-          <DropdownMenuItem
-            onClick={() => handleViewSelect("traffic", "cover_page")}
-            className={selectedDropdownItem === "cover_page" ? "bg-primary text-primary-foreground" : ""}
-          >
-            Open Cover Page
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <Button
+        onClick={() => handleViewSelect("traffic", "cover_page")}
+        variant={selectedDropdownItem === "cover_page" ? "default" : "outline"}
+        className="w-full sm:w-auto"
+      >
+        Cover Page
+      </Button>
 
       {/* Traffic & User Overview */}
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant={selectedView.group === "traffic" && selectedView.key === "overview" ? "default" : "outline"}
-            className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
-          >
-            <span className="truncate">Traffic & User Overview</span>
-            <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-64">
-          <DropdownMenuItem
-            onClick={() => handleViewSelect("traffic", "overview")}
-            className={selectedDropdownItem === "overview" ? "bg-primary text-primary-foreground" : ""}
-          >
-            Overview
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <Button
+        onClick={() => handleViewSelect("traffic", "traffic_user_overview")}
+        variant={selectedDropdownItem === "traffic_user_overview" ? "default" : "outline"}
+        className="w-full sm:w-auto"
+      >
+        Traffic & User Overview
+      </Button>
 
       {/* Traffic Analysis */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            variant={selectedView.group === "traffic" && selectedView.key === "traffic_analysis" ? "default" : "outline"}
+            variant={
+              ["sessions_overview", "user_overview", "google_ads_keywords", "demographic_info"].includes(selectedView.key)
+                ? "default"
+                : "outline"
+            }
             className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
           >
             <span className="truncate">Traffic Analysis</span>
@@ -75,10 +59,28 @@ export default function HorizontalMenuTraffic({
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-64">
           <DropdownMenuItem
-            onClick={() => handleViewSelect("traffic", "traffic_analysis")}
-            className={selectedDropdownItem === "traffic_analysis" ? "bg-primary text-primary-foreground" : ""}
+            onClick={() => handleViewSelect("traffic", "sessions_overview")}
+            className={selectedDropdownItem === "sessions_overview" ? "bg-primary text-primary-foreground" : ""}
           >
-            General Analysis
+            Sessions Overview & Entry Pages
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => handleViewSelect("traffic", "user_overview")}
+            className={selectedDropdownItem === "user_overview" ? "bg-primary text-primary-foreground" : ""}
+          >
+            User Overview & Entry Pages
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => handleViewSelect("traffic", "google_ads_keywords")}
+            className={selectedDropdownItem === "google_ads_keywords" ? "bg-primary text-primary-foreground" : ""}
+          >
+            Google Ads Keywords
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => handleViewSelect("traffic", "demographic_info")}
+            className={selectedDropdownItem === "demographic_info" ? "bg-primary text-primary-foreground" : ""}
+          >
+            Demographic Information
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -87,7 +89,11 @@ export default function HorizontalMenuTraffic({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            variant={selectedView.group === "traffic" && selectedView.key === "engagement_pages" ? "default" : "outline"}
+            variant={
+              ["events_top_pages", "conversion_events"].includes(selectedView.key)
+                ? "default"
+                : "outline"
+            }
             className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
           >
             <span className="truncate">Engagement & Pages</span>
@@ -96,40 +102,34 @@ export default function HorizontalMenuTraffic({
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-64">
           <DropdownMenuItem
-            onClick={() => handleViewSelect("traffic", "engagement_pages")}
-            className={selectedDropdownItem === "engagement_pages" ? "bg-primary text-primary-foreground" : ""}
+            onClick={() => handleViewSelect("traffic", "events_top_pages")}
+            className={selectedDropdownItem === "events_top_pages" ? "bg-primary text-primary-foreground" : ""}
           >
-            Engagement Metrics
+            Events & Top Pages
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => handleViewSelect("traffic", "conversion_events")}
+            className={selectedDropdownItem === "conversion_events" ? "bg-primary text-primary-foreground" : ""}
+          >
+            Conversion Events Breakdown
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
       {/* Conversion Performance */}
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant={selectedView.group === "traffic" && selectedView.key === "conversion" ? "default" : "outline"}
-            className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
-          >
-            <span className="truncate">Conversion Performance</span>
-            <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-64">
-          <DropdownMenuItem
-            onClick={() => handleViewSelect("traffic", "conversion")}
-            className={selectedDropdownItem === "conversion" ? "bg-primary text-primary-foreground" : ""}
-          >
-            Conversions
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <Button
+        onClick={() => handleViewSelect("traffic", "conversion_performance")}
+        variant={selectedDropdownItem === "conversion_performance" ? "default" : "outline"}
+        className="w-full sm:w-auto"
+      >
+        Conversion Performance
+      </Button>
 
       {/* AI Traffic Analysis */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            variant={selectedView.group === "traffic" && selectedView.key === "ai_traffic" ? "default" : "outline"}
+            variant={["ai_vs_human", "ai_deep_dive"].includes(selectedView.key) ? "default" : "outline"}
             className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
           >
             <span className="truncate">AI Traffic Analysis</span>
@@ -138,55 +138,37 @@ export default function HorizontalMenuTraffic({
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-64">
           <DropdownMenuItem
-            onClick={() => handleViewSelect("traffic", "ai_traffic")}
-            className={selectedDropdownItem === "ai_traffic" ? "bg-primary text-primary-foreground" : ""}
+            onClick={() => handleViewSelect("traffic", "ai_vs_human")}
+            className={selectedDropdownItem === "ai_vs_human" ? "bg-primary text-primary-foreground" : ""}
           >
-            AI Insights
+            AI vs Human Traffic – Overview
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => handleViewSelect("traffic", "ai_deep_dive")}
+            className={selectedDropdownItem === "ai_deep_dive" ? "bg-primary text-primary-foreground" : ""}
+          >
+            AI Traffic Deep Dive
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
       {/* Temporary Visualization */}
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant={selectedView.group === "traffic" && selectedView.key === "temporary" ? "default" : "outline"}
-            className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
-          >
-            <span className="truncate">Temporary Visualization</span>
-            <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-64">
-          <DropdownMenuItem
-            onClick={() => handleViewSelect("traffic", "temporary")}
-            className={selectedDropdownItem === "temporary" ? "bg-primary text-primary-foreground" : ""}
-          >
-            Temporary Charts
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <Button
+        onClick={() => handleViewSelect("traffic", "temporary_visualization")}
+        variant={selectedDropdownItem === "temporary_visualization" ? "default" : "outline"}
+        className="w-full sm:w-auto"
+      >
+        Temporary Visualization
+      </Button>
 
       {/* Google Analytics Dashboard */}
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant={selectedView.group === "traffic" && selectedView.key === "ga_dashboard" ? "default" : "outline"}
-            className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
-          >
-            <span className="truncate">Google Analytics Dashboard</span>
-            <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-64">
-          <DropdownMenuItem
-            onClick={() => handleViewSelect("traffic", "ga_dashboard")}
-            className={selectedDropdownItem === "ga_dashboard" ? "bg-primary text-primary-foreground" : ""}
-          >
-            GA4 Dashboard
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <Button
+        onClick={() => handleViewSelect("traffic", "google_analytics_dashboard")}
+        variant={selectedDropdownItem === "google_analytics_dashboard" ? "default" : "outline"}
+        className="w-full sm:w-auto"
+      >
+        Google Analytics Dashboard
+      </Button>
     </div>
   )
 }
