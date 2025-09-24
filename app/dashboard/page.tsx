@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import HorizontalMenuExpectant from "@/components/HorizontalMenuExpectant"
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
