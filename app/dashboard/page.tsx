@@ -1588,70 +1588,92 @@ export default function GladneyDashboard() {
             </div>
           </header>
 
-          <div className="flex-1 flex flex-col p-3 sm:p-6 bg-popover overflow-auto">
-            {/* CHANGE: Hide upper card when on notifications, dashboard_details, or dashboard_faq pages */}
-            {activePage !== "notifications" && activePage !== "dashboard_details" && activePage !== "dashboard_faq" && (
-              <Card className="p-4 sm:p-6 mb-4 sm:mb-6 border border-border bg-popover">
-                <div className="flex flex-col gap-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    {renderPageContent()}
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={toggleFullscreen}
-                      className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors self-start sm:self-auto bg-transparent"
-                    >
-                      {/* CHANGE: Use ArrowsPointingOutIcon instead of Maximize2 */}
-                      <ArrowsPointingOutIcon className="h-4 w-4" />
-                      <span className="hidden sm:inline">Expandir</span>
-                    </Button>
-                  </div>
-                </div>
-              </Card>
+<div className="flex-1 flex flex-col p-3 sm:p-6 bg-popover overflow-auto">
+  {/* Mantém o card superior, mas delega o menu para o componente modular */}
+  {activePage !== "notifications" &&
+    activePage !== "dashboard_details" &&
+    activePage !== "dashboard_faq" && (
+      <Card className="p-4 sm:p-6 mb-4 sm:mb-6 border border-border bg-popover">
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            {/* Aqui você usa o componente modular no lugar do renderPageContent */}
+            {activePage === "expectant_mother" && (
+              <HorizontalMenuExpectant
+                isFullscreen={isFullscreen}
+                selectedView={selectedView}
+                selectedDropdownItem={selectedDropdownItem}
+                handleViewSelect={handleViewSelect}
+              />
             )}
-
-            <Card id="iframe-container" className="flex-1 overflow-hidden border border-border min-h-0 bg-background">
-              {isFullscreen && (
-                <div className="fixed top-0 left-0 right-0 z-[10000] bg-background/95 backdrop-blur-sm border-b border-border">
-                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2 sm:gap-4 p-3 sm:p-4">
-                    {renderPageContent()}
-                  </div>
-                </div>
-              )}
-
-              {/* CHANGE: Added margin-top when fullscreen to account for fixed menu */}
-              <div className={`w-full h-full ${isFullscreen ? "mt-20" : ""}`}>
-                {activePage === "notifications" ? (
-                  <div className="w-full h-full flex items-center justify-center p-8 bg-background">
-                    <div className="text-center">
-                      <div className="mb-6">
-                        <img
-                          src="/no-notification.png"
-                          alt="No Notifications"
-                          className="w-32 h-auto mx-auto opacity-80"
-                        />
-                      </div>
-                      <h3 className="text-2xl font-semibold text-gray-800 mb-2">No Notifications</h3>
-                      <p className="text-gray-600 text-lg">You're all caught up!</p>
-                    </div>
-                  </div>
-                ) : activePage === "dashboard_details" || activePage === "dashboard_faq" ? (
-                  <div className="w-full h-full bg-background overflow-auto">{renderPageContent()}</div>
-                ) : (
-                  <iframe
-                    src={currentUrl}
-                    title="Gladney Dashboard"
-                    className="w-full h-full border-0 rounded-lg"
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-                  />
-                )}
-              </div>
-            </Card>
+            {/* mantém o botão de expandir */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={toggleFullscreen}
+              className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors self-start sm:self-auto bg-transparent"
+            >
+              <ArrowsPointingOutIcon className="h-4 w-4" />
+              <span className="hidden sm:inline">Expandir</span>
+            </Button>
           </div>
         </div>
+      </Card>
+    )}
+
+  <Card
+    id="iframe-container"
+    className="flex-1 overflow-hidden border border-border min-h-0 bg-background"
+  >
+    {isFullscreen && (
+      <div className="fixed top-0 left-0 right-0 z-[10000] bg-background/95 backdrop-blur-sm border-b border-border">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2 sm:gap-4 p-3 sm:p-4">
+          {/* Também usa o menu modular quando fullscreen */}
+          {activePage === "expectant_mother" && (
+            <HorizontalMenuExpectant
+              isFullscreen={isFullscreen}
+              selectedView={selectedView}
+              selectedDropdownItem={selectedDropdownItem}
+              handleViewSelect={handleViewSelect}
+            />
+          )}
+        </div>
       </div>
-    </SidebarProvider>
-  )
-}
+    )}
+
+    {/* mantém a lógica de iframe e páginas especiais */}
+    <div className={`w-full h-full ${isFullscreen ? "mt-20" : ""}`}>
+      {activePage === "notifications" ? (
+        <div className="w-full h-full flex items-center justify-center p-8 bg-background">
+          <div className="text-center">
+            <div className="mb-6">
+              <img
+                src="/no-notification.png"
+                alt="No Notifications"
+                className="w-32 h-auto mx-auto opacity-80"
+              />
+            </div>
+            <h3 className="text-2xl font-semibold text-gray-800 mb-2">
+              No Notifications
+            </h3>
+            <p className="text-gray-600 text-lg">You're all caught up!</p>
+          </div>
+        </div>
+      ) : activePage === "dashboard_details" ||
+        activePage === "dashboard_faq" ? (
+        <div className="w-full h-full bg-background overflow-auto">
+          {renderPageContent()}
+        </div>
+      ) : (
+        <iframe
+          src={currentUrl}
+          title="Gladney Dashboard"
+          className="w-full h-full border-0 rounded-lg"
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+        />
+      )}
+    </div>
+  </Card>
+</div>
+
