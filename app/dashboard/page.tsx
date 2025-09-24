@@ -449,6 +449,7 @@ const LOOKERS = {
 
 
 // 📄 Parte 3 — RenderPageContent (Gladney, Traffic, FAQ, Details, Notifications)
+// 📄 Parte 3 — RenderPageContent (Gladney, Traffic, FAQ, Details, Notifications)
 if (activePage === "gladney_business") {
   return (
     <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
@@ -458,7 +459,12 @@ if (activePage === "gladney_business") {
         id="domestic_dropdown"
         trigger={
           <Button
-            variant={selectedView.group === "gladney" ? "default" : "outline"}
+            variant={
+              [
+                "adoptive_performance","adoptive_recent","adoptive_timeline",
+                "birth_overall","birth_detailed","birth_recent","birth_breakdown","birth_timeline"
+              ].includes(selectedDropdownItem) ? "default" : "outline"
+            }
             className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
           >
             <span className="truncate">Domestic Infant</span>
@@ -467,58 +473,58 @@ if (activePage === "gladney_business") {
         }
       >
         {/* Adoptive Parents */}
-        <CustomSubmenu parentId="domestic_dropdown" trigger="Adoptive Parents">
+        <CustomSubmenu parentId="domestic_adoptive" trigger="Adoptive Parents">
           <CustomDropdownItem
             onClick={() => handleViewSelect("gladney", "adoptive_performance")}
             isSelected={selectedDropdownItem === "adoptive_performance"}
           >
-            Performance
+            {LABELS["adoptive_performance"]}
           </CustomDropdownItem>
           <CustomDropdownItem
             onClick={() => handleViewSelect("gladney", "adoptive_recent")}
             isSelected={selectedDropdownItem === "adoptive_recent"}
           >
-            Recent Perspective
+            {LABELS["adoptive_recent"]}
           </CustomDropdownItem>
           <CustomDropdownItem
             onClick={() => handleViewSelect("gladney", "adoptive_timeline")}
             isSelected={selectedDropdownItem === "adoptive_timeline"}
           >
-            Process Timeline
+            {LABELS["adoptive_timeline"]}
           </CustomDropdownItem>
         </CustomSubmenu>
 
         {/* Birth Parents */}
-        <CustomSubmenu parentId="domestic_dropdown" trigger="Birth Parents">
+        <CustomSubmenu parentId="domestic_birth" trigger="Birth Parents">
           <CustomDropdownItem
             onClick={() => handleViewSelect("gladney", "birth_overall")}
             isSelected={selectedDropdownItem === "birth_overall"}
           >
-            Overall Performance
+            {LABELS["birth_overall"]}
           </CustomDropdownItem>
           <CustomDropdownItem
             onClick={() => handleViewSelect("gladney", "birth_detailed")}
             isSelected={selectedDropdownItem === "birth_detailed"}
           >
-            Detailed Performance
+            {LABELS["birth_detailed"]}
           </CustomDropdownItem>
           <CustomDropdownItem
             onClick={() => handleViewSelect("gladney", "birth_recent")}
             isSelected={selectedDropdownItem === "birth_recent"}
           >
-            Recent Perspective
+            {LABELS["birth_recent"]}
           </CustomDropdownItem>
           <CustomDropdownItem
             onClick={() => handleViewSelect("gladney", "birth_breakdown")}
             isSelected={selectedDropdownItem === "birth_breakdown"}
           >
-            Breakdown by State
+            {LABELS["birth_breakdown"]}
           </CustomDropdownItem>
           <CustomDropdownItem
             onClick={() => handleViewSelect("gladney", "birth_timeline")}
             isSelected={selectedDropdownItem === "birth_timeline"}
           >
-            Process Timeline
+            {LABELS["birth_timeline"]}
           </CustomDropdownItem>
         </CustomSubmenu>
       </CustomDropdown>
@@ -528,7 +534,10 @@ if (activePage === "gladney_business") {
         id="new_beginnings_dropdown"
         trigger={
           <Button
-            variant="outline"
+            variant={
+              ["new_performance","new_recent","new_timeline"].includes(selectedDropdownItem)
+                ? "default" : "outline"
+            }
             className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
           >
             <span className="truncate">New Beginnings</span>
@@ -540,19 +549,19 @@ if (activePage === "gladney_business") {
           onClick={() => handleViewSelect("gladney", "new_performance")}
           isSelected={selectedDropdownItem === "new_performance"}
         >
-          Performance
+          {LABELS["new_performance"]}
         </CustomDropdownItem>
         <CustomDropdownItem
           onClick={() => handleViewSelect("gladney", "new_recent")}
           isSelected={selectedDropdownItem === "new_recent"}
         >
-          Recent Perspective
+          {LABELS["new_recent"]}
         </CustomDropdownItem>
         <CustomDropdownItem
           onClick={() => handleViewSelect("gladney", "new_timeline")}
           isSelected={selectedDropdownItem === "new_timeline"}
         >
-          Process Timeline
+          {LABELS["new_timeline"]}
         </CustomDropdownItem>
       </CustomDropdown>
 
@@ -561,7 +570,10 @@ if (activePage === "gladney_business") {
         id="drilldown_dropdown"
         trigger={
           <Button
-            variant="outline"
+            variant={
+              ["drilldown_domestic","drilldown_new"].includes(selectedDropdownItem)
+                ? "default" : "outline"
+            }
             className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
           >
             <span className="truncate">Drilldown Tables</span>
@@ -573,18 +585,19 @@ if (activePage === "gladney_business") {
           onClick={() => handleViewSelect("gladney", "drilldown_domestic")}
           isSelected={selectedDropdownItem === "drilldown_domestic"}
         >
-          Domestic Infant
+          {LABELS["drilldown_domestic"]}
         </CustomDropdownItem>
         <CustomDropdownItem
           onClick={() => handleViewSelect("gladney", "drilldown_new")}
           isSelected={selectedDropdownItem === "drilldown_new"}
         >
-          New Beginnings
+          {LABELS["drilldown_new"]}
         </CustomDropdownItem>
       </CustomDropdown>
     </div>
   )
 }
+
 
 
   // Parte 3.1 - Traficc
