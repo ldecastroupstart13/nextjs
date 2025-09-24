@@ -379,31 +379,67 @@ const LOOKERS = {
           </CustomDropdown>
 
           {/* Marketing */}
-          <CustomDropdown
-            id="marketing_dropdown"
-            trigger={
-              <Button
-                variant={selectedView.group === "marketing" ? "default" : "outline"}
-                className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
-              >
-                <span className="truncate">Marketing Performance</span>
-                <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
-              </Button>
-            }
-          >
-            {Object.entries(LOOKERS.marketing).map(([key]) => (
-              <CustomDropdownItem
-                key={key}
-                onClick={() => handleViewSelect("marketing", key)}
-                isSelected={selectedDropdownItem === key}
-              >
-                {LABELS[key] || key}
-              </CustomDropdownItem>
-            ))}
-          </CustomDropdown>
-        </div>
-      )
-    }
+<CustomDropdown
+  id="marketing_dropdown"
+  trigger={
+    <Button
+      variant={selectedView.group === "marketing" ? "default" : "outline"}
+      className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+    >
+      <span className="truncate">Marketing Performance</span>
+      <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+    </Button>
+  }
+>
+  {/* Itens simples */}
+  <CustomDropdownItem
+    onClick={() => handleViewSelect("marketing", "performance_time")}
+    isSelected={selectedDropdownItem === "performance_time"}
+  >
+    Performance Over Time
+  </CustomDropdownItem>
+  <CustomDropdownItem
+    onClick={() => handleViewSelect("marketing", "cost_per")}
+    isSelected={selectedDropdownItem === "cost_per"}
+  >
+    Cost Per Acquisition
+  </CustomDropdownItem>
+  <CustomDropdownItem
+    onClick={() => handleViewSelect("marketing", "table_download")}
+    isSelected={selectedDropdownItem === "table_download"}
+  >
+    Downloadable Table
+  </CustomDropdownItem>
+
+  {/* Submenu Enrollment Rate */}
+  <CustomSubmenu parentId="marketing_dropdown" trigger="Enrollment Rate">
+    <CustomDropdownItem
+      onClick={() => handleViewSelect("marketing", "enroll_placements")}
+      isSelected={selectedDropdownItem === "enroll_placements"}
+    >
+      Filter by Placements in Sugar
+    </CustomDropdownItem>
+    <CustomDropdownItem
+      onClick={() => handleViewSelect("marketing", "enroll_admission")}
+      isSelected={selectedDropdownItem === "enroll_admission"}
+    >
+      Filter by Admission in Sugar
+    </CustomDropdownItem>
+    <CustomDropdownItem
+      onClick={() => handleViewSelect("marketing", "enroll_creation")}
+      isSelected={selectedDropdownItem === "enroll_creation"}
+    >
+      Filter by Creation in Hubspot
+    </CustomDropdownItem>
+    <CustomDropdownItem
+      onClick={() => handleViewSelect("marketing", "enroll_timeseries")}
+      isSelected={selectedDropdownItem === "enroll_timeseries"}
+    >
+      Time Series
+    </CustomDropdownItem>
+  </CustomSubmenu>
+</CustomDropdown>
+
 
 
 
