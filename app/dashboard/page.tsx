@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import {
@@ -31,6 +30,12 @@ import {
   SidebarProvider,
 } from "@/components/ui/sidebar"
 import { Card } from "@/components/ui/card"
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu"
 
 export default function GladneyDashboard() {
   const [selectedView, setSelectedView] = useState({ group: "expectant", key: "overview_ads" })
@@ -41,99 +46,56 @@ export default function GladneyDashboard() {
 
   const LOOKERS = {
     expectant: {
-      overview_ads:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_03hj6qcmvd",
-      overview_ga4:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_8k5zdcvuvd",
-      recent: "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_rbf34iv8ud",
-      google_ads:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_8eecz0rovd",
-      campaign_break:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_tadcyerovd",
-      campaign_costs:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_ep8hx4qovd",
-      contact_cost:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_jvidqwqovd",
-      day_of_week:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_1cwm5jqovd",
-      campaign_ratios:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_zx6sodqovd",
-      contact_break:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_1r1tjgpovd",
-      spam_break:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_an0bb3povd",
+      overview_ads: "https://lookerstudio.google.com/embed/reporting/018fe7d3-.../page/p_03hj6qcmvd",
+      overview_ga4: "https://lookerstudio.google.com/embed/reporting/018fe7d3-.../page/p_8k5zdcvuvd",
+      recent: "https://lookerstudio.google.com/embed/reporting/018fe7d3-.../page/p_rbf34iv8ud",
+      google_ads: "https://lookerstudio.google.com/embed/reporting/018fe7d3-.../page/p_8eecz0rovd",
+      campaign_break: "https://lookerstudio.google.com/embed/reporting/018fe7d3-.../page/p_tadcyerovd",
+      campaign_costs: "https://lookerstudio.google.com/embed/reporting/018fe7d3-.../page/p_ep8hx4qovd",
+      contact_cost: "https://lookerstudio.google.com/embed/reporting/018fe7d3-.../page/p_jvidqwqovd",
+      day_of_week: "https://lookerstudio.google.com/embed/reporting/018fe7d3-.../page/p_1cwm5jqovd",
+      campaign_ratios: "https://lookerstudio.google.com/embed/reporting/018fe7d3-.../page/p_zx6sodqovd",
+      contact_break: "https://lookerstudio.google.com/embed/reporting/018fe7d3-.../page/p_1r1tjgpovd",
+      spam_break: "https://lookerstudio.google.com/embed/reporting/018fe7d3-.../page/p_an0bb3povd",
     },
     marketing: {
-      performance_time:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_hxd854tovd",
-      cost_per:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_3i0yaalovd",
-      table_download:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_4wsin3lovd",
-      enroll_placements:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_p95uwh89vd",
-      enroll_admission:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_72wuuqv6vd",
-      enroll_creation:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_o9fkb2oavd",
-      enroll_timeseries:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_094a1q3nvd",
+      performance_time: "https://lookerstudio.google.com/embed/reporting/018fe7d3-.../page/p_hxd854tovd",
+      cost_per: "https://lookerstudio.google.com/embed/reporting/018fe7d3-.../page/p_3i0yaalovd",
+      table_download: "https://lookerstudio.google.com/embed/reporting/018fe7d3-.../page/p_4wsin3lovd",
+      enroll_placements: "https://lookerstudio.google.com/embed/reporting/018fe7d3-.../page/p_p95uwh89vd",
+      enroll_admission: "https://lookerstudio.google.com/embed/reporting/018fe7d3-.../page/p_72wuuqv6vd",
+      enroll_creation: "https://lookerstudio.google.com/embed/reporting/018fe7d3-.../page/p_o9fkb2oavd",
+      enroll_timeseries: "https://lookerstudio.google.com/embed/reporting/018fe7d3-.../page/p_094a1q3nvd",
     },
     gladney: {
-      adoptive_performance:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_0cruxnlesd",
-      adoptive_recent:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_fs1i0mafsd",
-      adoptive_timeline:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_jaslgym7rd",
-      birth_overall:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_n5o80slctd",
-      birth_detailed:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_s68jx6lxtd",
-      birth_recent:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_ox7c5fxitd",
-      birth_breakdown:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_eoarhx0jtd",
-      birth_timeline:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_q9c5vyustd",
-      new_performance:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_pnl8efo3sd",
-      new_recent:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_dbfsn7afsd",
-      new_timeline:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_84ojqj4asd",
-      drilldown_domestic:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_g64kpxaatd",
-      drilldown_new:
-        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_q32x6kaatd",
+      adoptive_performance: "https://lookerstudio.google.com/embed/reporting/704ba1ac-.../page/p_0cruxnlesd",
+      adoptive_recent: "https://lookerstudio.google.com/embed/reporting/704ba1ac-.../page/p_fs1i0mafsd",
+      adoptive_timeline: "https://lookerstudio.google.com/embed/reporting/704ba1ac-.../page/p_jaslgym7rd",
+      birth_overall: "https://lookerstudio.google.com/embed/reporting/704ba1ac-.../page/p_n5o80slctd",
+      birth_detailed: "https://lookerstudio.google.com/embed/reporting/704ba1ac-.../page/p_s68jx6lxtd",
+      birth_recent: "https://lookerstudio.google.com/embed/reporting/704ba1ac-.../page/p_ox7c5fxitd",
+      birth_breakdown: "https://lookerstudio.google.com/embed/reporting/704ba1ac-.../page/p_eoarhx0jtd",
+      birth_timeline: "https://lookerstudio.google.com/embed/reporting/704ba1ac-.../page/p_q9c5vyustd",
+      new_performance: "https://lookerstudio.google.com/embed/reporting/704ba1ac-.../page/p_pnl8efo3sd",
+      new_recent: "https://lookerstudio.google.com/embed/reporting/704ba1ac-.../page/p_dbfsn7afsd",
+      new_timeline: "https://lookerstudio.google.com/embed/reporting/704ba1ac-.../page/p_84ojqj4asd",
+      drilldown_domestic: "https://lookerstudio.google.com/embed/reporting/704ba1ac-.../page/p_g64kpxaatd",
+      drilldown_new: "https://lookerstudio.google.com/embed/reporting/704ba1ac-.../page/p_q32x6kaatd",
     },
     traffic: {
-      cover_page:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_z2i9rcdktd",
-      traffic_user_overview:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_bppth3a2sd",
-      sessions_overview:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_amhq0bb2sd",
-      user_overview:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_zs34w5f2sd",
-      google_ads_keywords:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_b5uzxjdktd",
-      demographic_info:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_snmx9lgltd",
-      events_top_pages:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_hdoejlb2sd",
-      conversion_events:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_od7jq6f2sd",
-      conversion_performance:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_pfbpeii2sd",
-      ai_vs_human:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_60iwvfimtd",
-      ai_deep_dive:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_m7azaxhmtd",
-      temporary_visualization:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_zpttqz0qtd",
-      google_analytics_dashboard:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_mppqixq3vd",
+      cover_page: "https://lookerstudio.google.com/embed/reporting/186ac7bf-.../page/p_z2i9rcdktd",
+      traffic_user_overview: "https://lookerstudio.google.com/embed/reporting/186ac7bf-.../page/p_bppth3a2sd",
+      sessions_overview: "https://lookerstudio.google.com/embed/reporting/186ac7bf-.../page/p_amhq0bb2sd",
+      user_overview: "https://lookerstudio.google.com/embed/reporting/186ac7bf-.../page/p_zs34w5f2sd",
+      google_ads_keywords: "https://lookerstudio.google.com/embed/reporting/186ac7bf-.../page/p_b5uzxjdktd",
+      demographic_info: "https://lookerstudio.google.com/embed/reporting/186ac7bf-.../page/p_snmx9lgltd",
+      events_top_pages: "https://lookerstudio.google.com/embed/reporting/186ac7bf-.../page/p_hdoejlb2sd",
+      conversion_events: "https://lookerstudio.google.com/embed/reporting/186ac7bf-.../page/p_od7jq6f2sd",
+      conversion_performance: "https://lookerstudio.google.com/embed/reporting/186ac7bf-.../page/p_pfbpeii2sd",
+      ai_vs_human: "https://lookerstudio.google.com/embed/reporting/186ac7bf-.../page/p_60iwvfimtd",
+      ai_deep_dive: "https://lookerstudio.google.com/embed/reporting/186ac7bf-.../page/p_m7azaxhmtd",
+      temporary_visualization: "https://lookerstudio.google.com/embed/reporting/186ac7bf-.../page/p_zpttqz0qtd",
+      google_analytics_dashboard: "https://lookerstudio.google.com/embed/reporting/186ac7bf-.../page/p_mppqixq3vd",
     },
   }
 
@@ -151,15 +113,19 @@ export default function GladneyDashboard() {
   }
 
   const handleViewSelect = (group: string, key: string) => {
-    console.log("[v0] handleViewSelect called with:", { group, key, isFullscreen })
     setSelectedView({ group, key })
     setSelectedDropdownItem(key)
-    closeAllDropdowns() // Close dropdowns after selection
+    closeAllDropdowns()
     const url = new URL(window.location.href)
     url.searchParams.set("group", group)
     url.searchParams.set("view", key)
     window.history.replaceState({}, "", url.toString())
   }
+
+
+
+
+
 
   const toggleFullscreen = () => {
     const element = document.getElementById("iframe-container")
@@ -174,7 +140,7 @@ export default function GladneyDashboard() {
 
   const handleNavigation = (page: string) => {
     setActivePage(page)
-    closeAllDropdowns() // Close dropdowns when navigating
+    closeAllDropdowns()
     if (page === "expectant_mother") {
       setSelectedView({ group: "expectant", key: "overview_ads" })
       setSelectedDropdownItem("overview_ads")
@@ -184,13 +150,7 @@ export default function GladneyDashboard() {
     } else if (page === "page_traffic") {
       setSelectedView({ group: "traffic", key: "cover_page" })
       setSelectedDropdownItem("cover_page")
-    } else if (page === "dashboard_faq") {
-      setSelectedView({ group: "", key: "" })
-      setSelectedDropdownItem("")
-    } else if (page === "dashboard_details") {
-      setSelectedView({ group: "", key: "" })
-      setSelectedDropdownItem("")
-    } else if (page === "notifications") {
+    } else {
       setSelectedView({ group: "", key: "" })
       setSelectedDropdownItem("")
     }
@@ -208,20 +168,18 @@ export default function GladneyDashboard() {
     const handleFullscreenChange = () => {
       setIsFullscreen(!!document.fullscreenElement)
       if (!document.fullscreenElement) {
-        closeAllDropdowns() // Close dropdowns when exiting fullscreen
+        closeAllDropdowns()
       }
     }
-
     document.addEventListener("fullscreenchange", handleFullscreenChange)
-
     return () => {
       document.removeEventListener("fullscreenchange", handleFullscreenChange)
     }
   }, [])
 
   const currentUrl =
-    LOOKERS[selectedView.group as keyof typeof LOOKERS as keyof typeof LOOKERS]?.[
-      selectedView.key as keyof typeof LOOKERS.expectant
+    LOOKERS[selectedView.group as keyof typeof LOOKERS]?.[
+      selectedView.key as keyof (typeof LOOKERS)[keyof typeof LOOKERS]
     ] || "about:blank"
 
   const getPageTitle = () => {
@@ -255,7 +213,6 @@ export default function GladneyDashboard() {
     className?: string
   }) => {
     const isOpen = openDropdowns[id] || false
-
     return (
       <div className={`relative ${className}`}>
         <div onClick={() => toggleDropdown(id)} className="cursor-pointer">
@@ -300,7 +257,6 @@ export default function GladneyDashboard() {
   }) => {
     const submenuId = `${parentId}_submenu`
     const isOpen = openDropdowns[submenuId] || false
-
     return (
       <div className="relative">
         <div
@@ -320,267 +276,370 @@ export default function GladneyDashboard() {
   }
 
   const handleLogout = () => {
-    // Clear any stored user data if needed
-    // localStorage.removeItem('user') // example
     router.push("/")
   }
 
   const renderPageContent = () => {
+    if (activePage === "expectant_mother") {
+      return (
+        <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
+          {/* Expectant Mother */}
+          <CustomDropdown
+            id="expectant_dropdown"
+            trigger={
+              <Button
+                variant={selectedView.group === "expectant" ? "default" : "outline"}
+                className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+              >
+                <span className="truncate">Expectant Mother</span>
+                <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+              </Button>
+            }
+          >
+            {Object.entries(LOOKERS.expectant).map(([key]) => (
+              <CustomDropdownItem
+                key={key}
+                onClick={() => handleViewSelect("expectant", key)}
+                isSelected={selectedDropdownItem === key}
+              >
+                {key}
+              </CustomDropdownItem>
+            ))}
+          </CustomDropdown>
+
+          {/* Marketing */}
+          <CustomDropdown
+            id="marketing_dropdown"
+            trigger={
+              <Button
+                variant={selectedView.group === "marketing" ? "default" : "outline"}
+                className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+              >
+                <span className="truncate">Marketing Performance</span>
+                <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+              </Button>
+            }
+          >
+            {Object.entries(LOOKERS.marketing).map(([key]) => (
+              <CustomDropdownItem
+                key={key}
+                onClick={() => handleViewSelect("marketing", key)}
+                isSelected={selectedDropdownItem === key}
+              >
+                {key}
+              </CustomDropdownItem>
+            ))}
+          </CustomDropdown>
+        </div>
+      )
+    }
+
+
+
+
+
+
+
+
+    if (activePage === "gladney_business") {
+      return (
+        <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
+          {/* Domestic Infant */}
+          <CustomDropdown
+            id="domestic_dropdown"
+            trigger={
+              <Button
+                variant={selectedView.group === "gladney" ? "default" : "outline"}
+                className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+              >
+                <span className="truncate">Domestic Infant</span>
+                <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+              </Button>
+            }
+          >
+            <CustomSubmenu parentId="domestic_dropdown" trigger="Adoptive Parents">
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("gladney", "adoptive_performance")}
+                isSelected={selectedDropdownItem === "adoptive_performance"}
+              >
+                Adoptive Performance
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("gladney", "adoptive_recent")}
+                isSelected={selectedDropdownItem === "adoptive_recent"}
+              >
+                Adoptive Recent
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("gladney", "adoptive_timeline")}
+                isSelected={selectedDropdownItem === "adoptive_timeline"}
+              >
+                Adoptive Timeline
+              </CustomDropdownItem>
+            </CustomSubmenu>
+
+            <CustomSubmenu parentId="domestic_dropdown" trigger="Birth Parents">
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("gladney", "birth_overall")}
+                isSelected={selectedDropdownItem === "birth_overall"}
+              >
+                Birth Overall
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("gladney", "birth_detailed")}
+                isSelected={selectedDropdownItem === "birth_detailed"}
+              >
+                Birth Detailed
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("gladney", "birth_recent")}
+                isSelected={selectedDropdownItem === "birth_recent"}
+              >
+                Birth Recent
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("gladney", "birth_breakdown")}
+                isSelected={selectedDropdownItem === "birth_breakdown"}
+              >
+                Birth Breakdown
+              </CustomDropdownItem>
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("gladney", "birth_timeline")}
+                isSelected={selectedDropdownItem === "birth_timeline"}
+              >
+                Birth Timeline
+              </CustomDropdownItem>
+            </CustomSubmenu>
+          </CustomDropdown>
+
+          {/* New Beginnings */}
+          <CustomDropdown
+            id="new_beginnings_dropdown"
+            trigger={
+              <Button
+                variant="outline"
+                className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+              >
+                <span className="truncate">New Beginnings</span>
+                <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+              </Button>
+            }
+          >
+            <CustomDropdownItem
+              onClick={() => handleViewSelect("gladney", "new_performance")}
+              isSelected={selectedDropdownItem === "new_performance"}
+            >
+              New Performance
+            </CustomDropdownItem>
+            <CustomDropdownItem
+              onClick={() => handleViewSelect("gladney", "new_recent")}
+              isSelected={selectedDropdownItem === "new_recent"}
+            >
+              New Recent
+            </CustomDropdownItem>
+            <CustomDropdownItem
+              onClick={() => handleViewSelect("gladney", "new_timeline")}
+              isSelected={selectedDropdownItem === "new_timeline"}
+            >
+              New Timeline
+            </CustomDropdownItem>
+          </CustomDropdown>
+
+          {/* Drilldown Tables */}
+          <CustomDropdown
+            id="drilldown_dropdown"
+            trigger={
+              <Button
+                variant="outline"
+                className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+              >
+                <span className="truncate">Drilldown Tables</span>
+                <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+              </Button>
+            }
+          >
+            <CustomDropdownItem
+              onClick={() => handleViewSelect("gladney", "drilldown_domestic")}
+              isSelected={selectedDropdownItem === "drilldown_domestic"}
+            >
+              Domestic Drilldown
+            </CustomDropdownItem>
+            <CustomDropdownItem
+              onClick={() => handleViewSelect("gladney", "drilldown_new")}
+              isSelected={selectedDropdownItem === "drilldown_new"}
+            >
+              New Drilldown
+            </CustomDropdownItem>
+          </CustomDropdown>
+        </div>
+      )
+    }
+
+    if (activePage === "page_traffic") {
+      return (
+        <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
+          <Button
+            variant={selectedView.key === "cover_page" ? "default" : "outline"}
+            onClick={() => handleViewSelect("traffic", "cover_page")}
+          >
+            Cover Page
+          </Button>
+          <Button
+            variant={selectedView.key === "traffic_user_overview" ? "default" : "outline"}
+            onClick={() => handleViewSelect("traffic", "traffic_user_overview")}
+          >
+            Traffic & User Overview
+          </Button>
+
+          {/* Traffic Analysis */}
+          <CustomDropdown
+            id="traffic_analysis_dropdown"
+            trigger={
+              <Button
+                variant="outline"
+                className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+              >
+                <span className="truncate">Traffic Analysis</span>
+                <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+              </Button>
+            }
+          >
+            <CustomDropdownItem
+              onClick={() => handleViewSelect("traffic", "sessions_overview")}
+              isSelected={selectedDropdownItem === "sessions_overview"}
+            >
+              Sessions Overview
+            </CustomDropdownItem>
+            <CustomDropdownItem
+              onClick={() => handleViewSelect("traffic", "user_overview")}
+              isSelected={selectedDropdownItem === "user_overview"}
+            >
+              User Overview
+            </CustomDropdownItem>
+            <CustomDropdownItem
+              onClick={() => handleViewSelect("traffic", "google_ads_keywords")}
+              isSelected={selectedDropdownItem === "google_ads_keywords"}
+            >
+              Google Ads Keywords
+            </CustomDropdownItem>
+            <CustomDropdownItem
+              onClick={() => handleViewSelect("traffic", "demographic_info")}
+              isSelected={selectedDropdownItem === "demographic_info"}
+            >
+              Demographic Information
+            </CustomDropdownItem>
+          </CustomDropdown>
+
+          {/* Engagement & Pages */}
+          <CustomDropdown
+            id="engagement_dropdown"
+            trigger={
+              <Button
+                variant="outline"
+                className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+              >
+                <span className="truncate">Engagement</span>
+                <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+              </Button>
+            }
+          >
+            <CustomDropdownItem
+              onClick={() => handleViewSelect("traffic", "events_top_pages")}
+              isSelected={selectedDropdownItem === "events_top_pages"}
+            >
+              Events & Top Pages
+            </CustomDropdownItem>
+            <CustomDropdownItem
+              onClick={() => handleViewSelect("traffic", "conversion_events")}
+              isSelected={selectedDropdownItem === "conversion_events"}
+            >
+              Conversion Events Breakdown
+            </CustomDropdownItem>
+          </CustomDropdown>
+
+          <Button
+            variant={selectedView.key === "conversion_performance" ? "default" : "outline"}
+            onClick={() => handleViewSelect("traffic", "conversion_performance")}
+          >
+            Conversion Performance
+          </Button>
+
+          {/* AI Traffic */}
+          <CustomDropdown
+            id="ai_traffic_dropdown"
+            trigger={
+              <Button
+                variant="outline"
+                className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+              >
+                <span className="truncate">AI Traffic</span>
+                <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+              </Button>
+            }
+          >
+            <CustomDropdownItem
+              onClick={() => handleViewSelect("traffic", "ai_vs_human")}
+              isSelected={selectedDropdownItem === "ai_vs_human"}
+            >
+              AI vs Human
+            </CustomDropdownItem>
+            <CustomDropdownItem
+              onClick={() => handleViewSelect("traffic", "ai_deep_dive")}
+              isSelected={selectedDropdownItem === "ai_deep_dive"}
+            >
+              AI Deep Dive
+            </CustomDropdownItem>
+          </CustomDropdown>
+
+          <Button
+            variant={selectedView.key === "temporary_visualization" ? "default" : "outline"}
+            onClick={() => handleViewSelect("traffic", "temporary_visualization")}
+          >
+            Temporary Visualization
+          </Button>
+          <Button
+            variant={selectedView.key === "google_analytics_dashboard" ? "default" : "outline"}
+            onClick={() => handleViewSelect("traffic", "google_analytics_dashboard")}
+          >
+            Google Analytics Dashboard
+          </Button>
+        </div>
+      )
+    }
+
     if (activePage === "dashboard_faq") {
       return (
-        <div className="w-full h-full p-8 space-y-8 overflow-auto">
-          <div className="space-y-6 max-w-none">
-            <div>
-              <p className="text-base text-muted-foreground leading-relaxed text-pretty">
-                The purpose of this section is to address common questions that may arise as the Gladney team begins
-                using the dashboards. We plan to continue expanding this section over time to ensure that frequently
-                asked questions are answered and that common areas of confusion are clarified. If you have any questions
-                that aren't covered here, please don't hesitate to reach out to us. Your feedback helps us improve the
-                dashboards and make them as intuitive and user-friendly as possible.
-              </p>
-            </div>
-
-            {/* Removed max-width constraint to use full width */}
-            <div className="space-y-4">
-              <Collapsible className="border border-border rounded-lg">
-                <CollapsibleTrigger className="flex w-full items-center justify-between p-4 text-left hover:bg-muted/50 transition-colors">
-                  <span className="font-medium text-base">
-                    <strong>1) What data sources are used to create the dashboards?</strong>
-                  </span>
-                  <ChevronRightIcon className="h-4 w-4 transition-transform group-data-[state=open]:rotate-90" />
-                </CollapsibleTrigger>
-                <CollapsibleContent className="px-4 pb-4">
-                  <div className="text-sm text-muted-foreground space-y-2 pl-4">
-                    <ul className="list-disc space-y-2">
-                      <li>
-                        <u>HubSpot:</u> Captures and stores information about leads and contacts, including form
-                        submissions, contact details, and marketing engagement.
-                      </li>
-                      <li>
-                        <u>Google Ads:</u> Provides data about paid advertising campaigns, such as impressions, clicks,
-                        conversions, and ad spend.
-                      </li>
-                      <li>
-                        <u>Google Analytics (GA4):</u> Tracks website visitor behavior, showing how users arrive at the
-                        site, which pages they visit, and how they interact with site content.
-                      </li>
-                      <li>
-                        <u>Informer:</u> A reporting tool used by Gladney to track internal operational data, such as
-                        intake progress, case status updates, and other key business metrics.
-                      </li>
-                      <li>
-                        <u>Google Sheets:</u> Used for uploading manually maintained reference data, such as KPI target
-                        values and other custom inputs provided by the Gladney team. (See link in the "Dashboard
-                        Details" section for more info.)
-                      </li>
-                      <li>
-                        <u>Sugar:</u> Gladney's customer relationship management (CRM) system, used to manage ongoing
-                        case workflows, track interactions with contacts, and store adoption-related records.
-                      </li>
-                    </ul>
-                  </div>
-                </CollapsibleContent>
-              </Collapsible>
-
-              <Collapsible className="border border-border rounded-lg">
-                <CollapsibleTrigger className="flex w-full items-center justify-between p-4 text-left hover:bg-muted/50 transition-colors">
-                  <span className="font-medium text-base">
-                    <strong>
-                      2) I checked the spam contacts for Monday yesterday and again today, and the numbers are
-                      different. Why might that be happening?
-                    </strong>
-                  </span>
-                  <ChevronRightIcon className="h-4 w-4 transition-transform group-data-[state=open]:rotate-90" />
-                </CollapsibleTrigger>
-                <CollapsibleContent className="px-4 pb-4">
-                  <div className="text-sm text-muted-foreground space-y-3 pl-4">
-                    <p className="text-pretty">
-                      Imagine this scenario: Today, you check the dashboard and see that there are 15 spam contacts
-                      recorded for July 10th. Then, tomorrow, you check again and notice that the number has increased
-                      to 17 spam contacts for the same date.
-                    </p>
-                    <p className="text-pretty">
-                      At first glance, you might think there's a mistake or a data error. However, what's likely
-                      happening is that the number of spam contacts has been updated. The Gladney team is constantly
-                      reviewing and refining contact classifications to ensure we accurately distinguish between
-                      legitimate, qualified contacts and spam. This review process often takes time.
-                    </p>
-                    <p className="text-pretty">
-                      Using this same example: On your first check, you saw 15 spam contacts, which were automatically
-                      flagged by our tools (e.g., HubSpot's spam detection). Out of a total of 30 contacts, that seemed
-                      correct at the time. However, after the Gladney team manually reviewed the list, they identified 2
-                      additional spam contacts that the automated system missed. That's why when you checked again, the
-                      total had increased to 17.
-                    </p>
-                    <p className="text-pretty">
-                      This kind of adjustment doesn't happen just with spam contacts—it can affect other classifications
-                      too. That's why we always encourage the Gladney team to notify us of any changes or concerns they
-                      notice in the dashboard, so we can keep everyone informed and ensure the data stays as accurate as
-                      possible.
-                    </p>
-                  </div>
-                </CollapsibleContent>
-              </Collapsible>
-            </div>
-          </div>
+        <div className="p-8">
+          <h2 className="text-xl font-semibold mb-4">Dashboard FAQ</h2>
+          <p className="text-muted-foreground">
+            Common questions and clarifications will appear here.
+          </p>
         </div>
       )
     }
 
     if (activePage === "dashboard_details") {
       return (
-        <div className="w-full h-full p-8 space-y-8 overflow-auto">
-          <div className="max-w-none">
-            <p className="text-base text-muted-foreground mb-8 leading-relaxed text-pretty">
-              This section provides detailed information about the dashboards, including quality check reports and
-              target metrics documentation.
-            </p>
-
-            {/* Adjusted grid to better fill available space */}
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-12">
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold mb-4 text-foreground">Quality Check Reports</h3>
-                <div className="space-y-3">
-                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
-                    Quality Check Report - Expectant Mother Dashboard (PDF)
-                  </a>
-                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
-                    Quality Check Report - Gladney Business Performance (PDF)
-                  </a>
-                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
-                    Quality Check Report - Page Traffic Monitor (PDF)
-                  </a>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold mb-4 text-foreground">Target Metrics</h3>
-                <div className="space-y-3">
-                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
-                    Target Metrics - Expectant Mother (Google Sheets)
-                  </a>
-                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
-                    Target Metrics - Gladney Business Performance (Google Sheets)
-                  </a>
-                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
-                    Target Metrics - Page Traffic Monitor (Google Sheets)
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div className="p-8">
+          <h2 className="text-xl font-semibold mb-4">Dashboard Details</h2>
+          <p className="text-muted-foreground">
+            Detailed reports and target metrics documentation.
+          </p>
         </div>
       )
     }
 
-    if (activePage === "expectant_mother") {
-  return (
-    <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
-      {/* Expectant Mother dropdown */}
-      <CustomDropdown
-        id="expectant_dropdown"
-        trigger={
-          <Button
-            variant={selectedView.group === "expectant" ? "default" : "outline"}
-            className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
-          >
-            <span className="truncate">Expectant Mother</span>
-            <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
-          </Button>
-        }
-      >
-        {/* seus <CustomDropdownItem> aqui... */}
-      </CustomDropdown>
-
-      {/* Marketing dropdown */}
-      <CustomDropdown
-        id="marketing_dropdown"
-        trigger={
-          <Button
-            variant={selectedView.group === "marketing" ? "default" : "outline"}
-            className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
-          >
-            <span className="truncate">Marketing Performance</span>
-            <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
-          </Button>
-        }
-      >
-        {/* seus <CustomDropdownItem> e <CustomSubmenu> aqui... */}
-      </CustomDropdown>
-    </div>
-  )
-}
-   } else if (activePage === "gladney_business") {
-  return (
-    <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
-      {/* Domestic Infant */}
-      <CustomDropdown id="domestic_dropdown" trigger={...}>
-        <CustomSubmenu parentId="domestic_dropdown" trigger="Adoptive Parents">
-          {/* itens */}
-        </CustomSubmenu>
-        <CustomSubmenu parentId="domestic_dropdown" trigger="Birth Parents">
-          {/* itens */}
-        </CustomSubmenu>
-      </CustomDropdown>
-
-      {/* New Beginnings */}
-      <CustomDropdown id="new_beginnings_dropdown" trigger={...}>
-        {/* itens */}
-      </CustomDropdown>
-
-      {/* Drilldown Tables */}
-      <CustomDropdown id="drilldown_dropdown" trigger={...}>
-        {/* itens */}
-      </CustomDropdown>
-    </div>
-  )
-}
-
-} else if (activePage === "page_traffic") {
-  return (
-    <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
-      <Button ...>Cover Page</Button>
-      <Button ...>Traffic & User Overview</Button>
-
-      {/* Traffic Analysis */}
-      <CustomDropdown id="traffic_analysis_dropdown" trigger={...}>
-        <CustomDropdownItem ...>Sessions Overview & Entry Pages</CustomDropdownItem>
-        <CustomDropdownItem ...>User Overview & Entry Pages</CustomDropdownItem>
-        <CustomDropdownItem ...>Google Ads Keywords</CustomDropdownItem>
-        <CustomDropdownItem ...>Demographic Information</CustomDropdownItem>
-      </CustomDropdown>
-
-      {/* Engagement & Pages */}
-      <CustomDropdown id="engagement_dropdown" trigger={...}>
-        <CustomDropdownItem ...>Events & Top Pages</CustomDropdownItem>
-        <CustomDropdownItem ...>Conversion Events Breakdown</CustomDropdownItem>
-      </CustomDropdown>
-
-      <Button ...>Conversion Performance</Button>
-
-      {/* AI Traffic */}
-      <CustomDropdown id="ai_traffic_dropdown" trigger={...}>
-        <CustomDropdownItem ...>AI vs Human Traffic – Overview</CustomDropdownItem>
-        <CustomDropdownItem ...>AI Traffic Deep Dive</CustomDropdownItem>
-      </CustomDropdown>
-
-      <Button ...>Temporary Visualization</Button>
-      <Button ...>Google Analytics Dashboard</Button>
-    </div>
-  )
-}
-
-
-    // ADDED NOTIFICATIONS PAGE
     if (activePage === "notifications") {
       return (
         <div className="flex-1 p-8">
           <div className="max-w-4xl mx-auto">
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12">
               <div className="text-center">
-                <div className="mb-6">
-                  <img src="/no-notification.png" alt="No Notifications" className="w-32 h-auto mx-auto opacity-80" />
-                </div>
+                <img
+                  src="/no-notification.png"
+                  alt="No Notifications"
+                  className="w-32 h-auto mx-auto opacity-80 mb-6"
+                />
                 <h3 className="text-2xl font-semibold text-gray-800 mb-2">No Notifications</h3>
                 <p className="text-gray-600 text-lg">You're all caught up!</p>
               </div>
@@ -597,13 +656,18 @@ export default function GladneyDashboard() {
     )
   }
 
+
+
+
+
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gray-50">
-        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50"></div>
-
+        {/* Sidebar */}
         <Sidebar className="border-r border-sidebar-border bg-sidebar flex-shrink-0 lg:flex hidden lg:relative absolute z-40 lg:z-auto w-64 min-w-64">
           <SidebarContent className="bg-background h-full flex flex-col">
+            {/* Header Sidebar */}
             <SidebarHeader className="h-16 flex items-center justify-between px-4 border-b border-sidebar-border">
               <div className="flex items-center gap-3">
                 <img src="/logo-em-cima.svg" alt="Upstart13" className="h-10 w-10 rounded-lg object-cover" />
@@ -614,9 +678,11 @@ export default function GladneyDashboard() {
               </div>
             </SidebarHeader>
 
+            {/* Menu principal */}
             <SidebarGroup className="flex-1 overflow-y-auto px-2 py-4">
               <SidebarGroupContent>
                 <SidebarMenu className="space-y-2">
+                  {/* DASHBOARDS */}
                   <Collapsible defaultOpen className="group/collapsible">
                     <SidebarMenuItem>
                       <CollapsibleTrigger asChild>
@@ -675,6 +741,7 @@ export default function GladneyDashboard() {
                     </SidebarMenuItem>
                   </Collapsible>
 
+                  {/* INFORMATION */}
                   <Collapsible className="group/collapsible">
                     <SidebarMenuItem>
                       <CollapsibleTrigger asChild>
@@ -717,6 +784,7 @@ export default function GladneyDashboard() {
                     </SidebarMenuItem>
                   </Collapsible>
 
+                  {/* NOTIFICATIONS */}
                   <SidebarMenuItem>
                     <SidebarMenuButton
                       onClick={() => handleNavigation("notifications")}
@@ -736,8 +804,8 @@ export default function GladneyDashboard() {
               </SidebarGroupContent>
             </SidebarGroup>
 
+            {/* Footer */}
             <div className="mt-auto border-t border-sidebar-border p-4">
-              {/* CHANGE: centered the footer content */}
               <div className="flex items-center justify-center gap-3 p-3 rounded-lg bg-slate-50">
                 <img src="/logo-icon-big.jpeg" alt="UpStart13" className="h-8 w-8 rounded" />
                 <div className="text-xs">
@@ -749,17 +817,22 @@ export default function GladneyDashboard() {
           </SidebarContent>
         </Sidebar>
 
+        {/* Main Content */}
         <div className="flex-1 flex flex-col min-w-0">
+          {/* Header */}
           <header className="sticky top-0 z-50 bg-background border-b border-border h-16 flex-shrink-0">
             <div className="flex h-full items-center justify-between px-4 sm:px-6">
               <div className="flex items-center gap-2 sm:gap-4 min-w-0">
                 <SidebarTrigger className="lg:hidden flex items-center justify-center p-2 hover:bg-muted rounded-lg transition-colors">
                   <Bars3Icon className="h-5 w-5" />
                 </SidebarTrigger>
-                <h1 className="text-lg sm:text-xl font-semibold text-foreground truncate">{getPageTitle()}</h1>
+                <h1 className="text-lg sm:text-xl font-semibold text-foreground truncate">
+                  {getPageTitle()}
+                </h1>
               </div>
 
               <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+                {/* Profile Dropdown */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <div className="flex items-center gap-3 p-2 rounded-lg border border-border bg-slate-50 cursor-pointer hover:bg-slate-100 transition-colors">
@@ -784,29 +857,35 @@ export default function GladneyDashboard() {
             </div>
           </header>
 
+          {/* Conteúdo principal */}
           <div className="flex-1 flex flex-col p-3 sm:p-6 bg-popover overflow-auto">
-            {/* CHANGE: Hide upper card when on notifications, dashboard_details, or dashboard_faq pages */}
-            {activePage !== "notifications" && activePage !== "dashboard_details" && activePage !== "dashboard_faq" && (
-              <Card className="p-4 sm:p-6 mb-4 sm:mb-6 border border-border bg-popover">
-                <div className="flex flex-col gap-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    {renderPageContent()}
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={toggleFullscreen}
-                      className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors self-start sm:self-auto bg-transparent"
-                    >
-                      {/* CHANGE: Use ArrowsPointingOutIcon instead of Maximize2 */}
-                      <ArrowsPointingOutIcon className="h-4 w-4" />
-                      <span className="hidden sm:inline">Expandir</span>
-                    </Button>
+            {/* Card superior (menus horizontais) */}
+            {activePage !== "notifications" &&
+              activePage !== "dashboard_details" &&
+              activePage !== "dashboard_faq" && (
+                <Card className="p-4 sm:p-6 mb-4 sm:mb-6 border border-border bg-popover">
+                  <div className="flex flex-col gap-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                      {renderPageContent()}
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={toggleFullscreen}
+                        className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors self-start sm:self-auto bg-transparent"
+                      >
+                        <ArrowsPointingOutIcon className="h-4 w-4" />
+                        <span className="hidden sm:inline">Expandir</span>
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              </Card>
-            )}
+                </Card>
+              )}
 
-            <Card id="iframe-container" className="flex-1 overflow-hidden border border-border min-h-0 bg-background">
+            {/* Iframe container */}
+            <Card
+              id="iframe-container"
+              className="flex-1 overflow-hidden border border-border min-h-0 bg-background"
+            >
               {isFullscreen && (
                 <div className="fixed top-0 left-0 right-0 z-[10000] bg-background/95 backdrop-blur-sm border-b border-border">
                   <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2 sm:gap-4 p-3 sm:p-4">
@@ -815,18 +894,16 @@ export default function GladneyDashboard() {
                 </div>
               )}
 
-              {/* CHANGE: Added margin-top when fullscreen to account for fixed menu */}
+              {/* Conteúdo dinamico */}
               <div className={`w-full h-full ${isFullscreen ? "mt-20" : ""}`}>
                 {activePage === "notifications" ? (
                   <div className="w-full h-full flex items-center justify-center p-8 bg-background">
                     <div className="text-center">
-                      <div className="mb-6">
-                        <img
-                          src="/no-notification.png"
-                          alt="No Notifications"
-                          className="w-32 h-auto mx-auto opacity-80"
-                        />
-                      </div>
+                      <img
+                        src="/no-notification.png"
+                        alt="No Notifications"
+                        className="w-32 h-auto mx-auto opacity-80 mb-6"
+                      />
                       <h3 className="text-2xl font-semibold text-gray-800 mb-2">No Notifications</h3>
                       <p className="text-gray-600 text-lg">You're all caught up!</p>
                     </div>
