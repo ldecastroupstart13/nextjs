@@ -129,6 +129,7 @@ export default function GladneyDashboard() {
 
 
 // 📄 Parte 2 — Fullscreen, Utils, RenderPageContent (Expectant + Marketing)
+
   const toggleFullscreen = () => {
     const element = document.getElementById("iframe-container")
     if (!document.fullscreenElement && element) {
@@ -281,6 +282,31 @@ export default function GladneyDashboard() {
     router.push("/")
   }
 
+  // 🔖 Labels amigáveis para os menus
+  const LABELS: Record<string, string> = {
+    // Expectant
+    overview_ads: "Overview Ads",
+    overview_ga4: "Overview GA4",
+    recent: "Recent Leads",
+    google_ads: "Google Ads",
+    campaign_break: "Campaign Breakdown",
+    campaign_costs: "Campaign Costs",
+    contact_cost: "Contact Cost",
+    day_of_week: "Day of Week",
+    campaign_ratios: "Campaign Ratios",
+    contact_break: "Contact Breakdown",
+    spam_break: "Spam Breakdown",
+
+    // Marketing
+    performance_time: "Performance Over Time",
+    cost_per: "Cost Per Acquisition",
+    table_download: "Downloadable Table",
+    enroll_placements: "Enroll by Placement",
+    enroll_admission: "Enroll by Admission",
+    enroll_creation: "Enroll by Creation",
+    enroll_timeseries: "Enroll Time Series",
+  }
+
   const renderPageContent = () => {
     if (activePage === "expectant_mother") {
       return (
@@ -304,7 +330,7 @@ export default function GladneyDashboard() {
                 onClick={() => handleViewSelect("expectant", key)}
                 isSelected={selectedDropdownItem === key}
               >
-                {key}
+                {LABELS[key] || key}
               </CustomDropdownItem>
             ))}
           </CustomDropdown>
@@ -328,7 +354,7 @@ export default function GladneyDashboard() {
                 onClick={() => handleViewSelect("marketing", key)}
                 isSelected={selectedDropdownItem === key}
               >
-                {key}
+                {LABELS[key] || key}
               </CustomDropdownItem>
             ))}
           </CustomDropdown>
