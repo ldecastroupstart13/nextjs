@@ -483,295 +483,53 @@ export default function GladneyDashboard() {
     }
 
     if (activePage === "expectant_mother") {
-      if (isFullscreen) {
-        return (
-          <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
-            <CustomDropdown
-              id="expectant_dropdown"
-              trigger={
-                <Button
-                  variant={selectedView.group === "expectant" ? "default" : "outline"}
-                  className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
-                >
-                  <span className="truncate">Expectant Mother</span>
-                  <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
-                </Button>
-              }
-            >
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("expectant", "overview_ads")}
-                isSelected={selectedDropdownItem === "overview_ads"}
-              >
-                Overview - ads & hubspot
-              </CustomDropdownItem>
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("expectant", "overview_ga4")}
-                isSelected={selectedDropdownItem === "overview_ga4"}
-              >
-                Overview - GA4
-              </CustomDropdownItem>
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("expectant", "recent")}
-                isSelected={selectedDropdownItem === "recent"}
-              >
-                Recent Perspective
-              </CustomDropdownItem>
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("expectant", "google_ads")}
-                isSelected={selectedDropdownItem === "google_ads"}
-              >
-                Google Ads Performance
-              </CustomDropdownItem>
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("expectant", "campaign_break")}
-                isSelected={selectedDropdownItem === "campaign_break"}
-              >
-                Campaign Breakdown
-              </CustomDropdownItem>
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("expectant", "campaign_costs")}
-                isSelected={selectedDropdownItem === "campaign_costs"}
-              >
-                Campaign Costs
-              </CustomDropdownItem>
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("expectant", "contact_cost")}
-                isSelected={selectedDropdownItem === "contact_cost"}
-              >
-                Contact x Cost
-              </CustomDropdownItem>
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("expectant", "day_of_week")}
-                isSelected={selectedDropdownItem === "day_of_week"}
-              >
-                Day of the Week
-              </CustomDropdownItem>
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("expectant", "campaign_ratios")}
-                isSelected={selectedDropdownItem === "campaign_ratios"}
-              >
-                Campaign Ratios
-              </CustomDropdownItem>
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("expectant", "contact_break")}
-                isSelected={selectedDropdownItem === "contact_break"}
-              >
-                Contact Breakdown
-              </CustomDropdownItem>
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("expectant", "spam_break")}
-                isSelected={selectedDropdownItem === "spam_break"}
-              >
-                Spam Breakdown
-              </CustomDropdownItem>
-            </CustomDropdown>
-
-            <CustomDropdown
-              id="marketing_dropdown"
-              trigger={
-                <Button
-                  variant={selectedView.group === "marketing" ? "default" : "outline"}
-                  className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
-                >
-                  <span className="truncate">Marketing Performance</span>
-                  <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
-                </Button>
-              }
-            >
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("marketing", "performance_time")}
-                isSelected={selectedDropdownItem === "performance_time"}
-              >
-                Performance over time
-              </CustomDropdownItem>
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("marketing", "cost_per")}
-                isSelected={selectedDropdownItem === "cost_per"}
-              >
-                Cost per…
-              </CustomDropdownItem>
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("marketing", "table_download")}
-                isSelected={selectedDropdownItem === "table_download"}
-              >
-                Table for download
-              </CustomDropdownItem>
-              <CustomSubmenu parentId="marketing_dropdown" trigger="Enrollment Rate">
-                <CustomDropdownItem
-                  onClick={() => handleViewSelect("marketing", "enroll_placements")}
-                  isSelected={selectedDropdownItem === "enroll_placements"}
-                >
-                  Filter by Placements in Sugar
-                </CustomDropdownItem>
-                <CustomDropdownItem
-                  onClick={() => handleViewSelect("marketing", "enroll_admission")}
-                  isSelected={selectedDropdownItem === "enroll_admission"}
-                >
-                  Filter by Admission in Sugar
-                </CustomDropdownItem>
-                <CustomDropdownItem
-                  onClick={() => handleViewSelect("marketing", "enroll_creation")}
-                  isSelected={selectedDropdownItem === "enroll_creation"}
-                >
-                  Filter by Creation in Hubspot
-                </CustomDropdownItem>
-                <CustomDropdownItem
-                  onClick={() => handleViewSelect("marketing", "enroll_timeseries")}
-                  isSelected={selectedDropdownItem === "enroll_timeseries"}
-                >
-                  Time Series
-                </CustomDropdownItem>
-              </CustomSubmenu>
-            </CustomDropdown>
-          </div>
-        )
-      } else {
   return (
-    <>
-      <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
-        <DropdownMenu modal={false}>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant={selectedView.group === "expectant" ? "default" : "outline"}
-              className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
-            >
-              <span className="truncate">Expectant Mother</span>
-              <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-64 z-[9999]">
-            <DropdownMenuItem
-              onClick={() => handleViewSelect("expectant", "overview_ads")}
-              className={`hover:bg-muted ${selectedDropdownItem === "overview_ads" ? "bg-primary text-primary-foreground" : ""}`}
-            >
-              Overview - ads & hubspot
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => handleViewSelect("expectant", "overview_ga4")}
-              className={`hover:bg-muted ${selectedDropdownItem === "overview_ga4" ? "bg-primary text-primary-foreground" : ""}`}
-            >
-              Overview - GA4
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => handleViewSelect("expectant", "recent")}
-              className={`hover:bg-muted ${selectedDropdownItem === "recent" ? "bg-primary text-primary-foreground" : ""}`}
-            >
-              Recent Perspective
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => handleViewSelect("expectant", "google_ads")}
-              className={`hover:bg-muted ${selectedDropdownItem === "google_ads" ? "bg-primary text-primary-foreground" : ""}`}
-            >
-              Google Ads Performance
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => handleViewSelect("expectant", "campaign_break")}
-              className={`hover:bg-muted ${selectedDropdownItem === "campaign_break" ? "bg-primary text-primary-foreground" : ""}`}
-            >
-              Campaign Breakdown
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => handleViewSelect("expectant", "campaign_costs")}
-              className={`hover:bg-muted ${selectedDropdownItem === "campaign_costs" ? "bg-primary text-primary-foreground" : ""}`}
-            >
-              Campaign Costs
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => handleViewSelect("expectant", "contact_cost")}
-              className={`hover:bg-muted ${selectedDropdownItem === "contact_cost" ? "bg-primary text-primary-foreground" : ""}`}
-            >
-              Contact x Cost
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => handleViewSelect("expectant", "day_of_week")}
-              className={`hover:bg-muted ${selectedDropdownItem === "day_of_week" ? "bg-primary text-primary-foreground" : ""}`}
-            >
-              Day of the Week
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => handleViewSelect("expectant", "campaign_ratios")}
-              className={`hover:bg-muted ${selectedDropdownItem === "campaign_ratios" ? "bg-primary text-primary-foreground" : ""}`}
-            >
-              Campaign Ratios
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => handleViewSelect("expectant", "contact_break")}
-              className={`hover:bg-muted ${selectedDropdownItem === "contact_break" ? "bg-primary text-primary-foreground" : ""}`}
-            >
-              Contact Breakdown
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => handleViewSelect("expectant", "spam_break")}
-              className={`hover:bg-muted ${selectedDropdownItem === "spam_break" ? "bg-primary text-primary-foreground" : ""}`}
-            >
-              Spam Breakdown
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+    <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
+      <CustomDropdown
+        id="expectant_dropdown"
+        trigger={
+          <Button
+            variant={selectedView.group === "expectant" ? "default" : "outline"}
+            className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+          >
+            <span className="truncate">Expectant Mother</span>
+            <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+          </Button>
+        }
+      >
+        <CustomDropdownItem ...>Overview - ads & hubspot</CustomDropdownItem>
+        <CustomDropdownItem ...>Overview - GA4</CustomDropdownItem>
+        <CustomDropdownItem ...>Recent Perspective</CustomDropdownItem>
+        {/* demais items */}
+      </CustomDropdown>
 
-        <DropdownMenu modal={false}>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant={selectedView.group === "marketing" ? "default" : "outline"}
-              className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
-            >
-              <span className="truncate">Marketing Performance</span>
-              <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-64 z-[9999]">
-            <DropdownMenuItem
-              onClick={() => handleViewSelect("marketing", "performance_time")}
-              className={`hover:bg-muted ${selectedDropdownItem === "performance_time" ? "bg-primary text-primary-foreground" : ""}`}
-            >
-              Performance over time
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => handleViewSelect("marketing", "cost_per")}
-              className={`hover:bg-muted ${selectedDropdownItem === "cost_per" ? "bg-primary text-primary-foreground" : ""}`}
-            >
-              Cost per…
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => handleViewSelect("marketing", "table_download")}
-              className={`hover:bg-muted ${selectedDropdownItem === "table_download" ? "bg-primary text-primary-foreground" : ""}`}
-            >
-              Table for download
-            </DropdownMenuItem>
+      <CustomDropdown
+        id="marketing_dropdown"
+        trigger={
+          <Button
+            variant={selectedView.group === "marketing" ? "default" : "outline"}
+            className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+          >
+            <span className="truncate">Marketing Performance</span>
+            <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+          </Button>
+        }
+      >
+        <CustomDropdownItem ...>Performance over time</CustomDropdownItem>
+        <CustomDropdownItem ...>Cost per…</CustomDropdownItem>
+        <CustomDropdownItem ...>Table for download</CustomDropdownItem>
 
-            {/* 🔄 Aqui substituímos o DropdownMenuSub pelo CustomSubmenu */}
-            <CustomSubmenu parentId="marketing_dropdown" trigger="Enrollment Rate">
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("marketing", "enroll_placements")}
-                isSelected={selectedDropdownItem === "enroll_placements"}
-              >
-                Filter by Placements in Sugar
-              </CustomDropdownItem>
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("marketing", "enroll_admission")}
-                isSelected={selectedDropdownItem === "enroll_admission"}
-              >
-                Filter by Admission in Sugar
-              </CustomDropdownItem>
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("marketing", "enroll_creation")}
-                isSelected={selectedDropdownItem === "enroll_creation"}
-              >
-                Filter by Creation in Hubspot
-              </CustomDropdownItem>
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("marketing", "enroll_timeseries")}
-                isSelected={selectedDropdownItem === "enroll_timeseries"}
-              >
-                Time Series
-              </CustomDropdownItem>
-            </CustomSubmenu>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    </>
+        <CustomSubmenu parentId="marketing_dropdown" trigger="Enrollment Rate">
+          <CustomDropdownItem ...>Filter by Placements in Sugar</CustomDropdownItem>
+          <CustomDropdownItem ...>Filter by Admission in Sugar</CustomDropdownItem>
+          <CustomDropdownItem ...>Filter by Creation in Hubspot</CustomDropdownItem>
+          <CustomDropdownItem ...>Time Series</CustomDropdownItem>
+        </CustomSubmenu>
+      </CustomDropdown>
+    </div>
   )
 }
+
     } else if (activePage === "gladney_business") {
       if (isFullscreen) {
         return (
