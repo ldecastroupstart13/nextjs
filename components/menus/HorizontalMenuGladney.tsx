@@ -15,14 +15,12 @@ export default function HorizontalMenuGladney({
 }) {
   return (
     <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
+
       {/* Domestic Infant */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            variant={selectedView.group === "gladney" &&
-              ["adoptive_performance", "adoptive_recent", "adoptive_timeline"].includes(selectedView.key)
-              ? "default"
-              : "outline"}
+            variant={["adoptive_performance","adoptive_recent","adoptive_timeline"].includes(selectedView.key) ? "default" : "outline"}
             className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
           >
             <span className="truncate">Domestic Infant</span>
@@ -33,44 +31,40 @@ export default function HorizontalMenuGladney({
           <DropdownMenuSub>
             <DropdownMenuSubTrigger className="hover:bg-muted">Adoptive Parents</DropdownMenuSubTrigger>
             <DropdownMenuSubContent className="w-64">
-              <DropdownMenuItem onClick={() => handleViewSelect("gladney", "adoptive_performance")}
-                className={selectedDropdownItem === "adoptive_performance" ? "bg-primary text-primary-foreground" : ""}>
-                Performance
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleViewSelect("gladney", "adoptive_recent")}
-                className={selectedDropdownItem === "adoptive_recent" ? "bg-primary text-primary-foreground" : ""}>
-                Recent Perspective
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleViewSelect("gladney", "adoptive_timeline")}
-                className={selectedDropdownItem === "adoptive_timeline" ? "bg-primary text-primary-foreground" : ""}>
-                Process Timeline
-              </DropdownMenuItem>
+              {[
+                ["adoptive_performance","Performance"],
+                ["adoptive_recent","Recent Perspective"],
+                ["adoptive_timeline","Process Timeline"],
+              ].map(([key,label])=>(
+                <DropdownMenuItem
+                  key={key}
+                  onClick={() => handleViewSelect("gladney",key)}
+                  className={selectedDropdownItem===key?"bg-primary text-primary-foreground":""}
+                >
+                  {label}
+                </DropdownMenuItem>
+              ))}
             </DropdownMenuSubContent>
           </DropdownMenuSub>
 
           <DropdownMenuSub>
             <DropdownMenuSubTrigger className="hover:bg-muted">Birth Parents</DropdownMenuSubTrigger>
             <DropdownMenuSubContent className="w-64">
-              <DropdownMenuItem onClick={() => handleViewSelect("gladney", "birth_overall")}
-                className={selectedDropdownItem === "birth_overall" ? "bg-primary text-primary-foreground" : ""}>
-                Overall Performance
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleViewSelect("gladney", "birth_detailed")}
-                className={selectedDropdownItem === "birth_detailed" ? "bg-primary text-primary-foreground" : ""}>
-                Detailed Performance
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleViewSelect("gladney", "birth_recent")}
-                className={selectedDropdownItem === "birth_recent" ? "bg-primary text-primary-foreground" : ""}>
-                Recent Perspective
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleViewSelect("gladney", "birth_breakdown")}
-                className={selectedDropdownItem === "birth_breakdown" ? "bg-primary text-primary-foreground" : ""}>
-                Breakdown by State
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleViewSelect("gladney", "birth_timeline")}
-                className={selectedDropdownItem === "birth_timeline" ? "bg-primary text-primary-foreground" : ""}>
-                Process Timeline
-              </DropdownMenuItem>
+              {[
+                ["birth_overall","Overall Performance"],
+                ["birth_detailed","Detailed Performance"],
+                ["birth_recent","Recent Perspective"],
+                ["birth_breakdown","Breakdown by State"],
+                ["birth_timeline","Process Timeline"],
+              ].map(([key,label])=>(
+                <DropdownMenuItem
+                  key={key}
+                  onClick={() => handleViewSelect("gladney",key)}
+                  className={selectedDropdownItem===key?"bg-primary text-primary-foreground":""}
+                >
+                  {label}
+                </DropdownMenuItem>
+              ))}
             </DropdownMenuSubContent>
           </DropdownMenuSub>
         </DropdownMenuContent>
@@ -80,10 +74,7 @@ export default function HorizontalMenuGladney({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            variant={selectedView.group === "gladney" &&
-              ["new_performance", "new_recent", "new_timeline"].includes(selectedView.key)
-              ? "default"
-              : "outline"}
+            variant={["new_performance","new_recent","new_timeline"].includes(selectedView.key) ? "default" : "outline"}
             className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
           >
             <span className="truncate">New Beginnings</span>
@@ -91,18 +82,19 @@ export default function HorizontalMenuGladney({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-64">
-          <DropdownMenuItem onClick={() => handleViewSelect("gladney", "new_performance")}
-            className={selectedDropdownItem === "new_performance" ? "bg-primary text-primary-foreground" : ""}>
-            Performance
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleViewSelect("gladney", "new_recent")}
-            className={selectedDropdownItem === "new_recent" ? "bg-primary text-primary-foreground" : ""}>
-            Recent Perspective
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleViewSelect("gladney", "new_timeline")}
-            className={selectedDropdownItem === "new_timeline" ? "bg-primary text-primary-foreground" : ""}>
-            Process Timeline
-          </DropdownMenuItem>
+          {[
+            ["new_performance","Performance"],
+            ["new_recent","Recent Perspective"],
+            ["new_timeline","Process Timeline"],
+          ].map(([key,label])=>(
+            <DropdownMenuItem
+              key={key}
+              onClick={() => handleViewSelect("gladney",key)}
+              className={selectedDropdownItem===key?"bg-primary text-primary-foreground":""}
+            >
+              {label}
+            </DropdownMenuItem>
+          ))}
         </DropdownMenuContent>
       </DropdownMenu>
 
@@ -110,10 +102,7 @@ export default function HorizontalMenuGladney({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            variant={selectedView.group === "gladney" &&
-              ["drilldown_domestic", "drilldown_new"].includes(selectedView.key)
-              ? "default"
-              : "outline"}
+            variant={["drilldown_domestic","drilldown_new"].includes(selectedView.key) ? "default" : "outline"}
             className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
           >
             <span className="truncate">Drilldown Tables</span>
@@ -121,14 +110,18 @@ export default function HorizontalMenuGladney({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-64">
-          <DropdownMenuItem onClick={() => handleViewSelect("gladney", "drilldown_domestic")}
-            className={selectedDropdownItem === "drilldown_domestic" ? "bg-primary text-primary-foreground" : ""}>
-            Domestic Infant
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleViewSelect("gladney", "drilldown_new")}
-            className={selectedDropdownItem === "drilldown_new" ? "bg-primary text-primary-foreground" : ""}>
-            New Beginnings
-          </DropdownMenuItem>
+          {[
+            ["drilldown_domestic","Domestic Infant"],
+            ["drilldown_new","New Beginnings"],
+          ].map(([key,label])=>(
+            <DropdownMenuItem
+              key={key}
+              onClick={() => handleViewSelect("gladney",key)}
+              className={selectedDropdownItem===key?"bg-primary text-primary-foreground":""}
+            >
+              {label}
+            </DropdownMenuItem>
+          ))}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
