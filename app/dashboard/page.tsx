@@ -328,26 +328,26 @@ const LOOKERS = {
   // 🔖 Labels amigáveis para os menus
   const LABELS: Record<string, string> = {
     // Expectant
-    overview_ads: "Overview Ads",
-    overview_ga4: "Overview GA4",
-    recent: "Recent Leads",
-    google_ads: "Google Ads",
+    overview_ads: "Overview - Ads & Hubspot",
+    overview_ga4: "Overview - GA4",
+    recent: "Recent Perspective",
+    google_ads: "Google Ads Performance",
     campaign_break: "Campaign Breakdown",
     campaign_costs: "Campaign Costs",
-    contact_cost: "Contact Cost",
-    day_of_week: "Day of Week",
+    contact_cost: "Contact x Cost",
+    day_of_week: "Day of the Week",
     campaign_ratios: "Campaign Ratios",
     contact_break: "Contact Breakdown",
     spam_break: "Spam Breakdown",
 
     // Marketing
     performance_time: "Performance Over Time",
-    cost_per: "Cost Per Acquisition",
-    table_download: "Downloadable Table",
-    enroll_placements: "Enroll by Placement",
-    enroll_admission: "Enroll by Admission",
-    enroll_creation: "Enroll by Creation",
-    enroll_timeseries: "Enroll Time Series",
+    cost_per: "Cost per...",
+    table_download: "Table for download",
+    enroll_placements: "Filter by Placements in Sugar",
+    enroll_admission: "Filter by Admission in Sugar",
+    enroll_creation: "Filter by Creation in Hubspot",
+    enroll_timeseries: "Time Series",
   }
 
   const renderPageContent = () => {
