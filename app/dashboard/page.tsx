@@ -743,9 +743,11 @@ export default function GladneyDashboard() {
 
             {/* Submenu corrigido */}
             <DropdownMenuSub>
-              <DropdownMenuSubTrigger className="flex w-full items-center justify-between px-2 py-2 hover:bg-muted">
-                <span>Enrollment Rate</span>
-                <ChevronRightIcon className="h-4 w-4 ml-2" />
+              <DropdownMenuSubTrigger asChild>
+                <div className="flex w-full items-center justify-between px-2 py-2 cursor-pointer hover:bg-muted">
+                  <span>Enrollment Rate</span>
+                  <ChevronRightIcon className="h-4 w-4 ml-2" />
+                </div>
               </DropdownMenuSubTrigger>
               <DropdownMenuSubContent className="w-64">
                 <DropdownMenuItem
@@ -780,6 +782,7 @@ export default function GladneyDashboard() {
     </>
   )
 }
+
 
     } else if (activePage === "gladney_business") {
       if (isFullscreen) {
