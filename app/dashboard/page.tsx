@@ -449,9 +449,10 @@ const LOOKERS = {
 
 
 // 📄 Parte 3 — RenderPageContent (Gladney, Traffic, FAQ, Details, Notifications)
-    if (activePage === "gladney_business") {
+        if (activePage === "gladney_business") {
       return (
         <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
+          
           {/* Domestic Infant */}
           <CustomDropdown
             id="domestic_dropdown"
@@ -465,57 +466,59 @@ const LOOKERS = {
               </Button>
             }
           >
+            {/* Adoptive Parents */}
             <CustomSubmenu parentId="domestic_dropdown" trigger="Adoptive Parents">
               <CustomDropdownItem
                 onClick={() => handleViewSelect("gladney", "adoptive_performance")}
                 isSelected={selectedDropdownItem === "adoptive_performance"}
               >
-                Adoptive Performance
+                Performance
               </CustomDropdownItem>
               <CustomDropdownItem
                 onClick={() => handleViewSelect("gladney", "adoptive_recent")}
                 isSelected={selectedDropdownItem === "adoptive_recent"}
               >
-                Adoptive Recent
+                Recent Perspective
               </CustomDropdownItem>
               <CustomDropdownItem
                 onClick={() => handleViewSelect("gladney", "adoptive_timeline")}
                 isSelected={selectedDropdownItem === "adoptive_timeline"}
               >
-                Adoptive Timeline
+                Process Timeline
               </CustomDropdownItem>
             </CustomSubmenu>
 
+            {/* Birth Parents */}
             <CustomSubmenu parentId="domestic_dropdown" trigger="Birth Parents">
               <CustomDropdownItem
                 onClick={() => handleViewSelect("gladney", "birth_overall")}
                 isSelected={selectedDropdownItem === "birth_overall"}
               >
-                Birth Overall
+                Overall Performance
               </CustomDropdownItem>
               <CustomDropdownItem
                 onClick={() => handleViewSelect("gladney", "birth_detailed")}
                 isSelected={selectedDropdownItem === "birth_detailed"}
               >
-                Birth Detailed
+                Detailed Performance
               </CustomDropdownItem>
               <CustomDropdownItem
                 onClick={() => handleViewSelect("gladney", "birth_recent")}
                 isSelected={selectedDropdownItem === "birth_recent"}
               >
-                Birth Recent
+                Recent Perspective
               </CustomDropdownItem>
               <CustomDropdownItem
                 onClick={() => handleViewSelect("gladney", "birth_breakdown")}
                 isSelected={selectedDropdownItem === "birth_breakdown"}
               >
-                Birth Breakdown
+                Breakdown by State
               </CustomDropdownItem>
               <CustomDropdownItem
                 onClick={() => handleViewSelect("gladney", "birth_timeline")}
                 isSelected={selectedDropdownItem === "birth_timeline"}
               >
-                Birth Timeline
+                Process Timeline
               </CustomDropdownItem>
             </CustomSubmenu>
           </CustomDropdown>
@@ -537,19 +540,19 @@ const LOOKERS = {
               onClick={() => handleViewSelect("gladney", "new_performance")}
               isSelected={selectedDropdownItem === "new_performance"}
             >
-              New Performance
+              Performance
             </CustomDropdownItem>
             <CustomDropdownItem
               onClick={() => handleViewSelect("gladney", "new_recent")}
               isSelected={selectedDropdownItem === "new_recent"}
             >
-              New Recent
+              Recent Perspective
             </CustomDropdownItem>
             <CustomDropdownItem
               onClick={() => handleViewSelect("gladney", "new_timeline")}
               isSelected={selectedDropdownItem === "new_timeline"}
             >
-              New Timeline
+              Process Timeline
             </CustomDropdownItem>
           </CustomDropdown>
 
@@ -570,18 +573,19 @@ const LOOKERS = {
               onClick={() => handleViewSelect("gladney", "drilldown_domestic")}
               isSelected={selectedDropdownItem === "drilldown_domestic"}
             >
-              Domestic Drilldown
+              Domestic Infant
             </CustomDropdownItem>
             <CustomDropdownItem
               onClick={() => handleViewSelect("gladney", "drilldown_new")}
               isSelected={selectedDropdownItem === "drilldown_new"}
             >
-              New Drilldown
+              New Beginnings
             </CustomDropdownItem>
           </CustomDropdown>
         </div>
       )
     }
+
 
     if (activePage === "page_traffic") {
       return (
