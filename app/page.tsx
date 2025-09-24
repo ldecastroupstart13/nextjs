@@ -4,12 +4,28 @@ import { signIn } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 
 export default function LandingPage() {
-  const handleStart = () => {
-    // 👉 força login diretamente no Google e manda pro dashboard
-               signIn("google", {
-      callbackUrl: "/dashboard",
-      prompt: "select_account" // sempre pede para escolher ou logar
-    })
+  const handleStart = async () => {
+    try {
+      // 1. Loga no Google Sheets antes de redirecionar
+      await fetch("/api/track-action", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "click_start",
+          route: "/landing",
+        }),
+      })
+
+      // 2. Continua com o login no Google
+      signIn("google", {
+        callbackUrl: "/dashboard",
+        prompt: "select_account", // sempre pede para escolher ou logar
+      })
+    } catch (err) {
+      console.error("Erro ao logar ação Start:", err)
+      // mesmo se falhar o log, ainda segue pro login
+      signIn("google", { callbackUrl: "/dashboard" })
+    }
   }
 
   return (
