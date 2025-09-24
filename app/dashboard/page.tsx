@@ -512,7 +512,11 @@ export default function GladneyDashboard() {
     return <div className="text-center text-muted-foreground">Selecione uma opção.</div>
   }
 
-
+// 📌 Definição da URL atual do iframe
+const currentUrl =
+  LOOKERS[selectedView.group as keyof typeof LOOKERS]?.[
+    selectedView.key as keyof typeof LOOKERS["expectant"]
+  ] || "about:blank"
 
 
 //📌 Parte 4 — Layout Geral
