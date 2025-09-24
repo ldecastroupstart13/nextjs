@@ -449,144 +449,148 @@ const LOOKERS = {
 
 
 // 📄 Parte 3 — RenderPageContent (Gladney, Traffic, FAQ, Details, Notifications)
-        if (activePage === "gladney_business") {
-      return (
-        <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
-          
-          {/* Domestic Infant */}
-          <CustomDropdown
-            id="domestic_dropdown"
-            trigger={
-              <Button
-                variant={selectedView.group === "gladney" ? "default" : "outline"}
-                className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
-              >
-                <span className="truncate">Domestic Infant</span>
-                <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
-              </Button>
-            }
+// 📄 Parte 3 — RenderPageContent (Gladney, Traffic, FAQ, Details, Notifications)
+if (activePage === "gladney_business") {
+  return (
+    <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
+      
+      {/* Domestic Infant */}
+      <CustomDropdown
+        id="domestic_dropdown"
+        trigger={
+          <Button
+            variant={selectedView.group === "gladney" ? "default" : "outline"}
+            className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
           >
-            {/* Adoptive Parents */}
-            <CustomSubmenu parentId="domestic_dropdown" trigger="Adoptive Parents">
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("gladney", "adoptive_performance")}
-                isSelected={selectedDropdownItem === "adoptive_performance"}
-              >
-                Performance
-              </CustomDropdownItem>
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("gladney", "adoptive_recent")}
-                isSelected={selectedDropdownItem === "adoptive_recent"}
-              >
-                Recent Perspective
-              </CustomDropdownItem>
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("gladney", "adoptive_timeline")}
-                isSelected={selectedDropdownItem === "adoptive_timeline"}
-              >
-                Process Timeline
-              </CustomDropdownItem>
-            </CustomSubmenu>
-
-            {/* Birth Parents */}
-            <CustomSubmenu parentId="domestic_dropdown" trigger="Birth Parents">
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("gladney", "birth_overall")}
-                isSelected={selectedDropdownItem === "birth_overall"}
-              >
-                Overall Performance
-              </CustomDropdownItem>
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("gladney", "birth_detailed")}
-                isSelected={selectedDropdownItem === "birth_detailed"}
-              >
-                Detailed Performance
-              </CustomDropdownItem>
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("gladney", "birth_recent")}
-                isSelected={selectedDropdownItem === "birth_recent"}
-              >
-                Recent Perspective
-              </CustomDropdownItem>
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("gladney", "birth_breakdown")}
-                isSelected={selectedDropdownItem === "birth_breakdown"}
-              >
-                Breakdown by State
-              </CustomDropdownItem>
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("gladney", "birth_timeline")}
-                isSelected={selectedDropdownItem === "birth_timeline"}
-              >
-                Process Timeline
-              </CustomDropdownItem>
-            </CustomSubmenu>
-          </CustomDropdown>
-
-          {/* New Beginnings */}
-          <CustomDropdown
-            id="new_beginnings_dropdown"
-            trigger={
-              <Button
-                variant="outline"
-                className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
-              >
-                <span className="truncate">New Beginnings</span>
-                <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
-              </Button>
-            }
+            <span className="truncate">Domestic Infant</span>
+            <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+          </Button>
+        }
+      >
+        {/* Adoptive Parents */}
+        <CustomSubmenu parentId="domestic_dropdown" trigger="Adoptive Parents">
+          <CustomDropdownItem
+            onClick={() => handleViewSelect("gladney", "adoptive_performance")}
+            isSelected={selectedDropdownItem === "adoptive_performance"}
           >
-            <CustomDropdownItem
-              onClick={() => handleViewSelect("gladney", "new_performance")}
-              isSelected={selectedDropdownItem === "new_performance"}
-            >
-              Performance
-            </CustomDropdownItem>
-            <CustomDropdownItem
-              onClick={() => handleViewSelect("gladney", "new_recent")}
-              isSelected={selectedDropdownItem === "new_recent"}
-            >
-              Recent Perspective
-            </CustomDropdownItem>
-            <CustomDropdownItem
-              onClick={() => handleViewSelect("gladney", "new_timeline")}
-              isSelected={selectedDropdownItem === "new_timeline"}
-            >
-              Process Timeline
-            </CustomDropdownItem>
-          </CustomDropdown>
-
-          {/* Drilldown Tables */}
-          <CustomDropdown
-            id="drilldown_dropdown"
-            trigger={
-              <Button
-                variant="outline"
-                className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
-              >
-                <span className="truncate">Drilldown Tables</span>
-                <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
-              </Button>
-            }
+            Performance
+          </CustomDropdownItem>
+          <CustomDropdownItem
+            onClick={() => handleViewSelect("gladney", "adoptive_recent")}
+            isSelected={selectedDropdownItem === "adoptive_recent"}
           >
-            <CustomDropdownItem
-              onClick={() => handleViewSelect("gladney", "drilldown_domestic")}
-              isSelected={selectedDropdownItem === "drilldown_domestic"}
-            >
-              Domestic Infant
-            </CustomDropdownItem>
-            <CustomDropdownItem
-              onClick={() => handleViewSelect("gladney", "drilldown_new")}
-              isSelected={selectedDropdownItem === "drilldown_new"}
-            >
-              New Beginnings
-            </CustomDropdownItem>
-          </CustomDropdown>
-        </div>
-      )
-    }
+            Recent Perspective
+          </CustomDropdownItem>
+          <CustomDropdownItem
+            onClick={() => handleViewSelect("gladney", "adoptive_timeline")}
+            isSelected={selectedDropdownItem === "adoptive_timeline"}
+          >
+            Process Timeline
+          </CustomDropdownItem>
+        </CustomSubmenu>
+
+        {/* Birth Parents */}
+        <CustomSubmenu parentId="domestic_dropdown" trigger="Birth Parents">
+          <CustomDropdownItem
+            onClick={() => handleViewSelect("gladney", "birth_overall")}
+            isSelected={selectedDropdownItem === "birth_overall"}
+          >
+            Overall Performance
+          </CustomDropdownItem>
+          <CustomDropdownItem
+            onClick={() => handleViewSelect("gladney", "birth_detailed")}
+            isSelected={selectedDropdownItem === "birth_detailed"}
+          >
+            Detailed Performance
+          </CustomDropdownItem>
+          <CustomDropdownItem
+            onClick={() => handleViewSelect("gladney", "birth_recent")}
+            isSelected={selectedDropdownItem === "birth_recent"}
+          >
+            Recent Perspective
+          </CustomDropdownItem>
+          <CustomDropdownItem
+            onClick={() => handleViewSelect("gladney", "birth_breakdown")}
+            isSelected={selectedDropdownItem === "birth_breakdown"}
+          >
+            Breakdown by State
+          </CustomDropdownItem>
+          <CustomDropdownItem
+            onClick={() => handleViewSelect("gladney", "birth_timeline")}
+            isSelected={selectedDropdownItem === "birth_timeline"}
+          >
+            Process Timeline
+          </CustomDropdownItem>
+        </CustomSubmenu>
+      </CustomDropdown>
+
+      {/* New Beginnings */}
+      <CustomDropdown
+        id="new_beginnings_dropdown"
+        trigger={
+          <Button
+            variant="outline"
+            className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+          >
+            <span className="truncate">New Beginnings</span>
+            <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+          </Button>
+        }
+      >
+        <CustomDropdownItem
+          onClick={() => handleViewSelect("gladney", "new_performance")}
+          isSelected={selectedDropdownItem === "new_performance"}
+        >
+          Performance
+        </CustomDropdownItem>
+        <CustomDropdownItem
+          onClick={() => handleViewSelect("gladney", "new_recent")}
+          isSelected={selectedDropdownItem === "new_recent"}
+        >
+          Recent Perspective
+        </CustomDropdownItem>
+        <CustomDropdownItem
+          onClick={() => handleViewSelect("gladney", "new_timeline")}
+          isSelected={selectedDropdownItem === "new_timeline"}
+        >
+          Process Timeline
+        </CustomDropdownItem>
+      </CustomDropdown>
+
+      {/* Drilldown Tables */}
+      <CustomDropdown
+        id="drilldown_dropdown"
+        trigger={
+          <Button
+            variant="outline"
+            className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+          >
+            <span className="truncate">Drilldown Tables</span>
+            <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+          </Button>
+        }
+      >
+        <CustomDropdownItem
+          onClick={() => handleViewSelect("gladney", "drilldown_domestic")}
+          isSelected={selectedDropdownItem === "drilldown_domestic"}
+        >
+          Domestic Infant
+        </CustomDropdownItem>
+        <CustomDropdownItem
+          onClick={() => handleViewSelect("gladney", "drilldown_new")}
+          isSelected={selectedDropdownItem === "drilldown_new"}
+        >
+          New Beginnings
+        </CustomDropdownItem>
+      </CustomDropdown>
+    </div>
+  )
+}
 
 
+
+
+  // Parte 3.1 - Traficc
     if (activePage === "page_traffic") {
       return (
         <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
