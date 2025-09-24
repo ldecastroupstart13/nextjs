@@ -325,7 +325,7 @@ const LOOKERS = {
     router.push("/")
   }
 
-  // 🔖 Labels amigáveis para os menus
+    // 🔖 Labels amigáveis para os menus
   const LABELS: Record<string, string> = {
     // Expectant
     overview_ads: "Overview - Ads & Hubspot",
@@ -344,11 +344,33 @@ const LOOKERS = {
     performance_time: "Performance Over Time",
     cost_per: "Cost Per Acquisition",
     table_download: "Downloadable Table",
-    enroll_placements: "Filter by Placements in Sugar",
-    enroll_admission: "Filter by Admission in Sugar",
-    enroll_creation: "Filter by Creation in Hubspot",
+    enroll_placements: "Enroll by Placement",
+    enroll_admission: "Enroll by Admission",
+    enroll_creation: "Enroll by Creation",
     enroll_timeseries: "Enroll Time Series",
+
+    // Gladney - Adoptive Parents
+    adoptive_performance: "Performance",
+    adoptive_recent: "Recent Perspective",
+    adoptive_timeline: "Process Timeline",
+
+    // Gladney - Birth Parents
+    birth_overall: "Overall Performance",
+    birth_detailed: "Detailed Performance",
+    birth_recent: "Recent Perspective",
+    birth_breakdown: "Breakdown by State",
+    birth_timeline: "Process Timeline",
+
+    // Gladney - New Beginnings
+    new_performance: "Performance",
+    new_recent: "Recent Perspective",
+    new_timeline: "Process Timeline",
+
+    // Gladney - Drilldown
+    drilldown_domestic: "Domestic Infant",
+    drilldown_new: "New Beginnings",
   }
+
 
   const renderPageContent = () => {
     if (activePage === "expectant_mother") {
