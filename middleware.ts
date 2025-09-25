@@ -1,1 +1,12 @@
-import { withAuth } from "next-auth/middleware" import { NextResponse } from "next/server" // 🚀 Função auxiliar para logar direto no endpoint interno async function logToSheets(data: { email: string route: string action: string ip: string userAgent: string }) { try { await fetch(${process.env.NEXTAUTH_URL}/api/track-action, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: data.action, route: data.route, ip: data.ip, userAgent: data.userAgent, email: data.email, }), }) } catch (e) { console.error("❌ Erro ao logar no Sheets via middleware:", e) } } export default withAuth( async function middleware(req) { const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown" const userAgent = req.headers.get("user-agent") || "unknown" // ✅ Rotas públicas if ( req.nextUrl.pathname === "/" || req.nextUrl.pathname.startsWith("/api/auth") || req.nextUrl.pathname === "/unauthorized" ) { return NextResponse.next() } // 🚨 Sempre força autenticação no Google (mesmo se já tiver token) await logToSheets({ email: req.nextauth.token?.email || "unknown", route: req.nextUrl.pathname, action: req.nextauth.token ? "force_relogin" : "unauthenticated_redirect", ip, userAgent, }) return NextResponse.redirect(new URL("/api/auth/signin/google", req.url)) }, { callbacks: { authorized: ({ req }) => { // Libera rotas públicas if ( req.nextUrl.pathname === "/" || req.nextUrl.pathname.startsWith("/api/auth") || req.nextUrl.pathname === "/unauthorized" ) { return true } return true // 🔑 sempre deixa passar porque o redirect já foi feito }, }, }, ) // 🔗 Middleware só roda nas rotas protegidas export const config = { matcher: ["/dashboard/:path*", "/api/track-action"], }
+import { NextResponse } from "next/server"
+import type { NextRequest } from "next/server"
+
+export function middleware(req: NextRequest) {
+  // 🚀 Não faz nada, só deixa passar
+  return NextResponse.next()
+}
+
+// 🔗 Se quiser, define em quais rotas ele roda
+export const config = {
+  matcher: ["/:path*"], // aqui ele roda em todas as rotas, mas sem bloquear nada
+}
