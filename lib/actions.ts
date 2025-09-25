@@ -20,7 +20,7 @@ export const actions = {
       // 🔒 Força login Google com callback no /dashboard
       await signIn("google", {
         callbackUrl: "/dashboard",
-        prompt: "login", // sempre abre seleção de conta
+        prompt: "select_account", // sempre abre seleção de conta
       })
     } catch (err) {
       console.error("Erro na ação Start:", err)
