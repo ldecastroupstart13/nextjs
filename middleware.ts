@@ -3,7 +3,7 @@ import { NextResponse } from "next/server"
 
 export default withAuth(
   async function middleware(req) {
-    // 🚀 Rotas públicas → passam direto
+    // 🚀 Rotas públicas
     if (
       req.nextUrl.pathname === "/" ||
       req.nextUrl.pathname.startsWith("/api/auth") ||
@@ -12,7 +12,7 @@ export default withAuth(
       return NextResponse.next()
     }
 
-    // 🔒 Rotas protegidas → só acessa se tiver login
+    // 🔒 Rotas protegidas
     if (!req.nextauth?.token) {
       return NextResponse.redirect(
         new URL("/api/auth/signin/google", req.url)
@@ -34,10 +34,10 @@ export default withAuth(
         return !!req.nextauth?.token
       },
     },
-  },
+  }
 )
 
 // 🔗 Middleware só roda nas rotas protegidas
 export const config = {
-  matcher: ["/dashboard/:path*"], // protege apenas /dashboard e subrotas
+  matcher: ["/dashboard/:path*"], // protege /dashboard e subrotas
 }
