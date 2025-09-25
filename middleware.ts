@@ -1,8 +1,9 @@
 import { withAuth } from "next-auth/middleware"
+import type { NextRequestWithAuth } from "next-auth/middleware"
 import { NextResponse } from "next/server"
 
 export default withAuth(
-  async function middleware(req) {
+  async function middleware(req: NextRequestWithAuth) {
     // 🚀 Rotas públicas
     if (
       req.nextUrl.pathname === "/" ||
@@ -37,7 +38,6 @@ export default withAuth(
   }
 )
 
-// 🔗 Middleware só roda nas rotas protegidas
 export const config = {
-  matcher: ["/dashboard/:path*"], // protege /dashboard e subrotas
+  matcher: ["/dashboard/:path*"],
 }
