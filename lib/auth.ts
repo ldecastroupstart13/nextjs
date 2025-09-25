@@ -20,15 +20,18 @@ export const authOptions: NextAuthOptions = {
 
       return isAllowedEmail || isAllowedDomain
     },
-         async session({ session, token }) {
-        if (session.user) {
-          (session.user as any).id = token.sub
-          (session.user as any).loginTime = new Date().toISOString()
-          session.user.name = session.user.name || (token.name as string)
-          session.user.image = session.user.image || (token.picture as string)
-        }
-        return session
-      },
+    async session({ session, token }) {
+      if (session.user) {
+        (session.user as any).id = token.sub
+        (session.user as any).loginTime = new Date().toISOString()
+
+        // garante que name, email e image sejam repassados
+        session.user.name = session.user.name || (token.name as string)
+        session.user.email = session.user.email || (token.email as string)
+        session.user.image = session.user.image || (token.picture as string)
+      }
+      return session
+    },
     async jwt({ token, user }) {
       if (user) {
         token.sub = user.id
