@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { actions } from "@/lib/actions"
+import { actions } from "@/lib/actions" // centralizamos ações
 
 export default function LandingPage() {
   return (
@@ -40,13 +40,6 @@ export default function LandingPage() {
               className="px-8 py-3 text-lg font-semibold bg-primary hover:bg-primary/90 transition-colors"
             >
               Start
-            </Button>
-            <Button
-              onClick={actions.ta}
-              size="lg"
-              className="px-8 py-3 text-lg font-semibold bg-secondary hover:bg-secondary/90 transition-colors"
-            >
-              Ta
             </Button>
           </div>
         </div>
