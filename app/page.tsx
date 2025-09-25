@@ -1,9 +1,17 @@
 "use client"
 
+import { signIn } from "next-auth/react"
 import { Button } from "@/components/ui/button"
-import { actions } from "@/lib/actions" // centralizamos ações
 
 export default function LandingPage() {
+  const handleStart = () => {
+    // 👉 força login diretamente no Google e manda pro dashboard
+               signIn("google", {
+      callbackUrl: "/dashboard",
+      prompt: "select_account" // sempre pede para escolher ou logar
+    })
+  }
+
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Video Background */}
@@ -33,15 +41,13 @@ export default function LandingPage() {
           <p className="text-lg text-muted-foreground mb-8">
             Behind every number, there's a family waiting for hope.
           </p>
-          <div className="flex flex-col gap-4">
-            <Button
-              onClick={actions.start}
-              size="lg"
-              className="px-8 py-3 text-lg font-semibold bg-primary hover:bg-primary/90 transition-colors"
-            >
-              Start
-            </Button>
-          </div>
+          <Button
+            onClick={handleStart}
+            size="lg"
+            className="px-8 py-3 text-lg font-semibold bg-primary hover:bg-primary/90 transition-colors"
+          >
+            Start
+          </Button>
         </div>
       </div>
     </div>
