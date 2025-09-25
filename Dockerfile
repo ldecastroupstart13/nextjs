@@ -1,7 +1,10 @@
 # ================================
 # Etapa 1: Build
 # ================================
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
+
+# Corrige libs nativas (sharp, etc.)
+RUN apk add --no-cache libc6-compat
 
 # Definir diretório de trabalho
 WORKDIR /app
@@ -15,16 +18,19 @@ RUN npm install -g pnpm && pnpm install --frozen-lockfile
 # Copiar o restante do projeto
 COPY . .
 
-# Rodar build (gera saída standalone por causa do next.config.mjs)
+# Rodar build (gera saída standalone)
 RUN pnpm build
 
 # ================================
 # Etapa 2: Runtime
 # ================================
-FROM node:18-alpine AS runner
+FROM node:20-alpine AS runner
+
+# Corrige libs nativas
+RUN apk add --no-cache libc6-compat
+
 WORKDIR /app
 
-# Definir ambiente de produção
 ENV NODE_ENV=production
 
 # Copiar apenas arquivos necessários do build
