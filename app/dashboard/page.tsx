@@ -1109,17 +1109,21 @@ if (activePage === "gladney_business") {
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <div className="flex items-center gap-3 p-2 rounded-lg border border-border bg-slate-50 cursor-pointer hover:bg-slate-100 transition-colors">
-                      <img src="/user-profile-avatar.png" alt="Profile" className="h-8 w-8 rounded-full" />
+                      <img
+                        src={session?.user?.image || "/user-profile-avatar.png"}
+                        alt="Profile"
+                        className="h-8 w-8 rounded-full"
+                      />
                       <div className="hidden sm:block text-sm">
-                        <div className="font-medium">User Name</div>
-                        <div className="text-muted-foreground text-xs">user@email.com</div>
+                        <div className="font-medium">{session?.user?.name || "User Name"}</div>
+                        <div className="text-muted-foreground text-xs">{session?.user?.email || "user@email.com"}</div>
                       </div>
                       <ChevronDownIcon className="h-4 w-4 text-muted-foreground" />
                     </div>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-56">
                     <DropdownMenuItem
-                      onClick={handleLogout}
+                      onClick={() => signOut({ callbackUrl: "/" })}
                       className="text-red-600 hover:text-red-700 hover:bg-red-50"
                     >
                       Logout
@@ -1127,7 +1131,6 @@ if (activePage === "gladney_business") {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
-            </div>
           </header>
 
           {/* Conteúdo principal */}
