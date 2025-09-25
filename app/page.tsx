@@ -1,36 +1,9 @@
 "use client"
 
-import { signIn } from "next-auth/react"
 import { Button } from "@/components/ui/button"
+import { actions } from "@/lib/actions"
 
 export default function LandingPage() {
-  const handleStart = async () => {
-  try {
-    // 1. Loga no Google Sheets antes de redirecionar
-    await fetch("/api/track-action", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        action: "click_start",
-        route: "/landing",
-      }),
-    })
-
-    // 2. Continua com o login no Google (sempre pedindo email/senha)
-    signIn("google", {
-      callbackUrl: "/dashboard",
-      prompt: "login", // força sempre pedir credenciais
-    })
-  } catch (err) {
-    console.error("Erro ao logar ação Start:", err)
-    // mesmo se falhar o log, ainda segue pro login
-    signIn("google", {
-      callbackUrl: "/dashboard",
-      prompt: "login",
-    })
-  }
-}
-
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Video Background */}
@@ -60,13 +33,22 @@ export default function LandingPage() {
           <p className="text-lg text-muted-foreground mb-8">
             Behind every number, there's a family waiting for hope.
           </p>
-          <Button
-            onClick={handleStart}
-            size="lg"
-            className="px-8 py-3 text-lg font-semibold bg-primary hover:bg-primary/90 transition-colors"
-          >
-            Start
-          </Button>
+          <div className="flex flex-col gap-4">
+            <Button
+              onClick={actions.start}
+              size="lg"
+              className="px-8 py-3 text-lg font-semibold bg-primary hover:bg-primary/90 transition-colors"
+            >
+              Start
+            </Button>
+            <Button
+              onClick={actions.ta}
+              size="lg"
+              className="px-8 py-3 text-lg font-semibold bg-secondary hover:bg-secondary/90 transition-colors"
+            >
+              Ta
+            </Button>
+          </div>
         </div>
       </div>
     </div>
