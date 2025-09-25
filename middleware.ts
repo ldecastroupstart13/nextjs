@@ -1,25 +1,61 @@
 import { withAuth } from "next-auth/middleware"
 import { NextResponse } from "next/server"
 
+// 🔑 Função auxiliar para logar no Sheets
+async function logAccess({
+  email,
+  route,
+  action,
+  req,
+}: {
+  email: string
+  route: string
+  action: string
+  req: Request
+}) {
+  try {
+    const ip =
+      req.headers.get("x-forwarded-for") ||
+      req.headers.get("x-real-ip") ||
+      "unknown"
+    const userAgent = req.headers.get("user-agent") || "unknown"
+
+    await fetch(`${process.env.NEXTAUTH_URL}/api/track-action`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action,
+        route,
+        email,
+        ip,
+        userAgent,
+      }),
+    })
+  } catch (err) {
+    console.error("❌ Erro ao logar acesso no middleware:", err)
+  }
+}
+
 export default withAuth(
-  function middleware(req) {
-    // Permite acesso a rotas públicas
+  async function middleware(req) {
+    const path = req.nextUrl.pathname
+
+    // Rotas públicas liberadas
     if (
-      req.nextUrl.pathname === "/" || // Landing page
-      req.nextUrl.pathname.startsWith("/api/auth") || // Rotas internas do NextAuth
-      req.nextUrl.pathname === "/unauthorized" // Página de erro
+      path === "/" ||
+      path.startsWith("/api/auth") ||
+      path === "/unauthorized"
     ) {
       return NextResponse.next()
     }
 
-    // 🚨 Se não estiver autenticado → força login com Google
+    // 🚨 Se não estiver autenticado → redireciona
     if (!req.nextauth.token) {
       return NextResponse.redirect(
-        new URL("/api/auth/signin/google", req.url) // chama direto o provedor Google
+        new URL("/api/auth/signin/google", req.url)
       )
     }
 
-    // 🔐 Verifica se o usuário tem acesso (email específico ou domínio permitido)
     const email = req.nextauth.token.email as string
     const ALLOWED_EMAILS = ["leonardo.decastro.brazil@gmail.com"]
     const ALLOWED_DOMAIN = "@upstart13.com"
@@ -28,31 +64,45 @@ export default withAuth(
       ALLOWED_EMAILS.includes(email) || email.endsWith(ALLOWED_DOMAIN)
 
     if (!hasAccess) {
+      // 🔴 Loga tentativa não autorizada
+      await logAccess({
+        email,
+        route: path,
+        action: "unauthorized_access",
+        req,
+      })
       return NextResponse.redirect(new URL("/unauthorized", req.url))
     }
+
+    // ✅ Loga acesso autorizado
+    await logAccess({
+      email,
+      route: path,
+      action: "authorized_access",
+      req,
+    })
 
     return NextResponse.next()
   },
   {
     callbacks: {
       authorized: ({ token, req }) => {
-        // Libera as rotas públicas
+        const path = req.nextUrl.pathname
+
         if (
-          req.nextUrl.pathname === "/" ||
-          req.nextUrl.pathname.startsWith("/api/auth") ||
-          req.nextUrl.pathname === "/unauthorized"
+          path === "/" ||
+          path.startsWith("/api/auth") ||
+          path === "/unauthorized"
         ) {
           return true
         }
 
-        // Para rotas protegidas, só segue se tiver token
         return !!token
       },
     },
-  },
+  }
 )
 
-// 🔗 Middleware só roda nas rotas protegidas
 export const config = {
   matcher: ["/dashboard/:path*", "/api/track-action"],
 }
