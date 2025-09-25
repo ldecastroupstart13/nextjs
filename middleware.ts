@@ -8,13 +8,13 @@ export default withAuth(
       req.nextUrl.pathname === "/" ||
       req.nextUrl.pathname.startsWith("/api/auth") ||
       req.nextUrl.pathname === "/unauthorized" ||
-      req.nextUrl.pathname.startsWith("/api/track-action") // 🚀 liberado
+      req.nextUrl.pathname.startsWith("/api/track-action") // liberado
     ) {
       return NextResponse.next()
     }
 
     // 🚨 Se não tem sessão → manda pro Google login
-    if (!req.nextauth.token) {
+    if (!req.nextauth?.token) {
       return NextResponse.redirect(
         new URL("/api/auth/signin/google", req.url),
       )
@@ -33,7 +33,7 @@ export default withAuth(
         ) {
           return true
         }
-        return true // 🔑 fallback
+        return !!req.nextauth?.token // só autorizado se tiver sessão
       },
     },
   },
