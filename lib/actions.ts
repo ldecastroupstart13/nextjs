@@ -5,7 +5,7 @@ import { signIn } from "next-auth/react"
 export const actions = {
   start: async () => {
     try {
-      // 1. Loga no Google Sheets antes de redirecionar
+      // 👉 Opcional: só loga se já houver sessão ativa
       await fetch("/api/track-action", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -13,23 +13,24 @@ export const actions = {
           action: "click_start",
           route: "/landing",
         }),
+      }).catch(() => {
+        console.warn("Usuário ainda não logado, não foi possível registrar log inicial.")
       })
 
-      // 2. Força login sempre pedindo email/senha
-      signIn("google", {
+      // 🔒 Força login Google com callback no /dashboard
+      await signIn("google", {
         callbackUrl: "/dashboard",
-        prompt: "login",
+        prompt: "login", // sempre abre seleção de conta
       })
     } catch (err) {
-      console.error("Erro ao logar ação Start:", err)
-      signIn("google", {
+      console.error("Erro na ação Start:", err)
+      await signIn("google", {
         callbackUrl: "/dashboard",
         prompt: "login",
       })
     }
   },
-  // 👉 daqui pra frente você pode criar quantas quiser
-  // ex:
+
   ta: async () => {
     console.log("Botão TA clicado")
     // outra lógica aqui
