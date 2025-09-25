@@ -6,7 +6,4 @@ export function middleware(req: NextRequest) {
   return NextResponse.next()
 }
 
-// 🔗 Se quiser, define em quais rotas ele roda
-export const config = {
-  matcher: ["/:path*"], // aqui ele roda em todas as rotas, mas sem bloquear nada
-}
+// 🔗 Nem precisa de matcher no início
