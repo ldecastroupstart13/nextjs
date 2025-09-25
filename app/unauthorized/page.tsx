@@ -3,25 +3,9 @@
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
-import { useEffect } from "react"
-import { useSession } from "next-auth/react"
 
 export default function UnauthorizedPage() {
   const router = useRouter()
-  const { data: session } = useSession()
-
-  useEffect(() => {
-    // dispara log no Google Sheets
-    fetch("/api/track-action", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        action: "unauthorized_access",
-        route: "/unauthorized",
-        email: session?.user?.email || "unknown",
-      }),
-    })
-  }, [session])
 
   const handleBackToHome = () => {
     router.push("/")
@@ -32,24 +16,16 @@ export default function UnauthorizedPage() {
       <div className="text-center max-w-md mx-auto">
         {/* Sad Lock Image */}
         <div className="mb-8">
-          <Image
-            src="/unauthorized.png"
-            alt="Access Denied"
-            width={200}
-            height={200}
-            className="mx-auto"
-          />
+          <Image src="/unauthorized.png" alt="Access Denied" width={200} height={200} className="mx-auto" />
         </div>
 
         {/* Heading */}
-        <h1 className="text-2xl font-bold text-gray-800 mb-4">
-          Oops! Access Denied 😕
-        </h1>
+        <h1 className="text-2xl font-bold text-gray-800 mb-4">Oops! Access Denied 😕</h1>
 
         {/* Message */}
         <p className="text-gray-600 mb-8 leading-relaxed">
-          Sorry, you don&apos;t have permission to access this page. 
-          Please contact your administrator if you believe this is an error.
+          Sorry, you don't have permission to access this page. Please contact your administrator if you believe this is
+          an error.
         </p>
 
         {/* Back to Home Button */}
