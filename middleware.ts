@@ -64,15 +64,17 @@ export default withAuth(
       ALLOWED_EMAILS.includes(email) || email.endsWith(ALLOWED_DOMAIN)
 
     if (!hasAccess) {
-      // 🔴 Loga tentativa não autorizada
-      await logAccess({
-        email,
-        route: path,
-        action: "unauthorized_access",
-        req,
-      })
-      return NextResponse.redirect(new URL("/unauthorized", req.url))
-    }
+  // 🚨 loga tentativa de acesso negado
+  await logAccess({
+    email,
+    route: req.nextUrl.pathname,
+    action: "unauthorized_access",
+    req,
+  })
+
+  return NextResponse.redirect(new URL("/unauthorized", req.url))
+}
+
 
     // ✅ Loga acesso autorizado
     await logAccess({
