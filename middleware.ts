@@ -10,9 +10,16 @@ export function middleware(req: NextRequest) {
     return NextResponse.next()
   }
 
-  // 🔒 Para qualquer outra rota → força login no Google direto
+  // 🔒 Para qualquer outra rota → redireciona direto pro Google
+  const callbackUrl = req.nextUrl.pathname.startsWith("/dashboard")
+    ? "/dashboard"
+    : "/"
+
   return NextResponse.redirect(
-    new URL("/api/auth/signin/google", req.url)
+    new URL(
+      `/api/auth/signin/google?callbackUrl=${encodeURIComponent(callbackUrl)}`,
+      req.url
+    )
   )
 }
 
