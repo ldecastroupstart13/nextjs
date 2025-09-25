@@ -3,20 +3,19 @@ import { NextResponse } from "next/server"
 
 export default withAuth(
   async function middleware(req) {
-    // ✅ Rotas públicas
+    // 🚀 Rotas públicas → passam direto
     if (
       req.nextUrl.pathname === "/" ||
       req.nextUrl.pathname.startsWith("/api/auth") ||
-      req.nextUrl.pathname === "/unauthorized" ||
-      req.nextUrl.pathname.startsWith("/api/track-action") // liberado
+      req.nextUrl.pathname === "/unauthorized"
     ) {
       return NextResponse.next()
     }
 
-    // 🚨 Se não tem sessão → manda pro Google login
+    // 🔒 Rotas protegidas → só acessa se tiver login
     if (!req.nextauth?.token) {
       return NextResponse.redirect(
-        new URL("/api/auth/signin/google", req.url),
+        new URL("/api/auth/signin/google", req.url)
       )
     }
 
@@ -28,18 +27,17 @@ export default withAuth(
         if (
           req.nextUrl.pathname === "/" ||
           req.nextUrl.pathname.startsWith("/api/auth") ||
-          req.nextUrl.pathname === "/unauthorized" ||
-          req.nextUrl.pathname.startsWith("/api/track-action")
+          req.nextUrl.pathname === "/unauthorized"
         ) {
           return true
         }
-        return !!req.nextauth?.token // só autorizado se tiver sessão
+        return !!req.nextauth?.token
       },
     },
   },
 )
 
-// 🔗 Middleware só protege dashboard
+// 🔗 Middleware só roda nas rotas protegidas
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: ["/dashboard/:path*"], // protege apenas /dashboard e subrotas
 }
