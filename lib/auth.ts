@@ -6,19 +6,11 @@ const ALLOWED_DOMAIN = "@upstart13.com"
 
 export const authOptions: NextAuthOptions = {
   providers: [
-  GoogleProvider({
-    clientId: process.env.GOOGLE_CLIENT_ID!,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    authorization: {
-      params: {
-        prompt: "consent select_account", // 🔑 sempre mostra tela de login/consentimento
-        access_type: "offline",
-        response_type: "code",
-      },
-    },
-  }),
-],
-
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+  ],
   callbacks: {
     async signIn({ user }) {
       if (!user.email) return false
