@@ -1,61 +1,61 @@
 import { withAuth } from "next-auth/middleware"
 import { NextResponse } from "next/server"
 
-// 🔑 Função auxiliar para logar no Sheets
-async function logAccess({
-  email,
-  route,
-  action,
-  req,
-}: {
+// 🚀 Função auxiliar para logar direto no endpoint interno
+async function logToSheets(data: {
   email: string
   route: string
   action: string
-  req: Request
+  ip: string
+  userAgent: string
 }) {
   try {
+    await fetch(`${process.env.NEXTAUTH_URL}/api/track-action`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: data.action,
+        route: data.route,
+        ip: data.ip,
+        userAgent: data.userAgent,
+        email: data.email,
+      }),
+    })
+  } catch (e) {
+    console.error("❌ Erro ao logar no Sheets via middleware:", e)
+  }
+}
+
+export default withAuth(
+  async function middleware(req) {
     const ip =
       req.headers.get("x-forwarded-for") ||
       req.headers.get("x-real-ip") ||
       "unknown"
     const userAgent = req.headers.get("user-agent") || "unknown"
 
-    await fetch(`${process.env.NEXTAUTH_URL}/api/track-action`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        action,
-        route,
-        email,
-        ip,
-        userAgent,
-      }),
-    })
-  } catch (err) {
-    console.error("❌ Erro ao logar acesso no middleware:", err)
-  }
-}
-
-export default withAuth(
-  async function middleware(req) {
-    const path = req.nextUrl.pathname
-
-    // Rotas públicas liberadas
+    // ✅ Rotas públicas
     if (
-      path === "/" ||
-      path.startsWith("/api/auth") ||
-      path === "/unauthorized"
+      req.nextUrl.pathname === "/" ||
+      req.nextUrl.pathname.startsWith("/api/auth") ||
+      req.nextUrl.pathname === "/unauthorized"
     ) {
       return NextResponse.next()
     }
 
-    // 🚨 Se não estiver autenticado → redireciona
+    // 🚨 Sem token → manda pro login oficial do NextAuth
     if (!req.nextauth.token) {
-      return NextResponse.redirect(
-        new URL("/api/auth/signin/google", req.url)
-      )
+      await logToSheets({
+        email: "unknown",
+        route: req.nextUrl.pathname,
+        action: "unauthenticated_redirect",
+        ip,
+        userAgent,
+      })
+      return NextResponse.redirect(new URL("/api/auth/signin", req.url))
     }
 
+    // 🔐 Tem token → verifica acesso
     const email = req.nextauth.token.email as string
     const ALLOWED_EMAILS = ["leonardo.decastro.brazil@gmail.com"]
     const ALLOWED_DOMAIN = "@upstart13.com"
@@ -64,24 +64,23 @@ export default withAuth(
       ALLOWED_EMAILS.includes(email) || email.endsWith(ALLOWED_DOMAIN)
 
     if (!hasAccess) {
-  // 🚨 loga tentativa de acesso negado
-  await logAccess({
-    email,
-    route: req.nextUrl.pathname,
-    action: "unauthorized_access",
-    req,
-  })
+      await logToSheets({
+        email,
+        route: req.nextUrl.pathname,
+        action: "unauthorized_redirect",
+        ip,
+        userAgent,
+      })
+      return NextResponse.redirect(new URL("/unauthorized", req.url))
+    }
 
-  return NextResponse.redirect(new URL("/unauthorized", req.url))
-}
-
-
-    // ✅ Loga acesso autorizado
-    await logAccess({
+    // ✅ Autorizado → loga também
+    await logToSheets({
       email,
-      route: path,
+      route: req.nextUrl.pathname,
       action: "authorized_access",
-      req,
+      ip,
+      userAgent,
     })
 
     return NextResponse.next()
@@ -89,22 +88,21 @@ export default withAuth(
   {
     callbacks: {
       authorized: ({ token, req }) => {
-        const path = req.nextUrl.pathname
-
+        // Libera rotas públicas
         if (
-          path === "/" ||
-          path.startsWith("/api/auth") ||
-          path === "/unauthorized"
+          req.nextUrl.pathname === "/" ||
+          req.nextUrl.pathname.startsWith("/api/auth") ||
+          req.nextUrl.pathname === "/unauthorized"
         ) {
           return true
         }
-
-        return !!token
+        return !!token // só deixa passar se tiver token
       },
     },
-  }
+  },
 )
 
+// 🔗 Middleware só roda nas rotas protegidas
 export const config = {
   matcher: ["/dashboard/:path*", "/api/track-action"],
 }
