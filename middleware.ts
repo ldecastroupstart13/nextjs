@@ -52,7 +52,7 @@ export default withAuth(
         ip,
         userAgent,
       })
-      return NextResponse.redirect(new URL("/api/auth/signin", req.url))
+      return NextResponse.redirect(new URL("/api/auth/signin/google", req.url))
     }
 
     // 🔐 Tem token → verifica acesso
