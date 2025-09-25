@@ -1,7 +1,7 @@
 // 📄 Parte 1 — Imports, States, LOOKERS, Utils,
 
 "use client"
-
+import { useSession, signOut } from "next-auth/react"
 import type React from "react"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
@@ -45,7 +45,7 @@ export default function GladneyDashboard() {
   const [activePage, setActivePage] = useState("expectant_mother")
   const [selectedDropdownItem, setSelectedDropdownItem] = useState("overview_ads")
   const [openDropdowns, setOpenDropdowns] = useState<Record<string, boolean>>({})
-
+  const { data: session } = useSession()   // <-- PEGA a sessão autenticada
 const LOOKERS = {
     expectant: {
       overview_ads:
