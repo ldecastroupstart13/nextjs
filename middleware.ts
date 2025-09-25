@@ -43,51 +43,20 @@ export default withAuth(
       return NextResponse.next()
     }
 
-    // 🚨 Sem token → manda pro login oficial do NextAuth
-    if (!req.nextauth.token) {
-      await logToSheets({
-        email: "unknown",
-        route: req.nextUrl.pathname,
-        action: "unauthenticated_redirect",
-        ip,
-        userAgent,
-      })
-      return NextResponse.redirect(new URL("/api/auth/signin/google", req.url))
-    }
-
-    // 🔐 Tem token → verifica acesso
-    const email = req.nextauth.token.email as string
-    const ALLOWED_EMAILS = ["leonardo.decastro.brazil@gmail.com"]
-    const ALLOWED_DOMAIN = "@upstart13.com"
-
-    const hasAccess =
-      ALLOWED_EMAILS.includes(email) || email.endsWith(ALLOWED_DOMAIN)
-
-    if (!hasAccess) {
-      await logToSheets({
-        email,
-        route: req.nextUrl.pathname,
-        action: "unauthorized_redirect",
-        ip,
-        userAgent,
-      })
-      return NextResponse.redirect(new URL("/unauthorized", req.url))
-    }
-
-    // ✅ Autorizado → loga também
+    // 🚨 Sempre força autenticação no Google (mesmo se já tiver token)
     await logToSheets({
-      email,
+      email: req.nextauth.token?.email || "unknown",
       route: req.nextUrl.pathname,
-      action: "authorized_access",
+      action: req.nextauth.token ? "force_relogin" : "unauthenticated_redirect",
       ip,
       userAgent,
     })
 
-    return NextResponse.next()
+    return NextResponse.redirect(new URL("/api/auth/signin/google", req.url))
   },
   {
     callbacks: {
-      authorized: ({ token, req }) => {
+      authorized: ({ req }) => {
         // Libera rotas públicas
         if (
           req.nextUrl.pathname === "/" ||
@@ -96,7 +65,7 @@ export default withAuth(
         ) {
           return true
         }
-        return !!token // só deixa passar se tiver token
+        return true // 🔑 sempre deixa passar porque o redirect já foi feito
       },
     },
   },
