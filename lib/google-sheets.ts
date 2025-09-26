@@ -12,34 +12,36 @@ export async function getGoogleSheetsClient() {
 }
 
 export async function logToGoogleSheets(data: {
+  id: string            // 👈 Event ID (único por clique)
   timestamp: string
   email: string
   route: string
   extraAction?: string
   ip: string
   userAgent: string
-  sessionId: string
+  sessionId: string     // 👈 Pode continuar existindo (sessão auth)
   timeSinceLastAction?: number
 }) {
   try {
     const sheets = await getGoogleSheetsClient()
     const SPREADSHEET_ID = "1PtGM-CLkru5jWytYZfDW9ay-tFDJhHiIWSBGjL32Vbk"
 
-    // Check if headers exist
+    // Verifica headers
     const headerResponse = await sheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: "A1:H1",
+      range: "A1:I1",
     })
 
     if (!headerResponse.data.values || headerResponse.data.values.length === 0) {
-      // Add headers
+      // Cria headers incluindo o Event ID
       await sheets.spreadsheets.values.update({
         spreadsheetId: SPREADSHEET_ID,
-        range: "A1:H1",
+        range: "A1:I1",
         valueInputOption: "RAW",
         requestBody: {
           values: [
             [
+              "Event ID",
               "Timestamp",
               "Email",
               "Rota",
@@ -54,14 +56,15 @@ export async function logToGoogleSheets(data: {
       })
     }
 
-    // Add data
+    // Append da linha
     await sheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
-      range: "A:H",
+      range: "A:I",
       valueInputOption: "RAW",
       requestBody: {
         values: [
           [
+            data.id, // 👈 sempre único
             data.timestamp,
             data.email,
             data.route,
