@@ -8,7 +8,7 @@ import { Providers } from "@/components/providers"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Welcome | Gladney Insight Center",  // 👈 título global padrão
+  title: "Gladney Insight Center",  // 👈 título global padrão
   description: "Analytics dashboards for Gladney Insight Center",
   generator: "v0.app",
   icons: {
