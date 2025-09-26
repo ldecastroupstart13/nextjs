@@ -8,28 +8,37 @@ import { v4 as uuidv4 } from "uuid"
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
-    const { action, route, timestamp, uuid } = await request.json()
+    const { action, route } = await request.json()
 
+    // 🔍 Metadados
     const ip =
       request.headers.get("x-forwarded-for") ||
       request.headers.get("x-real-ip") ||
       "unknown"
     const userAgent = request.headers.get("user-agent") || "unknown"
 
-    // ✅ Envia para Google Sheets com ID único
+    // 🔑 IDs
+    const eventId = uuidv4()   // sempre único por clique
+    const sessionId = uuidv4() // pode ser usado p/ rastrear sessão maior
+
+    // 🚀 Envia para Sheets
     await logToGoogleSheets({
-      id: uuid || uuidv4(), // 👈 usa o do cliente ou gera um novo
-      timestamp: timestamp || new Date().toISOString(),
+      id: eventId,
+      timestamp: new Date().toISOString(),
       email: session?.user?.email || "anonymous",
       route: route || "/track-action",
       extraAction: action,
       ip,
       userAgent,
+      sessionId,
     })
 
-    return NextResponse.json({ status: "ok" })
+    return NextResponse.json({ status: "ok", eventId })
   } catch (error) {
     console.error("Error tracking action:", error)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    )
   }
 }
