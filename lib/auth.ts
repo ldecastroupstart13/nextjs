@@ -26,7 +26,7 @@ export const authOptions: NextAuthOptions = {
       const isAllowedEmail = ALLOWED_EMAILS.includes(user.email)
       const isAllowedDomain = user.email.endsWith(ALLOWED_DOMAIN)
 
-      // 🔹 se o email NÃO for permitido → registra no Sheets
+      // 🚨 Se o e-mail NÃO for permitido → loga no Sheets e redireciona
       if (!(isAllowedEmail || isAllowedDomain)) {
         try {
           await fetch(`${process.env.NEXTAUTH_URL}/api/track-action`, {
@@ -43,7 +43,8 @@ export const authOptions: NextAuthOptions = {
           console.error("❌ Falha ao logar tentativa não autorizada", err)
         }
 
-        return false
+        // 🔹 Redireciona já incluindo o email na query string
+        return `/unauthorized?email=${encodeURIComponent(user.email)}`
       }
 
       return true
@@ -66,7 +67,7 @@ export const authOptions: NextAuthOptions = {
   },
 
   pages: {
-    error: "/unauthorized",
+    error: "/unauthorized", // 🔗 usado em casos gerais de erro
   },
 
   session: {
