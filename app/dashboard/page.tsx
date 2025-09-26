@@ -930,7 +930,7 @@ if (activePage === "gladney_business") {
   }
 
 
-}
+
 
 
 // 📄 Parte 4 — Layout Geral (Sidebar + Header + Cards + Iframe)
