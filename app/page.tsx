@@ -6,20 +6,22 @@ import { Button } from "@/components/ui/button"
 export default function LandingPage() {
   const handleStart = async () => {
     try {
-      // 🔹 Chama sua rota para logar ação
+      // 🔹 Track start click com keepalive
       await fetch("/api/track-action", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           action: "start_button_click",
           route: "/landing",
+          timestamp: new Date().toISOString(),
         }),
+        keepalive: true, // garante que o evento seja enviado mesmo com redirect
       })
     } catch (error) {
       console.error("❌ Erro ao enviar track-action", error)
     }
 
-    // 🔹 Depois continua com o login Google
+    // 🔹 Continua com login Google
     signIn("google", {
       callbackUrl: "/dashboard",
       prompt: "select_account", // sempre pede conta
