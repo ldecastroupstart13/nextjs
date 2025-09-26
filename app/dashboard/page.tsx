@@ -1234,29 +1234,31 @@ if (activePage === "gladney_business") {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-56">
                       <DropdownMenuItem
-                        onClick={async () => {
+                        onClick={() => {
                           try {
-                            // 🔹 Trackeia a ação antes de sair
-                            await fetch("/api/track-action", {
-                              method: "POST",
-                              headers: { "Content-Type": "application/json" },
-                              body: JSON.stringify({
-                                action: "logout",
-                                user: session?.user?.email || "unknown",
-                                timestamp: new Date().toISOString(),
-                              }),
+                            // 🔹 Track com sendBeacon (não perde no redirect)
+                            const payload = JSON.stringify({
+                              action: "logout",
+                              user: session?.user?.email || "unknown",
+                              timestamp: new Date().toISOString(),
                             })
+                      
+                            navigator.sendBeacon(
+                              "/api/track-action",
+                              new Blob([payload], { type: "application/json" })
+                            )
                           } catch (err) {
                             console.error("Erro ao trackear logout:", err)
                           }
                       
-                          // 🔹 Depois realmente faz o signOut
+                          // 🔹 Continua o fluxo normalmente
                           signOut({ callbackUrl: "/" })
                         }}
                         className="text-red-600 hover:text-red-700 hover:bg-red-50"
                       >
                         Logout
                       </DropdownMenuItem>
+
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
