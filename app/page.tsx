@@ -6,27 +6,29 @@ import { Button } from "@/components/ui/button"
 export default function LandingPage() {
   const handleStart = () => {
     try {
-      const payload = JSON.stringify({
+      // 🔹 Cria payload único por clique
+      const payload = {
         action: "start_button_click",
         route: "/landing",
         timestamp: new Date().toISOString(),
-      })
-  
+        uuid: crypto.randomUUID(), // 👈 ID único do clique
+      }
+
+      // 🔹 Usa sendBeacon (não cancela mesmo com redirect)
       navigator.sendBeacon(
         "/api/track-action",
-        new Blob([payload], { type: "application/json" })
+        new Blob([JSON.stringify(payload)], { type: "application/json" })
       )
-    } catch (err) {
-      console.error("❌ Erro ao enviar track-action:", err)
+    } catch (error) {
+      console.error("❌ Erro ao enviar track-action", error)
     }
-  
-    // continua com login
+
+    // 🔹 Continua com login Google
     signIn("google", {
       callbackUrl: "/dashboard",
       prompt: "select_account",
     })
   }
-
 
   return (
     <div className="relative min-h-screen overflow-hidden">
@@ -42,7 +44,6 @@ export default function LandingPage() {
           src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/fundo-C9BEgXdGTxzTfRSysIokXLMc4ZNe34.mp4"
           type="video/mp4"
         />
-        Your browser does not support HTML5 video.
       </video>
 
       {/* Overlay */}
