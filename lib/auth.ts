@@ -11,7 +11,7 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       authorization: {
         params: {
-          prompt: "consent select_account", // 🔑 sempre mostra tela de login/consentimento
+          prompt: "consent select_account",
           access_type: "offline",
           response_type: "code",
         },
@@ -26,28 +26,28 @@ export const authOptions: NextAuthOptions = {
       const isAllowedEmail = ALLOWED_EMAILS.includes(user.email)
       const isAllowedDomain = user.email.endsWith(ALLOWED_DOMAIN)
 
-      // 🚨 Se o e-mail NÃO for permitido → loga no Sheets e redireciona
-      if (!(isAllowedEmail || isAllowedDomain)) {
-        try {
-          await fetch(`${process.env.NEXTAUTH_URL}/api/track-action`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              action: "unauthorized_attempt",
-              route: "/landing",
-              timestamp: new Date().toISOString(),
-              email: user.email,
-            }),
-          })
-        } catch (err) {
-          console.error("❌ Falha ao logar tentativa não autorizada", err)
-        }
+      const authorized = isAllowedEmail || isAllowedDomain
 
-        // 🔹 Redireciona já incluindo o email na query string
-        return `/unauthorized?email=${encodeURIComponent(user.email)}`
+      // 🔹 monta payload para logar no Sheets
+      const payload = {
+        action: authorized ? "authorized_login" : "unauthorized_attempt",
+        route: "/landing",
+        timestamp: new Date().toISOString(),
+        email: user.email,
+        redirectTo: authorized ? "/dashboard" : "/unauthorized", // 👈 indica o destino
       }
 
-      return true
+      try {
+        await fetch(`${process.env.NEXTAUTH_URL}/api/track-action`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        })
+      } catch (err) {
+        console.error("❌ Falha ao logar tentativa", err)
+      }
+
+      return authorized
     },
 
     async session({ session, token }) {
@@ -67,11 +67,12 @@ export const authOptions: NextAuthOptions = {
   },
 
   pages: {
-    error: "/unauthorized", // 🔗 usado em casos gerais de erro
+    error: "/unauthorized",
   },
 
   session: {
     strategy: "jwt",
-    maxAge: 30 * 60, // 30 minutos
+    maxAge: 20 * 60, // 20 minutos total
+    updateAge: 0,    // força revalidação sempre que fizer request
   },
 }
