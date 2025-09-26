@@ -8,9 +8,12 @@ import { Providers } from "@/components/providers"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Gladney Center - Expectant Mother Dashboard",
-  description: "Modern dashboard for Gladney Center expectant mother analytics",
+  title: "Welcome | Gladney Insight Center",  // 👈 título global padrão
+  description: "Analytics dashboards for Gladney Insight Center",
   generator: "v0.app",
+  icons: {
+    icon: "/logo-2.svg", // 👈 favicon que está em public/
+  },
 }
 
 export default function RootLayout({
