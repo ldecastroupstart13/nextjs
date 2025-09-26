@@ -4,19 +4,16 @@ import { signIn } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 
 export default function LandingPage() {
-  const handleStart = async () => {
+  const handleStart = () => {
     try {
-      // 🔹 Track start click com keepalive
-      await fetch("/api/track-action", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "start_button_click",
-          route: "/landing",
-          timestamp: new Date().toISOString(),
-        }),
-        keepalive: true, // garante que o evento seja enviado mesmo com redirect
+      // 🔹 Usa sendBeacon para garantir envio antes do redirect
+      const payload = JSON.stringify({
+        action: "start_button_click",
+        route: "/landing",
+        timestamp: new Date().toISOString(),
       })
+
+      navigator.sendBeacon("/api/track-action", new Blob([payload], { type: "application/json" }))
     } catch (error) {
       console.error("❌ Erro ao enviar track-action", error)
     }
