@@ -157,14 +157,29 @@ const LOOKERS = {
     setOpenDropdowns({})
   }
 
-  const handleViewSelect = (group: string, key: string) => {
+  const handleViewSelect = async (group: string, key: string) => {
     setSelectedView({ group, key })
     setSelectedDropdownItem(key)
     closeAllDropdowns()
+  
     const url = new URL(window.location.href)
     url.searchParams.set("group", group)
     url.searchParams.set("view", key)
     window.history.replaceState({}, "", url.toString())
+  
+    // 🔥 Tracking
+    try {
+      await fetch("/api/track-action", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "select_view",
+          route: `${group}:${key}`,
+        }),
+      })
+    } catch (err) {
+      console.error("Tracking error:", err)
+    }
   }
 
 
@@ -175,18 +190,43 @@ const LOOKERS = {
 
   const toggleFullscreen = () => {
     const element = document.getElementById("iframe-container")
+  
     if (!document.fullscreenElement && element) {
       element.requestFullscreen()
       setIsFullscreen(true)
+  
+      // 👉 Track Enter Fullscreen
+      fetch("/api/track-action", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "enter_fullscreen",
+          route: activePage, // página atual
+          email: session?.user?.email || "anonymous",
+        }),
+      })
     } else if (document.fullscreenElement) {
       document.exitFullscreen()
       setIsFullscreen(false)
+  
+      // 👉 Track Exit Fullscreen
+      fetch("/api/track-action", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "exit_fullscreen",
+          route: activePage,
+          email: session?.user?.email || "anonymous",
+        }),
+      })
     }
   }
 
-  const handleNavigation = (page: string) => {
+
+  const handleNavigation = async (page: string) => {
     setActivePage(page)
     closeAllDropdowns()
+  
     if (page === "expectant_mother") {
       setSelectedView({ group: "expectant", key: "overview_ads" })
       setSelectedDropdownItem("overview_ads")
@@ -200,7 +240,22 @@ const LOOKERS = {
       setSelectedView({ group: "", key: "" })
       setSelectedDropdownItem("")
     }
+  
+    // 🔥 Tracking
+    try {
+      await fetch("/api/track-action", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "navigate",
+          route: page,
+        }),
+      })
+    } catch (err) {
+      console.error("Tracking error:", err)
+    }
   }
+
 
   useEffect(() => {
     const url = new URL(window.location.href)
@@ -768,11 +823,30 @@ if (activePage === "gladney_business") {
                 dashboards and make them as intuitive and user-friendly as possible.
               </p>
             </div>
-
-            {/* Removed max-width constraint to use full width */}
+    
+            {/* FAQ LIST */}
             <div className="space-y-4">
+              {/* Pergunta 1 */}
               <Collapsible className="border border-border rounded-lg">
-                <CollapsibleTrigger className="flex w-full items-center justify-between p-4 text-left hover:bg-muted/50 transition-colors">
+                <CollapsibleTrigger
+                  onClick={async () => {
+                    try {
+                      await fetch("/track_action", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          action: "faq_toggle",
+                          detail: "faq_data_sources",
+                          user: session?.user?.email || "unknown",
+                          timestamp: new Date().toISOString(),
+                        }),
+                      })
+                    } catch (err) {
+                      console.error("Erro ao trackear FAQ 1:", err)
+                    }
+                  }}
+                  className="flex w-full items-center justify-between p-4 text-left hover:bg-muted/50 transition-colors"
+                >
                   <span className="font-medium text-base">
                     <strong>1) What data sources are used to create the dashboards?</strong>
                   </span>
@@ -781,38 +855,38 @@ if (activePage === "gladney_business") {
                 <CollapsibleContent className="px-4 pb-4">
                   <div className="text-sm text-muted-foreground space-y-2 pl-4">
                     <ul className="list-disc space-y-2">
-                      <li>
-                        <u>HubSpot:</u> Captures and stores information about leads and contacts, including form
-                        submissions, contact details, and marketing engagement.
-                      </li>
-                      <li>
-                        <u>Google Ads:</u> Provides data about paid advertising campaigns, such as impressions, clicks,
-                        conversions, and ad spend.
-                      </li>
-                      <li>
-                        <u>Google Analytics (GA4):</u> Tracks website visitor behavior, showing how users arrive at the
-                        site, which pages they visit, and how they interact with site content.
-                      </li>
-                      <li>
-                        <u>Informer:</u> A reporting tool used by Gladney to track internal operational data, such as
-                        intake progress, case status updates, and other key business metrics.
-                      </li>
-                      <li>
-                        <u>Google Sheets:</u> Used for uploading manually maintained reference data, such as KPI target
-                        values and other custom inputs provided by the Gladney team. (See link in the "Dashboard
-                        Details" section for more info.)
-                      </li>
-                      <li>
-                        <u>Sugar:</u> Gladney's customer relationship management (CRM) system, used to manage ongoing
-                        case workflows, track interactions with contacts, and store adoption-related records.
-                      </li>
+                      <li><u>HubSpot:</u> Captures and stores information about leads and contacts...</li>
+                      <li><u>Google Ads:</u> Provides data about paid advertising campaigns...</li>
+                      <li><u>Google Analytics (GA4):</u> Tracks website visitor behavior...</li>
+                      <li><u>Informer:</u> A reporting tool used by Gladney...</li>
+                      <li><u>Google Sheets:</u> Used for uploading manually maintained reference data...</li>
+                      <li><u>Sugar:</u> Gladney's CRM system for managing workflows and records.</li>
                     </ul>
                   </div>
                 </CollapsibleContent>
               </Collapsible>
-
+    
+              {/* Pergunta 2 */}
               <Collapsible className="border border-border rounded-lg">
-                <CollapsibleTrigger className="flex w-full items-center justify-between p-4 text-left hover:bg-muted/50 transition-colors">
+                <CollapsibleTrigger
+                  onClick={async () => {
+                    try {
+                      await fetch("/track_action", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          action: "faq_toggle",
+                          detail: "faq_spam_contacts",
+                          user: session?.user?.email || "unknown",
+                          timestamp: new Date().toISOString(),
+                        }),
+                      })
+                    } catch (err) {
+                      console.error("Erro ao trackear FAQ 2:", err)
+                    }
+                  }}
+                  className="flex w-full items-center justify-between p-4 text-left hover:bg-muted/50 transition-colors"
+                >
                   <span className="font-medium text-base">
                     <strong>
                       2) I checked the spam contacts for Monday yesterday and again today, and the numbers are
@@ -823,30 +897,10 @@ if (activePage === "gladney_business") {
                 </CollapsibleTrigger>
                 <CollapsibleContent className="px-4 pb-4">
                   <div className="text-sm text-muted-foreground space-y-3 pl-4">
-                    <p className="text-pretty">
-                      Imagine this scenario: Today, you check the dashboard and see that there are 15 spam contacts
-                      recorded for July 10th. Then, tomorrow, you check again and notice that the number has increased
-                      to 17 spam contacts for the same date.
-                    </p>
-                    <p className="text-pretty">
-                      At first glance, you might think there's a mistake or a data error. However, what's likely
-                      happening is that the number of spam contacts has been updated. The Gladney team is constantly
-                      reviewing and refining contact classifications to ensure we accurately distinguish between
-                      legitimate, qualified contacts and spam. This review process often takes time.
-                    </p>
-                    <p className="text-pretty">
-                      Using this same example: On your first check, you saw 15 spam contacts, which were automatically
-                      flagged by our tools (e.g., HubSpot's spam detection). Out of a total of 30 contacts, that seemed
-                      correct at the time. However, after the Gladney team manually reviewed the list, they identified 2
-                      additional spam contacts that the automated system missed. That's why when you checked again, the
-                      total had increased to 17.
-                    </p>
-                    <p className="text-pretty">
-                      This kind of adjustment doesn't happen just with spam contacts—it can affect other classifications
-                      too. That's why we always encourage the Gladney team to notify us of any changes or concerns they
-                      notice in the dashboard, so we can keep everyone informed and ensure the data stays as accurate as
-                      possible.
-                    </p>
+                    <p>Imagine this scenario: Today, you check the dashboard and see 15 spam contacts recorded for July 10th...</p>
+                    <p>At first glance, you might think there's a mistake, but actually the number was updated...</p>
+                    <p>After review, 2 more spam contacts were identified, bringing total to 17...</p>
+                    <p>This adjustment can happen with other classifications too. Always notify the team if you spot issues.</p>
                   </div>
                 </CollapsibleContent>
               </Collapsible>
@@ -856,7 +910,32 @@ if (activePage === "gladney_business") {
       )
     }
 
+
     if (activePage === "dashboard_details") {
+      const trackAndOpen = async (
+        e: React.MouseEvent,
+        detail: string,
+        url: string
+      ) => {
+        e.preventDefault() // não abre imediatamente
+        try {
+          await fetch("/track_action", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              action: "open_dashboard_detail",
+              detail,
+              user: session?.user?.email || "unknown",
+              timestamp: new Date().toISOString(),
+            }),
+          })
+        } catch (err) {
+          console.error("Erro ao trackear clique:", err)
+        } finally {
+          window.open(url, "_blank") // abre depois em nova aba
+        }
+      }
+    
       return (
         <div className="w-full h-full p-8 space-y-8 overflow-auto">
           <div className="max-w-none">
@@ -864,34 +943,65 @@ if (activePage === "gladney_business") {
               This section provides detailed information about the dashboards, including quality check reports and
               target metrics documentation.
             </p>
-
-            {/* Adjusted grid to better fill available space */}
+    
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-12">
+              {/* Quality Check Reports */}
               <div className="space-y-4">
                 <h3 className="text-xl font-semibold mb-4 text-foreground">Quality Check Reports</h3>
                 <div className="space-y-3">
-                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
+                  <a
+                    href="/docs/qc_expectant.pdf"
+                    onClick={(e) => trackAndOpen(e, "quality_check_expectant_pdf", "/docs/qc_expectant.pdf")}
+                    className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors"
+                  >
                     Quality Check Report - Expectant Mother Dashboard (PDF)
                   </a>
-                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
+                  <a
+                    href="/docs/qc_gladney.pdf"
+                    onClick={(e) => trackAndOpen(e, "quality_check_gladney_pdf", "/docs/qc_gladney.pdf")}
+                    className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors"
+                  >
                     Quality Check Report - Gladney Business Performance (PDF)
                   </a>
-                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
+                  <a
+                    href="/docs/qc_traffic.pdf"
+                    onClick={(e) => trackAndOpen(e, "quality_check_traffic_pdf", "/docs/qc_traffic.pdf")}
+                    className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors"
+                  >
                     Quality Check Report - Page Traffic Monitor (PDF)
                   </a>
                 </div>
               </div>
-
+    
+              {/* Target Metrics */}
               <div className="space-y-4">
                 <h3 className="text-xl font-semibold mb-4 text-foreground">Target Metrics</h3>
                 <div className="space-y-3">
-                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
+                  <a
+                    href="https://docs.google.com/sheets/d/example_expectant"
+                    onClick={(e) =>
+                      trackAndOpen(e, "target_metrics_expectant_sheets", "https://docs.google.com/sheets/d/example_expectant")
+                    }
+                    className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors"
+                  >
                     Target Metrics - Expectant Mother (Google Sheets)
                   </a>
-                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
+                  <a
+                    href="https://docs.google.com/sheets/d/example_gladney"
+                    onClick={(e) =>
+                      trackAndOpen(e, "target_metrics_gladney_sheets", "https://docs.google.com/sheets/d/example_gladney")
+                    }
+                    className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors"
+                  >
                     Target Metrics - Gladney Business Performance (Google Sheets)
                   </a>
-                  <a href="#" className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors">
+                  <a
+                    href="https://docs.google.com/sheets/d/example_traffic"
+                    onClick={(e) =>
+                      trackAndOpen(e, "target_metrics_traffic_sheets", "https://docs.google.com/sheets/d/example_traffic")
+                    }
+                    className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors"
+                  >
                     Target Metrics - Page Traffic Monitor (Google Sheets)
                   </a>
                 </div>
@@ -901,6 +1011,7 @@ if (activePage === "gladney_business") {
         </div>
       )
     }
+
 
     if (activePage === "notifications") {
       return (
@@ -1123,7 +1234,25 @@ if (activePage === "gladney_business") {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-56">
                       <DropdownMenuItem
-                        onClick={() => signOut({ callbackUrl: "/" })}
+                        onClick={async () => {
+                          try {
+                            // 🔹 Trackeia a ação antes de sair
+                            await fetch("/track_action", {
+                              method: "POST",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({
+                                action: "logout",
+                                user: session?.user?.email || "unknown",
+                                timestamp: new Date().toISOString(),
+                              }),
+                            })
+                          } catch (err) {
+                            console.error("Erro ao trackear logout:", err)
+                          }
+                      
+                          // 🔹 Depois realmente faz o signOut
+                          signOut({ callbackUrl: "/" })
+                        }}
                         className="text-red-600 hover:text-red-700 hover:bg-red-50"
                       >
                         Logout
