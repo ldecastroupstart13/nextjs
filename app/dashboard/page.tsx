@@ -1237,7 +1237,7 @@ if (activePage === "gladney_business") {
                         onClick={async () => {
                           try {
                             // 🔹 Trackeia a ação antes de sair
-                            await fetch("/track_action", {
+                            await fetch("/api/track-action", {
                               method: "POST",
                               headers: { "Content-Type": "application/json" },
                               body: JSON.stringify({
