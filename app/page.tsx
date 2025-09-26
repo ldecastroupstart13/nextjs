@@ -6,24 +6,27 @@ import { Button } from "@/components/ui/button"
 export default function LandingPage() {
   const handleStart = () => {
     try {
-      // 🔹 Usa sendBeacon para garantir envio antes do redirect
       const payload = JSON.stringify({
         action: "start_button_click",
         route: "/landing",
         timestamp: new Date().toISOString(),
       })
-
-      navigator.sendBeacon("/api/track-action", new Blob([payload], { type: "application/json" }))
-    } catch (error) {
-      console.error("❌ Erro ao enviar track-action", error)
+  
+      navigator.sendBeacon(
+        "/api/track-action",
+        new Blob([payload], { type: "application/json" })
+      )
+    } catch (err) {
+      console.error("❌ Erro ao enviar track-action:", err)
     }
-
-    // 🔹 Continua com login Google
+  
+    // continua com login
     signIn("google", {
       callbackUrl: "/dashboard",
-      prompt: "select_account", // sempre pede conta
+      prompt: "select_account",
     })
   }
+
 
   return (
     <div className="relative min-h-screen overflow-hidden">
