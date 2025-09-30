@@ -24,11 +24,8 @@ export default function LandingPage() {
     }
 
     // 🔹 Continua com login Google
-    signIn("google", {
-      callbackUrl: "/select-dashboard",
-      prompt: "select_account",
-    })
-  } // <-- FECHA a função aqui!
+    signIn("google", { prompt: "select_account" })
+
 
   return (
     <div className="relative min-h-screen overflow-hidden">
