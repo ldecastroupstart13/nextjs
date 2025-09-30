@@ -49,42 +49,42 @@ export default function GladneyDashboard() {
 const LOOKERS = {
     expectant: {
       overview_ads:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_03hj6qcmvd",
+        "https://lookerstudio.google.com/embed/reporting/f794735e-f339-4b6f-be44-cb26af635f6d/page/p_03hj6qcmvd",
       overview_ga4:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_8k5zdcvuvd",
-      recent: "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_rbf34iv8ud",
+        "https://lookerstudio.google.com/embed/reporting/f794735e-f339-4b6f-be44-cb26af635f6d/page/p_8k5zdcvuvd",
+      recent: "https://lookerstudio.google.com/embed/reporting/f794735e-f339-4b6f-be44-cb26af635f6d/page/p_rbf34iv8ud",
       google_ads:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_8eecz0rovd",
+        "https://lookerstudio.google.com/embed/reporting/f794735e-f339-4b6f-be44-cb26af635f6d/page/p_8eecz0rovd",
       campaign_break:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_tadcyerovd",
+        "https://lookerstudio.google.com/embed/reporting/f794735e-f339-4b6f-be44-cb26af635f6d/page/p_tadcyerovd",
       campaign_costs:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_ep8hx4qovd",
+        "https://lookerstudio.google.com/embed/reporting/f794735e-f339-4b6f-be44-cb26af635f6d/page/p_ep8hx4qovd",
       contact_cost:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_jvidqwqovd",
+        "https://lookerstudio.google.com/embed/reporting/f794735e-f339-4b6f-be44-cb26af635f6d/page/p_jvidqwqovd",
       day_of_week:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_1cwm5jqovd",
+        "https://lookerstudio.google.com/embed/reporting/f794735e-f339-4b6f-be44-cb26af635f6d/page/p_1cwm5jqovd",
       campaign_ratios:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_zx6sodqovd",
+        "https://lookerstudio.google.com/embed/reporting/f794735e-f339-4b6f-be44-cb26af635f6d/page/p_zx6sodqovd",
       contact_break:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_1r1tjgpovd",
+        "https://lookerstudio.google.com/embed/reporting/f794735e-f339-4b6f-be44-cb26af635f6d/page/p_1r1tjgpovd",
       spam_break:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_an0bb3povd",
+        "https://lookerstudio.google.com/embed/reporting/f794735e-f339-4b6f-be44-cb26af635f6d/page/p_an0bb3povd",
     },
     marketing: {
       performance_time:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_hxd854tovd",
+        "https://lookerstudio.google.com/embed/reporting/f794735e-f339-4b6f-be44-cb26af635f6d/page/p_hxd854tovd",
       cost_per:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_3i0yaalovd",
+        "https://lookerstudio.google.com/embed/reporting/f794735e-f339-4b6f-be44-cb26af635f6d/page/p_3i0yaalovd",
       table_download:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_4wsin3lovd",
+        "https://lookerstudio.google.com/embed/reporting/f794735e-f339-4b6f-be44-cb26af635f6d/page/p_4wsin3lovd",
       enroll_placements:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_p95uwh89vd",
+        "https://lookerstudio.google.com/embed/reporting/f794735e-f339-4b6f-be44-cb26af635f6d/page/p_p95uwh89vd",
       enroll_admission:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_72wuuqv6vd",
+        "https://lookerstudio.google.com/embed/reporting/f794735e-f339-4b6f-be44-cb26af635f6d/page/p_72wuuqv6vd",
       enroll_creation:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_o9fkb2oavd",
+        "https://lookerstudio.google.com/embed/reporting/f794735e-f339-4b6f-be44-cb26af635f6d/page/p_o9fkb2oavd",
       enroll_timeseries:
-        "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_094a1q3nvd",
+        "https://lookerstudio.google.com/embed/reporting/f794735e-f339-4b6f-be44-cb26af635f6d/page/p_094a1q3nvd",
     },
     gladney: {
       adoptive_performance:
@@ -116,31 +116,31 @@ const LOOKERS = {
     },
     traffic: {
       cover_page:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_z2i9rcdktd",
+        "https://lookerstudio.google.com/embed/reporting/65b02465-76a7-4270-a0ff-337e4af02400/page/p_z2i9rcdktd",
       traffic_user_overview:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_bppth3a2sd",
+        "https://lookerstudio.google.com/embed/reporting/65b02465-76a7-4270-a0ff-337e4af02400/page/p_bppth3a2sd",
       sessions_overview:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_amhq0bb2sd",
+        "https://lookerstudio.google.com/embed/reporting/65b02465-76a7-4270-a0ff-337e4af02400/page/p_amhq0bb2sd",
       user_overview:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_zs34w5f2sd",
+        "https://lookerstudio.google.com/embed/reporting/65b02465-76a7-4270-a0ff-337e4af02400/page/p_zs34w5f2sd",
       google_ads_keywords:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_b5uzxjdktd",
+        "https://lookerstudio.google.com/embed/reporting/65b02465-76a7-4270-a0ff-337e4af02400/page/p_b5uzxjdktd",
       demographic_info:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_snmx9lgltd",
+        "https://lookerstudio.google.com/embed/reporting/65b02465-76a7-4270-a0ff-337e4af02400/page/p_snmx9lgltd",
       events_top_pages:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_hdoejlb2sd",
+        "https://lookerstudio.google.com/embed/reporting/65b02465-76a7-4270-a0ff-337e4af02400/page/p_hdoejlb2sd",
       conversion_events:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_od7jq6f2sd",
+        "https://lookerstudio.google.com/embed/reporting/65b02465-76a7-4270-a0ff-337e4af02400/page/p_od7jq6f2sd",
       conversion_performance:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_pfbpeii2sd",
+        "https://lookerstudio.google.com/embed/reporting/65b02465-76a7-4270-a0ff-337e4af02400/page/p_pfbpeii2sd",
       ai_vs_human:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_60iwvfimtd",
+        "https://lookerstudio.google.com/embed/reporting/65b02465-76a7-4270-a0ff-337e4af02400/page/p_60iwvfimtd",
       ai_deep_dive:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_m7azaxhmtd",
+        "https://lookerstudio.google.com/embed/reporting/65b02465-76a7-4270-a0ff-337e4af02400/page/p_m7azaxhmtd",
       temporary_visualization:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_zpttqz0qtd",
+        "https://lookerstudio.google.com/embed/reporting/65b02465-76a7-4270-a0ff-337e4af02400/page/p_zpttqz0qtd",
       google_analytics_dashboard:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_mppqixq3vd",
+        "https://lookerstudio.google.com/embed/reporting/65b02465-76a7-4270-a0ff-337e4af02400/page/p_mppqixq3vd",
     },
   }
 
