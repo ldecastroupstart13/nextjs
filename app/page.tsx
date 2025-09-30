@@ -23,11 +23,12 @@ export default function LandingPage() {
       console.error("❌ Erro ao enviar track-action", error)
     }
 
+    // 🔹 Continua com login Google
     signIn("google", {
       callbackUrl: "/select-dashboard",
       prompt: "select_account",
     })
-
+  } // <-- FECHA a função aqui!
 
   return (
     <div className="relative min-h-screen overflow-hidden">
