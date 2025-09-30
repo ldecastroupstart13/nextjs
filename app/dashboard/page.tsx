@@ -263,7 +263,15 @@ const LOOKERS = {
     const view = url.searchParams.get("view") || "overview_ads"
     setSelectedView({ group, key: view })
     setSelectedDropdownItem(view)
+  
+    // 🔹 mapeia corretamente o activePage
+    if (group === "expectant") setActivePage("expectant_mother")
+    else if (group === "gladney") setActivePage("gladney_business")
+    else if (group === "traffic") setActivePage("page_traffic")
+    else if (group === "info") setActivePage("dashboard_details")
+    else if (group === "notifications") setActivePage("notifications")
   }, [])
+
 
   useEffect(() => {
     const handleFullscreenChange = () => {
