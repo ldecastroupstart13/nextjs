@@ -33,7 +33,7 @@ export const authOptions: NextAuthOptions = {
         route: "/landing",
         timestamp: new Date().toISOString(),
         email: user.email,
-        redirectTo: authorized ? "/dashboard" : "/unauthorized", // 👈 indica o destino
+        redirectTo: authorized ? "/select-dashboard" : "/unauthorized",
       }
 
       try {
