@@ -29,25 +29,26 @@ export const authOptions: NextAuthOptions = {
       const authorized = isAllowedEmail || isAllowedDomain
 
       // 🔹 Loga no Sheets
-      const payload = {
-        action: authorized ? "authorized_login" : "unauthorized_attempt",
-        route: "/landing",
-        timestamp: new Date().toISOString(),
-        email: user.email,
+      callbacks: {
+        async signIn({ user }) {
+          if (!user.email) return false
+      
+          const isAllowedEmail = ALLOWED_EMAILS.includes(user.email)
+          const isAllowedDomain = user.email.endsWith(ALLOWED_DOMAIN)
+      
+          return isAllowedEmail || isAllowedDomain
+        },
+      
+        async redirect({ baseUrl, url }) {
+          // login não autorizado
+          if (url.includes("/unauthorized")) {
+            return `${baseUrl}/unauthorized`
+          }
+          // login autorizado
+          return `${baseUrl}/select-dashboard`
+        },
       }
 
-      try {
-        await fetch(`${process.env.NEXTAUTH_URL}/api/track-action`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        })
-      } catch (err) {
-        console.error("❌ Falha ao logar tentativa", err)
-      }
-
-      return authorized
-    },
 
     async redirect({ baseUrl, url }) {
       // 🔹 Sempre decide destino pós-login
