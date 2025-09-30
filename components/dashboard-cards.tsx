@@ -70,7 +70,7 @@ export function DashboardCards() {
   }
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-16 md:py-24">
+    <section className="flex flex-col justify-center items-center min-h-screen mx-auto max-w-7xl px-6">
       <div className="mb-16 text-center">
         <h2 className="mb-3 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
           Choose Your Dashboard
