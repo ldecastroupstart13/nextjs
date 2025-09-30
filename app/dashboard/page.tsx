@@ -1291,7 +1291,7 @@ if (activePage === "gladney_business") {
                         className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors self-start sm:self-auto bg-transparent"
                       >
                         <ArrowsPointingOutIcon className="h-4 w-4" />
-                        <span className="hidden sm:inline">Expandir</span>
+                        <span className="hidden sm:inline">Fullscreen</span>
                       </Button>
                     </div>
                   </div>
