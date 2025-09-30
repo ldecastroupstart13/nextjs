@@ -28,13 +28,12 @@ export const authOptions: NextAuthOptions = {
 
       const authorized = isAllowedEmail || isAllowedDomain
 
-      // 🔹 monta payload para logar no Sheets
+      // 🔹 Loga no Sheets
       const payload = {
         action: authorized ? "authorized_login" : "unauthorized_attempt",
         route: "/landing",
         timestamp: new Date().toISOString(),
         email: user.email,
-        redirectTo: authorized ? "/select-dashboard" : "/unauthorized",
       }
 
       try {
@@ -48,6 +47,17 @@ export const authOptions: NextAuthOptions = {
       }
 
       return authorized
+    },
+
+    async redirect({ baseUrl, url }) {
+      // 🔹 Sempre decide destino pós-login
+      if (url.startsWith("/")) return `${baseUrl}${url}`
+
+      // Verifica se usuário logado tem permissão
+      // (o check já foi feito em signIn, mas reforçamos aqui)
+      return url.includes("unauthorized")
+        ? `${baseUrl}/unauthorized`
+        : `${baseUrl}/select-dashboard`
     },
 
     async session({ session, token }) {
@@ -72,7 +82,7 @@ export const authOptions: NextAuthOptions = {
 
   session: {
     strategy: "jwt",
-    maxAge: 20 * 60, // 20 minutos total
-    updateAge: 0,    // força revalidação sempre que fizer request
+    maxAge: 20 * 60, // 20 min
+    updateAge: 0,
   },
 }
