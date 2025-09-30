@@ -5,31 +5,31 @@ const dashboards = [
   {
     title: "Expectant Mother",
     icon: Heart,
-    href: "/expectant-mother",
+    href: "/dashboard?group=expectant&view=overview_ads",
     gradient: "from-pink-500 to-rose-500",
   },
   {
     title: "Business Performance",
     icon: BarChart3,
-    href: "/business-performance",
+    href: "/dashboard?group=gladney&view=adoptive_performance",
     gradient: "from-blue-500 to-cyan-500",
   },
   {
     title: "Traffic Monitor",
     icon: Activity,
-    href: "/traffic-monitor",
+    href: "/dashboard?group=traffic&view=cover_page",
     gradient: "from-green-500 to-emerald-500",
   },
   {
-    title: "Informations",
+    title: "Information",
     icon: Info,
-    href: "/informations",
+    href: "/dashboard?group=info&view=details",
     gradient: "from-purple-500 to-violet-500",
   },
   {
     title: "Notifications",
     icon: Bell,
-    href: "/notifications",
+    href: "/dashboard?group=notifications&view=all",
     gradient: "from-amber-500 to-orange-500",
   },
 ]
@@ -41,14 +41,20 @@ export function DashboardCards() {
         <h2 className="mb-3 text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl">
           Choose Your Dashboard
         </h2>
-        <p className="text-pretty text-muted-foreground md:text-lg">Select where you want to go</p>
+        <p className="text-pretty text-muted-foreground md:text-lg">
+          Select where you want to go
+        </p>
       </div>
 
-      <div className="flex items-start justify-center gap-6 md:gap-10">
+      <div className="flex flex-wrap justify-center gap-8">
         {dashboards.map((dashboard) => {
           const Icon = dashboard.icon
           return (
-            <Link key={dashboard.href} href={dashboard.href} className="group flex flex-col items-center gap-3">
+            <Link
+              key={dashboard.href}
+              href={dashboard.href}
+              className="group flex flex-col items-center gap-3"
+            >
               <div className="relative">
                 {/* Glow effect */}
                 <div
