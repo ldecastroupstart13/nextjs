@@ -1,7 +1,7 @@
 import type { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 
-const ALLOWED_EMAILS = ["leonardo.decastro.brazil@gmail.com"]
+const ALLOWED_EMAILS = ["leonardo.decastro.brazil@gmail.com", "rafaelabernardesrabelo@gmail.com"]
 const ALLOWED_DOMAIN = "@upstart13.com"
 
 export const authOptions: NextAuthOptions = {
@@ -20,45 +20,24 @@ export const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
+    // 🔹 Bloqueio logo no login
     async signIn({ user }) {
       if (!user.email) return false
 
       const isAllowedEmail = ALLOWED_EMAILS.includes(user.email)
       const isAllowedDomain = user.email.endsWith(ALLOWED_DOMAIN)
 
-      const authorized = isAllowedEmail || isAllowedDomain
-
-      // 🔹 Loga no Sheets
-      callbacks: {
-        async signIn({ user }) {
-          if (!user.email) return false
-      
-          const isAllowedEmail = ALLOWED_EMAILS.includes(user.email)
-          const isAllowedDomain = user.email.endsWith(ALLOWED_DOMAIN)
-      
-          return isAllowedEmail || isAllowedDomain
-        },
-      
-        async redirect({ baseUrl, url }) {
-          // login não autorizado
-          if (url.includes("/unauthorized")) {
-            return `${baseUrl}/unauthorized`
-          }
-          // login autorizado
-          return `${baseUrl}/select-dashboard`
-        },
+      if (isAllowedEmail || isAllowedDomain) {
+        return true
       }
 
+      // impede login e cai na página de erro
+      return false
+    },
 
-    async redirect({ baseUrl, url }) {
-      // 🔹 Sempre decide destino pós-login
-      if (url.startsWith("/")) return `${baseUrl}${url}`
-
-      // Verifica se usuário logado tem permissão
-      // (o check já foi feito em signIn, mas reforçamos aqui)
-      return url.includes("unauthorized")
-        ? `${baseUrl}/unauthorized`
-        : `${baseUrl}/select-dashboard`
+    // 🔹 Decide rota pós-login
+    async redirect({ baseUrl }) {
+      return `${baseUrl}/select-dashboard`
     },
 
     async session({ session, token }) {
@@ -77,6 +56,7 @@ export const authOptions: NextAuthOptions = {
     },
   },
 
+  // 🔹 Quem não pode logar vai direto para aqui
   pages: {
     error: "/unauthorized",
   },
