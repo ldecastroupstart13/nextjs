@@ -54,5 +54,10 @@ export default withAuth(
 
 // 🔗 Middleware só roda nas rotas protegidas
 export const config = {
-  matcher: ["/dashboard/:path*", "/api/track-action"],
+  matcher: [
+    "/dashboard/:path*",
+    "/select-dashboard",
+    "/api/track-action",
+  ],
 }
+
