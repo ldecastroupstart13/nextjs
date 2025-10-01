@@ -20,27 +20,21 @@ export const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
-  async signIn({ user }) {
-    if (!user.email) return false
+    async signIn({ user }) {
+      if (!user.email) return false
 
-    const isAllowedEmail = ALLOWED_EMAILS.includes(user.email)
-    const isAllowedDomain = user.email.endsWith(ALLOWED_DOMAIN)
+      const isAllowedEmail = ALLOWED_EMAILS.includes(user.email)
+      const isAllowedDomain = user.email.endsWith(ALLOWED_DOMAIN)
 
-    return isAllowedEmail || isAllowedDomain
-  },
+      return isAllowedEmail || isAllowedDomain
+    },
 
-  // 🔹 Decide rota pós-login OU erro
-  async redirect({ baseUrl, url }) {
-    // Se a URL de destino contém erro → manda para /unauthorized
-    if (url.includes("/unauthorized") || url.includes("/error")) {
-      return `${baseUrl}/unauthorized`
-    }
-
-    // Caso normal (usuário autorizado)
-    return `${baseUrl}/select-dashboard`
-  },
-},
-
+    async redirect({ baseUrl, url }) {
+      if (url.includes("/unauthorized") || url.includes("/error")) {
+        return `${baseUrl}/unauthorized`
+      }
+      return `${baseUrl}/select-dashboard`
+    },
 
     async session({ session, token }) {
       if (session.user) {
@@ -58,7 +52,6 @@ export const authOptions: NextAuthOptions = {
     },
   },
 
-  // 🔹 Quem não pode logar vai direto para aqui
   pages: {
     error: "/unauthorized",
   },
