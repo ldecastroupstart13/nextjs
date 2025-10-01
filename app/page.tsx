@@ -25,7 +25,7 @@ export default function LandingPage() {
 
     // 🔹 Continua com login Google
     signIn("google", {
-      callbackUrl: "/dashboard",
+      callbackUrl: "/select-dashboard",
       prompt: "select_account",
     })
   }
