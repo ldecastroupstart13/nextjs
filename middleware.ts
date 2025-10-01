@@ -21,7 +21,7 @@ export default withAuth(
 
     // 🔐 Verifica se o usuário tem acesso (email específico ou domínio permitido)
     const email = req.nextauth.token.email as string
-    const ALLOWED_EMAILS = ["leonardo.decastro.brazil@gmail.com"]
+    const ALLOWED_EMAILS = ["leonardo.decastro.brazil@gmail.com", "rafaelabernardesrabelo@gmail.com"]
     const ALLOWED_DOMAIN = "@upstart13.com"
 
     const hasAccess =
