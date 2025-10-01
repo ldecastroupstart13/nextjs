@@ -962,21 +962,21 @@ if (activePage === "gladney_business") {
                     onClick={(e) => trackAndOpen(e, "quality_check_expectant_pdf", "/docs/qc_expectant.pdf")}
                     className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors"
                   >
-                    Quality Check Report - Expectant Mother Dashboard (PDF)
+                    Expectant Mother Dashboard (PDF)
                   </a>
                   <a
                     href="/docs/qc_gladney.pdf"
                     onClick={(e) => trackAndOpen(e, "quality_check_gladney_pdf", "/docs/qc_gladney.pdf")}
                     className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors"
                   >
-                    Quality Check Report - Gladney Business Performance (PDF)
+                    Gladney Business Performance (PDF)
                   </a>
                   <a
                     href="/docs/qc_traffic.pdf"
                     onClick={(e) => trackAndOpen(e, "quality_check_traffic_pdf", "/docs/qc_traffic.pdf")}
                     className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors"
                   >
-                    Quality Check Report - Page Traffic Monitor (PDF)
+                    Page Traffic Monitor (PDF)
                   </a>
                 </div>
               </div>
@@ -992,7 +992,7 @@ if (activePage === "gladney_business") {
                     }
                     className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors"
                   >
-                    Target Metrics - Expectant Mother (Google Sheets)
+                    Expectant Mother (Google Sheets)
                   </a>
                   <a
                     href="https://docs.google.com/sheets/d/example_gladney"
@@ -1001,7 +1001,7 @@ if (activePage === "gladney_business") {
                     }
                     className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors"
                   >
-                    Target Metrics - Gladney Business Performance (Google Sheets)
+                    Gladney Business Performance (Google Sheets)
                   </a>
                   <a
                     href="https://docs.google.com/sheets/d/example_traffic"
@@ -1010,7 +1010,7 @@ if (activePage === "gladney_business") {
                     }
                     className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors"
                   >
-                    Target Metrics - Page Traffic Monitor (Google Sheets)
+                    Page Traffic Monitor (Google Sheets)
                   </a>
                 </div>
               </div>
