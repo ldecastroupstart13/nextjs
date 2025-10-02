@@ -1,10 +1,10 @@
 import { BigQuery } from "@google-cloud/bigquery"
 
 export async function getBigQueryClient() {
-  const credentials = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON!)
+  const credentials = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON || "{}")
 
   return new BigQuery({
-    projectId: "gcfa-upstart13", // já fixo
+    projectId: "gcfa-upstart13", // ajuste se precisar
     credentials,
   })
 }
@@ -41,8 +41,8 @@ export async function logToBigQuery(data: {
     ]
 
     await bigquery.dataset(datasetId).table(tableId).insert(rows)
-    console.log(`Inserted ${rows.length} row(s) into ${datasetId}.${tableId}`)
+    console.log(`✅ Inserted ${rows.length} row(s) into ${datasetId}.${tableId}`)
   } catch (error: any) {
-    console.error("Error logging to BigQuery:", error)
+    console.error("❌ Error logging to BigQuery:", error)
   }
 }
