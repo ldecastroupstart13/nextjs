@@ -1,0 +1,48 @@
+import { BigQuery } from "@google-cloud/bigquery"
+
+export async function getBigQueryClient() {
+  const credentials = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON!)
+
+  return new BigQuery({
+    projectId: "gcfa-upstart13", // já fixo
+    credentials,
+  })
+}
+
+export async function logToBigQuery(data: {
+  id: string
+  timestamp: string
+  email: string
+  route: string
+  extraAction?: string
+  ip: string
+  userAgent: string
+  sessionId: string
+  timeSinceLastAction?: number
+}) {
+  try {
+    const bigquery = await getBigQueryClient()
+
+    const datasetId = "gladney_analytics"
+    const tableId = "user_tracking"
+
+    const rows = [
+      {
+        event_id: data.id,
+        timestamp: data.timestamp,
+        email: data.email,
+        route: data.route,
+        extra_action: data.extraAction || null,
+        ip: data.ip,
+        user_agent: data.userAgent,
+        session_id: data.sessionId,
+        time_since_last_action: data.timeSinceLastAction ?? null,
+      },
+    ]
+
+    await bigquery.dataset(datasetId).table(tableId).insert(rows)
+    console.log(`Inserted ${rows.length} row(s) into ${datasetId}.${tableId}`)
+  } catch (error: any) {
+    console.error("Error logging to BigQuery:", error)
+  }
+}
