@@ -2,6 +2,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
+import { logToGoogleSheets } from "@/lib/google-sheets"
 import { logToBigQuery } from "@/lib/big_query"
 import { v4 as uuidv4 } from "uuid"
 
@@ -18,10 +19,22 @@ export async function POST(request: NextRequest) {
     const userAgent = request.headers.get("user-agent") || "unknown"
 
     // 🔑 IDs
-    const eventId = uuidv4()   // sempre único por clique
-    const sessionId = uuidv4() // pode ser usado p/ rastrear sessão maior
+    const eventId = uuidv4()
+    const sessionId = uuidv4()
 
-    // 🚀 Envia para BigQuery
+    // 🚀 Envia para Sheets
+    await logToGoogleSheets({
+      id: eventId,
+      timestamp: new Date().toISOString(),
+      email: session?.user?.email || "anonymous",
+      route: route || "/track-action",
+      extraAction: action,
+      ip,
+      userAgent,
+      sessionId,
+    })
+
+    // 🚀 Envia também para BigQuery
     await logToBigQuery({
       id: eventId,
       timestamp: new Date().toISOString(),
@@ -36,9 +49,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ status: "ok", eventId })
   } catch (error) {
     console.error("Error tracking action:", error)
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }
