@@ -1,15 +1,6 @@
 import { BigQuery } from "@google-cloud/bigquery"
 
-export async function getBigQueryClient() {
-  const credentials = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON || "{}")
-
-  return new BigQuery({
-    projectId: "gcfa-upstart13", // ajuste se precisar
-    credentials,
-  })
-}
-
-export async function logToBigQuery(data: {
+type LogData = {
   id: string
   timestamp: string
   email: string
@@ -19,7 +10,18 @@ export async function logToBigQuery(data: {
   userAgent: string
   sessionId: string
   timeSinceLastAction?: number
-}) {
+}
+
+export async function getBigQueryClient() {
+  const credentials = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON || "{}")
+
+  return new BigQuery({
+    projectId: "gcfa-upstart13",
+    credentials,
+  })
+}
+
+export async function logToBigQuery(data: LogData) {
   try {
     const bigquery = await getBigQueryClient()
 
