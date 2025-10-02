@@ -2,7 +2,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
-import { logToGoogleSheets } from "@/lib/google-sheets"
+import { logToBigQuery } from "@/lib/big_query"
 import { v4 as uuidv4 } from "uuid"
 
 export async function POST(request: NextRequest) {
@@ -21,8 +21,8 @@ export async function POST(request: NextRequest) {
     const eventId = uuidv4()   // sempre único por clique
     const sessionId = uuidv4() // pode ser usado p/ rastrear sessão maior
 
-    // 🚀 Envia para Sheets
-    await logToGoogleSheets({
+    // 🚀 Envia para BigQuery
+    await logToBigQuery({
       id: eventId,
       timestamp: new Date().toISOString(),
       email: session?.user?.email || "anonymous",
