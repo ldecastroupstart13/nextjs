@@ -1,3 +1,4 @@
+// lib/big_query.ts
 import { BigQuery } from "@google-cloud/bigquery"
 
 type LogData = {
@@ -13,7 +14,9 @@ type LogData = {
 }
 
 export async function getBigQueryClient() {
-  const credentials = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON || "{}")
+  const credentials = process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON
+    ? JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON)
+    : undefined
 
   return new BigQuery({
     projectId: "gcfa-upstart13",
@@ -43,8 +46,14 @@ export async function logToBigQuery(data: LogData) {
     ]
 
     await bigquery.dataset(datasetId).table(tableId).insert(rows)
-    console.log(`✅ Inserted ${rows.length} row(s) into ${datasetId}.${tableId}`)
+
+    console.log(
+      `✅ Inserted ${rows.length} row(s) into ${datasetId}.${tableId}`
+    )
   } catch (error: any) {
     console.error("❌ Error logging to BigQuery:", error)
+    if (error.errors) {
+      console.error("BigQuery details:", error.errors)
+    }
   }
 }
