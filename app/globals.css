@@ -42,9 +42,9 @@
 
 .dark {
   --background: #0f172a;
-  --foreground: #e2e8f0;
+  --foreground: #1fd3fd;
   --card: #1e293b;
-  --card-foreground: #e2e8f0;
+  --card-foreground: #244776;
   --popover: #0f172a;
   --popover-foreground: #e2e8f0;
   --primary: #0891b2;
@@ -66,7 +66,7 @@
   --chart-4: #059669;
   --chart-5: #1e293b;
   --sidebar: #1e293b;
-  --sidebar-foreground: #e2e8f0;
+  --sidebar-foreground: #93afd8;
   --sidebar-primary: #0891b2;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #059669;
