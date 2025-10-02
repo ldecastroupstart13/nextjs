@@ -1,33 +1,52 @@
-// test-bigquery.ts
 import { BigQuery } from "@google-cloud/bigquery"
 
-async function testInsert() {
-  const credentials = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON || "{}")
+type LogData = {
+  id: string
+  timestamp: string
+  email: string
+  route: string
+  extraAction?: string
+  ip: string
+  userAgent: string
+  sessionId: string
+  timeSinceLastAction?: number
+}
 
-  const bigquery = new BigQuery({
+export async function getBigQueryClient() {
+  const credentials = process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON
+    ? JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON)
+    : {}
+
+  return new BigQuery({
     projectId: "gcfa-upstart13",
     credentials,
   })
-
-  const datasetId = "gladney_analytics"
-  const tableId = "user_tracking"
-
-  const rows = [
-    {
-      event_id: "test-123",
-      timestamp: new Date().toISOString(),
-      email: "teste@app.com",
-      route: "/debug",
-      extra_action: "manual_insert",
-      ip: "127.0.0.1",
-      user_agent: "node-test",
-      session_id: "sess-xyz",
-      time_since_last_action: 0,
-    },
-  ]
-
-  await bigquery.dataset(datasetId).table(tableId).insert(rows)
-  console.log("✅ Row inserted!")
 }
 
-testInsert().catch(console.error)
+export async function logToBigQuery(data: LogData) {
+  try {
+    const bigquery = await getBigQueryClient()
+
+    const datasetId = "gladney_analytics"
+    const tableId = "user_tracking"
+
+    const rows = [
+      {
+        event_id: data.id,
+        timestamp: data.timestamp,
+        email: data.email,
+        route: data.route,
+        extra_action: data.extraAction || null,
+        ip: data.ip,
+        user_agent: data.userAgent,
+        session_id: data.sessionId,
+        time_since_last_action: data.timeSinceLastAction ?? null,
+      },
+    ]
+
+    await bigquery.dataset(datasetId).table(tableId).insert(rows)
+    console.log(`✅ Inserted ${rows.length} row(s) into ${datasetId}.${tableId}`)
+  } catch (error: any) {
+    console.error("❌ Error logging to BigQuery:", error)
+  }
+}
