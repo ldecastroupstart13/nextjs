@@ -262,6 +262,18 @@ const LOOKERS = {
     }
   }
 
+  // 🚫 Bloqueia acesso direto à aba "Dashboard Details" se o e-mail não for autorizado
+  useEffect(() => {
+    const url = new URL(window.location.href)
+    const group = url.searchParams.get("group")
+    const view = url.searchParams.get("view")
+  
+    if (group === "info" && view === "details" && !canSeeDashboardDetails) {
+      // Redireciona automaticamente para o FAQ
+      window.location.href = "/dashboard?group=info&view=faq"
+    }
+  }, [canSeeDashboardDetails])
+
 
   useEffect(() => {
     const url = new URL(window.location.href)
