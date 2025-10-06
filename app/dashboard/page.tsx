@@ -975,60 +975,49 @@ if (activePage === "gladney_business") {
               <div className="space-y-4">
                 <h3 className="text-xl font-semibold mb-4 text-foreground">Quality Check Reports</h3>
                 <div className="space-y-3">
-                  <a
-                    href="/docs/qc_expectant.pdf"
-                    onClick={(e) => trackAndOpen(e, "quality_check_expectant_pdf", "/docs/qc_expectant.pdf")}
+                   <a
+                    href="/docs/qc_expectant_mothers.pdf"
+                    onClick={(e) => trackAndOpen(e, "quality_check_expectant_mothers_pdf", "/docs/qc_expectant_mothers.pdf")}
                     className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors"
                   >
-                    Expectant Mother Dashboard (PDF)
+                    Expectant Mother (PDF)
                   </a>
                   <a
-                    href="/docs/qc_gladney.pdf"
-                    onClick={(e) => trackAndOpen(e, "quality_check_gladney_pdf", "/docs/qc_gladney.pdf")}
+                    href="/docs/qc_new_beginnings.pdf"
+                    onClick={(e) => trackAndOpen(e, "quality_check_new_beginnings_pdf", "/docs/qc_new_beginnings.pdf")}
                     className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors"
                   >
-                    Gladney Business Performance (PDF)
+                    New Beginnings (PDF)
                   </a>
                   <a
-                    href="/docs/qc_traffic.pdf"
-                    onClick={(e) => trackAndOpen(e, "quality_check_traffic_pdf", "/docs/qc_traffic.pdf")}
+                    href="/docs/qc_adoptive_parents.pdf"
+                    onClick={(e) => trackAndOpen(e, "quality_check_adoptive_parents_pdf", "/docs/qc_adoptive_parents.pdf")}
                     className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors"
                   >
-                    Page Traffic Monitor (PDF)
+                    Adoptive Parents (PDF)
+                  </a>
+                  <a
+                    href="/docs/qc_birth_parents.pdf"
+                    onClick={(e) => trackAndOpen(e, "quality_check_birth_parents_pdf", "/docs/qc_birth_parents.pdf")}
+                    className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors"
+                  >
+                    Birth Parents (PDF)
                   </a>
                 </div>
               </div>
     
               {/* Target Metrics */}
               <div className="space-y-4">
-                <h3 className="text-xl font-semibold mb-4 text-foreground">Target Metrics</h3>
+                <h3 className="text-xl font-semibold mb-4 text-foreground">Google Sheets</h3>
                 <div className="space-y-3">
                   <a
-                    href="https://docs.google.com/sheets/d/example_expectant"
+                    href="https://upstart13inc.sharepoint.com/:x:/r/sites/Gladney/_layouts/15/doc2.aspx?sourcedoc=%7B5119CDC9-19B1-4996-ADFE-92497F68FF8F%7D&file=Target%20Metrics.xlsx&action=default&mobileredirect=true"
                     onClick={(e) =>
-                      trackAndOpen(e, "target_metrics_expectant_sheets", "https://docs.google.com/sheets/d/example_expectant")
+                      trackAndOpen(e, "target_metrics", "https://upstart13inc.sharepoint.com/:x:/r/sites/Gladney/_layouts/15/doc2.aspx?sourcedoc=%7B5119CDC9-19B1-4996-ADFE-92497F68FF8F%7D&file=Target%20Metrics.xlsx&action=default&mobileredirect=true")
                     }
                     className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors"
                   >
-                    Expectant Mother (Google Sheets)
-                  </a>
-                  <a
-                    href="https://docs.google.com/sheets/d/example_gladney"
-                    onClick={(e) =>
-                      trackAndOpen(e, "target_metrics_gladney_sheets", "https://docs.google.com/sheets/d/example_gladney")
-                    }
-                    className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors"
-                  >
-                    Gladney Business Performance (Google Sheets)
-                  </a>
-                  <a
-                    href="https://docs.google.com/sheets/d/example_traffic"
-                    onClick={(e) =>
-                      trackAndOpen(e, "target_metrics_traffic_sheets", "https://docs.google.com/sheets/d/example_traffic")
-                    }
-                    className="block text-blue-600 hover:text-blue-800 underline text-base transition-colors"
-                  >
-                    Page Traffic Monitor (Google Sheets)
+                    Target Metrics
                   </a>
                 </div>
               </div>
