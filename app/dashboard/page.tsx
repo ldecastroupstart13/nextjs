@@ -2,6 +2,10 @@
 
 "use client"
 import { useSession, signOut } from "next-auth/react"
+
+// ✅ Lista de e-mails autorizados a ver "Dashboard Details"
+const ALLOWED_DASHBOARD_DETAILS = ["oakley.jones@gladney.org", "leonardo.decastro.brazil@gmail.com"]
+
 import type React from "react"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
@@ -46,6 +50,8 @@ export default function GladneyDashboard() {
   const [selectedDropdownItem, setSelectedDropdownItem] = useState("overview_ads")
   const [openDropdowns, setOpenDropdowns] = useState<Record<string, boolean>>({})
   const { data: session } = useSession()   // <-- PEGA a sessão autenticada
+  const canSeeDashboardDetails = session?.user?.email && ALLOWED_DASHBOARD_DETAILS.includes(session.user.email)   // Verifica se o usuário atual pode ver "Dashboard Details"
+  
 const LOOKERS = {
     expectant: {
       overview_ads:
@@ -1145,20 +1151,27 @@ if (activePage === "gladney_business") {
                           <ChevronRightIcon className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-90" />
                         </SidebarMenuButton>
                       </CollapsibleTrigger>
+                  
                       <CollapsibleContent>
                         <SidebarMenuSub className="ml-6 space-y-1 mt-2">
-                          <SidebarMenuSubItem>
-                            <SidebarMenuSubButton
-                              onClick={() => handleNavigation("dashboard_details")}
-                              className={`transition-colors rounded-lg ${
-                                activePage === "dashboard_details"
-                                  ? "bg-primary text-primary-foreground"
-                                  : "hover:bg-sidebar-accent"
-                              }`}
-                            >
-                              Dashboard Details
-                            </SidebarMenuSubButton>
-                          </SidebarMenuSubItem>
+                          
+                          {/* ✅ Só mostra o Dashboard Details para e-mails autorizados */}
+                          {canSeeDashboardDetails && (
+                            <SidebarMenuSubItem>
+                              <SidebarMenuSubButton
+                                onClick={() => handleNavigation("dashboard_details")}
+                                className={`transition-colors rounded-lg ${
+                                  activePage === "dashboard_details"
+                                    ? "bg-primary text-primary-foreground"
+                                    : "hover:bg-sidebar-accent"
+                                }`}
+                              >
+                                Dashboard Details
+                              </SidebarMenuSubButton>
+                            </SidebarMenuSubItem>
+                          )}
+                  
+                          {/* FAQ — visível para todos */}
                           <SidebarMenuSubItem>
                             <SidebarMenuSubButton
                               onClick={() => handleNavigation("dashboard_faq")}
