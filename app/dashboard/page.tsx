@@ -95,6 +95,8 @@ const LOOKERS = {
         "https://lookerstudio.google.com/embed/reporting/018fe7d3-8e30-4a70-86e9-ac5b71bdb662/page/p_094a1q3nvd",
     },
     gladney: {
+      overall_report:
+        "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_xbb4ba68xd",      
       adoptive_performance:
         "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_0cruxnlesd",
       adoptive_recent:
@@ -239,8 +241,8 @@ const LOOKERS = {
       setSelectedView({ group: "expectant", key: "overview_ads" })
       setSelectedDropdownItem("overview_ads")
     } else if (page === "gladney_business") {
-      setSelectedView({ group: "gladney", key: "adoptive_performance" })
-      setSelectedDropdownItem("adoptive_performance")
+      setSelectedView({ group: "gladney", key: "overall_report" })
+      setSelectedDropdownItem("overall_report")
     } else if (page === "page_traffic") {
       setSelectedView({ group: "traffic", key: "cover_page" })
       setSelectedDropdownItem("cover_page")
@@ -433,6 +435,9 @@ const LOOKERS = {
     enroll_timeseries: "Enroll Time Series",
 
     // Gladney - Adoptive Parents
+    overall_report: "Overall Report",
+    
+    // Gladney - Adoptive Parents
     adoptive_performance: "Performance",
     adoptive_recent: "Recent Perspective",
     adoptive_timeline: "Process Timeline",
@@ -558,7 +563,12 @@ const LOOKERS = {
 if (activePage === "gladney_business") {
   return (
     <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
-      
+      <Button
+         variant={selectedView.key === "overall_report" ? "default" : "outline"}
+         onClick={() => handleViewSelect("gladney_business", "overall_report")}
+       >
+         Overall Report
+      </Button>      
       {/* Domestic Infant */}
       <CustomDropdown
         id="domestic_dropdown"
