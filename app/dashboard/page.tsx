@@ -565,7 +565,7 @@ if (activePage === "gladney_business") {
     <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
       <Button
          variant={selectedView.key === "overall_report" ? "default" : "outline"}
-         onClick={() => handleViewSelect("gladney_business", "overall_report")}
+         onClick={() => handleViewSelect("gladney", "overall_report")}
        >
          Overall Report
       </Button>      
