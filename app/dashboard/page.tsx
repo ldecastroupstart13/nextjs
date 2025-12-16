@@ -435,7 +435,7 @@ const LOOKERS = {
     enroll_timeseries: "Enroll Time Series",
 
     // Gladney - Adoptive Parents
-    overall_report: "Overall Report",
+    overall_report: "Gladney KPIs",
     
     // Gladney - Adoptive Parents
     adoptive_performance: "Performance",
