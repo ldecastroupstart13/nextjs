@@ -567,7 +567,7 @@ if (activePage === "gladney_business") {
          variant={selectedView.key === "overall_report" ? "default" : "outline"}
          onClick={() => handleViewSelect("gladney", "overall_report")}
        >
-         Overall Report
+         Gladney KPIs
       </Button>      
       {/* Domestic Infant */}
       <CustomDropdown
