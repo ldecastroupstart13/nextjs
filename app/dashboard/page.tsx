@@ -471,13 +471,13 @@ const LOOKERS = {
     drilldown_new: "New Beginnings",
 
     // Traffic (Page Traffic Monitor)
-    traffic_user_overview: "Traffic Analysis",
+    traffic_user_overview: "Traffic & User Overview",
     
     sessions_overview: "Sessions Overview & Entry Pages",
     user_overview: "User Overview & Entry Pages",
     
-    google_ads_keywords_sessions: "Google Ads Keywords - Sessions",
-    google_ads_keywords_conversions: "Google Ads Keywords - Conversions",
+    google_ads_keywords_sessions: "Google Ads Keywords – Sessions",
+    google_ads_keywords_conversions: "Google Ads Keywords – Conversions",
     
     demographic_info: "Demographic Information",
     
@@ -486,11 +486,11 @@ const LOOKERS = {
     
     conversion_performance: "Conversion Performance",
     
-    ai_vs_human: "AI vs Human Traffic - Overview",
+    ai_vs_human: "AI vs Human Traffic – Overview",
     ai_deep_dive: "AI Traffic Deep Dive",
     
     google_analytics_dashboard: "Google Analytics Dashboard",
-    cover_page: "Cover Page",
+
   }
 
 
