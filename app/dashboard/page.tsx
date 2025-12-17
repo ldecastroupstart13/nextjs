@@ -746,7 +746,7 @@ if (activePage === "gladney_business") {
   )
 }
     
-    // Parte 3.1 - Traffic (NEW MENU)
+    // Parte 3.1 — Page Traffic Monitor (FINAL HIERARCHY)
     if (activePage === "page_traffic") {
       return (
         <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
@@ -755,10 +755,10 @@ if (activePage === "gladney_business") {
             variant={selectedView.key === "cover_page" ? "default" : "outline"}
             onClick={() => handleViewSelect("traffic", "cover_page")}
           >
-            {LABELS["cover_page"] || "Cover Page"}
+            Cover Page
           </Button>
     
-          {/* Adoption (Dropdown) */}
+          {/* Adoption */}
           <CustomDropdown
             id="traffic_adoption_dropdown"
             trigger={
@@ -784,105 +784,105 @@ if (activePage === "gladney_business") {
                 className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
               >
                 <span className="truncate">Adoption</span>
-                <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+                <ChevronDownIcon className="h-4 w-4" />
               </Button>
             }
           >
-            {/* Traffic & User Overview (submenu) */}
-            <CustomSubmenu parentId="traffic_adoption" trigger="Traffic & User Overview">
+            {/* Traffic & User Overview (single page) */}
+            <CustomDropdownItem
+              onClick={() => handleViewSelect("traffic", "traffic_user_overview")}
+              isSelected={selectedDropdownItem === "traffic_user_overview"}
+            >
+              Traffic & User Overview
+            </CustomDropdownItem>
+    
+            {/* Traffic Analysis */}
+            <CustomSubmenu parentId="traffic_analysis" trigger="Traffic Analysis">
               <CustomDropdownItem
                 onClick={() => handleViewSelect("traffic", "sessions_overview")}
                 isSelected={selectedDropdownItem === "sessions_overview"}
               >
-                {LABELS["sessions_overview"] || "Sessions Overview & Entry Pages"}
+                Sessions Overview & Entry Pages
               </CustomDropdownItem>
     
               <CustomDropdownItem
                 onClick={() => handleViewSelect("traffic", "user_overview")}
                 isSelected={selectedDropdownItem === "user_overview"}
               >
-                {LABELS["user_overview"] || "User Overview & Entry Pages"}
+                User Overview & Entry Pages
               </CustomDropdownItem>
     
               <CustomDropdownItem
                 onClick={() => handleViewSelect("traffic", "google_ads_keywords_sessions")}
                 isSelected={selectedDropdownItem === "google_ads_keywords_sessions"}
               >
-                {LABELS["google_ads_keywords_sessions"] || "Google Ads Keywords - Sessions"}
+                Google Ads Keywords – Sessions
               </CustomDropdownItem>
     
               <CustomDropdownItem
                 onClick={() => handleViewSelect("traffic", "google_ads_keywords_conversions")}
                 isSelected={selectedDropdownItem === "google_ads_keywords_conversions"}
               >
-                {LABELS["google_ads_keywords_conversions"] || "Google Ads Keywords - Conversions"}
+                Google Ads Keywords – Conversions
               </CustomDropdownItem>
     
               <CustomDropdownItem
                 onClick={() => handleViewSelect("traffic", "demographic_info")}
                 isSelected={selectedDropdownItem === "demographic_info"}
               >
-                {LABELS["demographic_info"] || "Demographic Information"}
+                Demographic Information
               </CustomDropdownItem>
             </CustomSubmenu>
     
-            {/* Traffic Analysis (single item) */}
-            <CustomDropdownItem
-              onClick={() => handleViewSelect("traffic", "traffic_user_overview")}
-              isSelected={selectedDropdownItem === "traffic_user_overview"}
-            >
-              {LABELS["traffic_user_overview"] || "Traffic Analysis"}
-            </CustomDropdownItem>
-    
-            {/* Engagement & Pages (submenu) */}
-            <CustomSubmenu parentId="traffic_adoption" trigger="Engagement & Pages">
+            {/* Engagement & Pages */}
+            <CustomSubmenu parentId="traffic_engagement" trigger="Engagement & Pages">
               <CustomDropdownItem
                 onClick={() => handleViewSelect("traffic", "events_top_pages")}
                 isSelected={selectedDropdownItem === "events_top_pages"}
               >
-                {LABELS["events_top_pages"] || "Events & Top Pages"}
+                Events & Top Pages
               </CustomDropdownItem>
     
               <CustomDropdownItem
                 onClick={() => handleViewSelect("traffic", "conversion_events")}
                 isSelected={selectedDropdownItem === "conversion_events"}
               >
-                {LABELS["conversion_events"] || "Conversion Events Breakdown"}
+                Conversion Events Breakdown
               </CustomDropdownItem>
             </CustomSubmenu>
     
-            {/* Conversion Performance (single item) */}
+            {/* Conversion Performance */}
             <CustomDropdownItem
               onClick={() => handleViewSelect("traffic", "conversion_performance")}
               isSelected={selectedDropdownItem === "conversion_performance"}
             >
-              {LABELS["conversion_performance"] || "Conversion Performance"}
+              Conversion Performance
             </CustomDropdownItem>
     
-            {/* AI Traffic Analysis (submenu) */}
-            <CustomSubmenu parentId="traffic_adoption" trigger="AI Traffic Analysis">
+            {/* AI Traffic Analysis */}
+            <CustomSubmenu parentId="traffic_ai" trigger="AI Traffic Analysis">
               <CustomDropdownItem
                 onClick={() => handleViewSelect("traffic", "ai_vs_human")}
                 isSelected={selectedDropdownItem === "ai_vs_human"}
               >
-                {LABELS["ai_vs_human"] || "AI vs Human Traffic - Overview"}
+                AI vs Human Traffic – Overview
               </CustomDropdownItem>
     
               <CustomDropdownItem
                 onClick={() => handleViewSelect("traffic", "ai_deep_dive")}
                 isSelected={selectedDropdownItem === "ai_deep_dive"}
               >
-                {LABELS["ai_deep_dive"] || "AI Traffic Deep Dive"}
+                AI Traffic Deep Dive
               </CustomDropdownItem>
             </CustomSubmenu>
           </CustomDropdown>
     
-          {/* Google Analytics Dashboard (top level) */}
+          {/* Google Analytics Dashboard */}
           <Button
             variant={selectedView.key === "google_analytics_dashboard" ? "default" : "outline"}
             onClick={() => handleViewSelect("traffic", "google_analytics_dashboard")}
           >
-            {LABELS["google_analytics_dashboard"] || "Google Analytics Dashboard"}
+            Google Analytics Dashboard
           </Button>
         </div>
       )
