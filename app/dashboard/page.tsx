@@ -250,22 +250,22 @@ const LOOKERS = {
     setActivePage(page)
     closeAllDropdowns()
   
+    // ✅ For the 3 main dashboard pages, choose a default view
     if (page === "expectant_mother") {
-      setSelectedView({ group: "expectant", key: "overview_ads" })
-      setSelectedDropdownItem("overview_ads")
+      await handleViewSelect("expectant", "overview_ads")
     } else if (page === "gladney_business") {
-      setSelectedView({ group: "gladney", key: "overall_report" })
-      setSelectedDropdownItem("overall_report")
+      // ✅ This is exactly what you want:
+      // when selecting Gladney Business Performance, default = Gladney KPIs
+      await handleViewSelect("gladney", "overall_report")
     } else if (page === "page_traffic") {
-      setSelectedView({ group: "traffic", key: "cover_page" })
-      setSelectedDropdownItem("cover_page")
+      await handleViewSelect("traffic", "cover_page")
     } else {
+      // For FAQ / Details / Notifications, don't force a Looker view
       setSelectedView({ group: "", key: "" })
       setSelectedDropdownItem("")
     }
   
-  
-    // 🔥 Tracking
+    // 🔥 Tracking (keep as-is)
     try {
       await fetch("/api/track-action", {
         method: "POST",
@@ -279,6 +279,7 @@ const LOOKERS = {
       console.error("Tracking error:", err)
     }
   }
+
 
   // 🚫 Bloqueia acesso direto à aba "Dashboard Details" se o e-mail não for autorizado
   useEffect(() => {
