@@ -250,36 +250,20 @@ const LOOKERS = {
     setActivePage(page)
     closeAllDropdowns()
   
-    const url = new URL(window.location.href)
-  
     if (page === "expectant_mother") {
       setSelectedView({ group: "expectant", key: "overview_ads" })
       setSelectedDropdownItem("overview_ads")
-  
-      url.searchParams.set("group", "expectant")
-      url.searchParams.set("view", "overview_ads")
-    } 
-    else if (page === "gladney_business") {
+    } else if (page === "gladney_business") {
       setSelectedView({ group: "gladney", key: "overall_report" })
       setSelectedDropdownItem("overall_report")
-  
-      // ✅ THIS IS THE KEY
-      url.searchParams.set("group", "gladney")
-      url.searchParams.set("view", "overall_report")
-    } 
-    else if (page === "page_traffic") {
+    } else if (page === "page_traffic") {
       setSelectedView({ group: "traffic", key: "cover_page" })
       setSelectedDropdownItem("cover_page")
-  
-      url.searchParams.set("group", "traffic")
-      url.searchParams.set("view", "cover_page")
+    } else {
+      setSelectedView({ group: "", key: "" })
+      setSelectedDropdownItem("")
     }
   
-    window.history.replaceState({}, "", url.toString())
-  
-    // tracking stays the same
-  }
-
   
     // 🔥 Tracking
     try {
