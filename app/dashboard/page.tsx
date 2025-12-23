@@ -288,26 +288,56 @@ const LOOKERS = {
     const view = url.searchParams.get("view")
   
     if (group === "info" && view === "details" && !canSeeDashboardDetails) {
-      // Redireciona automaticamente para o FAQ
       window.location.href = "/dashboard?group=info&view=faq"
     }
   }, [canSeeDashboardDetails])
-
-
+  
+  
+  // 🔄 Bootstrap from URL (runs once)
   useEffect(() => {
     const url = new URL(window.location.href)
     const group = url.searchParams.get("group") || "expectant"
     const view = url.searchParams.get("view") || "overview_ads"
+  
     setSelectedView({ group, key: view })
     setSelectedDropdownItem(view)
   
-    // 🔹 mapeia corretamente o activePage
     if (group === "expectant") setActivePage("expectant_mother")
     else if (group === "gladney") setActivePage("gladney_business")
     else if (group === "traffic") setActivePage("page_traffic")
     else if (group === "info") setActivePage("dashboard_details")
     else if (group === "notifications") setActivePage("notifications")
   }, [])
+  
+  
+  // ✅ ADD THIS EFFECT — right here
+  useEffect(() => {
+    if (activePage === "gladney_business") {
+      setSelectedView({ group: "gladney", key: "overall_report" })
+      setSelectedDropdownItem("overall_report")
+  
+      const url = new URL(window.location.href)
+      url.searchParams.set("group", "gladney")
+      url.searchParams.set("view", "overall_report")
+      window.history.replaceState({}, "", url.toString())
+    }
+  }, [activePage])
+  
+  
+  // 🖥️ Fullscreen listener
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement)
+      if (!document.fullscreenElement) {
+        closeAllDropdowns()
+      }
+    }
+    document.addEventListener("fullscreenchange", handleFullscreenChange)
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange)
+    }
+  }, [])
+
 
 
   useEffect(() => {
