@@ -130,7 +130,6 @@ const LOOKERS = {
         "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_z2i9rcdktd",
       overview:
         "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_bppth3a2sd",
-    
       source_pages_device:
         "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_amhq0bb2sd",
       demographic_info:
@@ -493,25 +492,20 @@ const LOOKERS = {
     drilldown_new: "New Beginnings",
 
     // Traffic (Page Traffic Monitor)
-    traffic_user_overview: "Traffic & User Overview",
-    
-    sessions_overview: "Sessions Overview & Entry Pages",
-    user_overview: "User Overview & Entry Pages",
-    
-    google_ads_keywords_sessions: "Google Ads Keywords – Sessions",
-    google_ads_keywords_conversions: "Google Ads Keywords – Conversions",
-    
+    cover_page: "Cover Page",
+    overview: "Overview",
+    source_pages_device: "Source, Pages, Device",
     demographic_info: "Demographic Information",
-    
+    keywords: "Keywords",
+    event_funnel_flow: "Event Funnel & Flow",
     events_top_pages: "Events & Top Pages",
-    conversion_events: "Conversion Events Breakdown",
-    
-    conversion_performance: "Conversion Performance",
-    
-    ai_vs_human: "AI vs Human Traffic – Overview",
+    conversion_events: "Conversion Events (Breakdown)",
+    conversion_performance: "Conversion Performance (Overall)",
+    ai_overview: "AI Traffic Overview",
     ai_deep_dive: "AI Traffic Deep Dive",
-    
-    google_analytics_dashboard: "Google Analytics Dashboard",
+    ai_engines: "AI Engines Breakdown",
+    ga4_connection: "GA4 Connection Testing",
+
 
   }
 
