@@ -765,148 +765,159 @@ if (activePage === "gladney_business") {
     // Parte 3.1 — Page Traffic Monitor (FINAL HIERARCHY)
     if (activePage === "page_traffic") {
       return (
-        <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
-    
+        <div className="flex flex-col gap-4">
+  
           {/* =========================
+              TOP MENU (BUTTONS)
+          ========================= */}
+          <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
+  
+            {/* Cover Page */}
+            <Button
+              variant={selectedView.key === "cover_page" ? "default" : "outline"}
+              onClick={() => handleViewSelect("traffic", "cover_page")}
+            >
               Cover Page
-          ========================= */}
-          <Button
-            variant={selectedView.key === "cover_page" ? "default" : "outline"}
-            onClick={() => handleViewSelect("traffic", "cover_page")}
-          >
-            Cover Page
-          </Button>
-    
-          {/* =========================
-              Adoption (Main Section)
-          ========================= */}
-          <CustomDropdown
-            id="traffic_adoption_dropdown"
-            trigger={
-              <Button
-                variant={
-                  selectedView.group === "traffic" &&
-                  [
-                    "overview",
-                    "source_pages_device",
-                    "demographic_info",
-                    "keywords",
-                    "event_funnel_flow",
-                    "events_top_pages",
-                    "conversion_events",
-                    "conversion_performance",
-                    "ai_overview",
-                    "ai_deep_dive",
-                    "ai_engines",
-                  ].includes(selectedDropdownItem)
-                    ? "default"
-                    : "outline"
-                }
-                className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
-              >
-                <span className="truncate">Adoption</span>
-                <ChevronDownIcon className="h-4 w-4" />
-              </Button>
-            }
-          >
-            {/* ===== Overview ===== */}
-            <CustomDropdownItem
-              onClick={() => handleViewSelect("traffic", "overview")}
-              isSelected={selectedDropdownItem === "overview"}
+            </Button>
+  
+            {/* Adoption Dropdown */}
+            <CustomDropdown
+              id="traffic_adoption_dropdown"
+              trigger={
+                <Button
+                  variant={
+                    selectedView.group === "traffic" &&
+                    [
+                      "overview",
+                      "source_pages_device",
+                      "demographic_info",
+                      "keywords",
+                      "event_funnel_flow",
+                      "events_top_pages",
+                      "conversion_events",
+                      "conversion_performance",
+                      "ai_overview",
+                      "ai_deep_dive",
+                      "ai_engines",
+                    ].includes(selectedDropdownItem)
+                      ? "default"
+                      : "outline"
+                  }
+                  className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+                >
+                  <span className="truncate">Adoption</span>
+                  <ChevronDownIcon className="h-4 w-4" />
+                </Button>
+              }
             >
-              Overview
-            </CustomDropdownItem>
-    
-            {/* ===== Traffic Analysis ===== */}
-            <CustomSubmenu parentId="traffic_analysis" trigger="Traffic Analysis">
+              {/* Overview */}
               <CustomDropdownItem
-                onClick={() => handleViewSelect("traffic", "source_pages_device")}
-                isSelected={selectedDropdownItem === "source_pages_device"}
-              >
-                Source, Pages, Device
-              </CustomDropdownItem>
-    
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("traffic", "demographic_info")}
-                isSelected={selectedDropdownItem === "demographic_info"}
-              >
-                Demographic Information
-              </CustomDropdownItem>
-            </CustomSubmenu>
-    
-            {/* ===== Keywords ===== */}
-            <CustomDropdownItem
-              onClick={() => handleViewSelect("traffic", "keywords")}
-              isSelected={selectedDropdownItem === "keywords"}
-            >
-              Keywords
-            </CustomDropdownItem>
-    
-            {/* ===== Engagement & Pages ===== */}
-            <CustomSubmenu parentId="traffic_engagement" trigger="Engagement & Pages">
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("traffic", "event_funnel_flow")}
-                isSelected={selectedDropdownItem === "event_funnel_flow"}
-              >
-                Event Funnel & Flow
-              </CustomDropdownItem>
-    
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("traffic", "events_top_pages")}
-                isSelected={selectedDropdownItem === "events_top_pages"}
-              >
-                Events & Top Pages
-              </CustomDropdownItem>
-    
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("traffic", "conversion_events")}
-                isSelected={selectedDropdownItem === "conversion_events"}
-              >
-                Conversion Events (Breakdown)
-              </CustomDropdownItem>
-    
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("traffic", "conversion_performance")}
-                isSelected={selectedDropdownItem === "conversion_performance"}
-              >
-                Conversion Performance (Overall)
-              </CustomDropdownItem>
-            </CustomSubmenu>
-    
-            {/* ===== AI Traffic Analysis ===== */}
-            <CustomSubmenu parentId="traffic_ai" trigger="AI Traffic Analysis">
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("traffic", "ai_overview")}
-                isSelected={selectedDropdownItem === "ai_overview"}
+                onClick={() => handleViewSelect("traffic", "overview")}
+                isSelected={selectedDropdownItem === "overview"}
               >
                 Overview
               </CustomDropdownItem>
-    
+  
+              {/* Traffic Analysis */}
+              <CustomSubmenu parentId="traffic_analysis" trigger="Traffic Analysis">
+                <CustomDropdownItem
+                  onClick={() => handleViewSelect("traffic", "source_pages_device")}
+                  isSelected={selectedDropdownItem === "source_pages_device"}
+                >
+                  Source, Pages, Device
+                </CustomDropdownItem>
+  
+                <CustomDropdownItem
+                  onClick={() => handleViewSelect("traffic", "demographic_info")}
+                  isSelected={selectedDropdownItem === "demographic_info"}
+                >
+                  Demographic Information
+                </CustomDropdownItem>
+              </CustomSubmenu>
+  
+              {/* Keywords */}
               <CustomDropdownItem
-                onClick={() => handleViewSelect("traffic", "ai_deep_dive")}
-                isSelected={selectedDropdownItem === "ai_deep_dive"}
+                onClick={() => handleViewSelect("traffic", "keywords")}
+                isSelected={selectedDropdownItem === "keywords"}
               >
-                AI Traffic Deep Dive
+                Keywords
               </CustomDropdownItem>
-    
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("traffic", "ai_engines")}
-                isSelected={selectedDropdownItem === "ai_engines"}
-              >
-                AI Engines Breakdown
-              </CustomDropdownItem>
-            </CustomSubmenu>
-          </CustomDropdown>
-    
-          {/* =========================
+  
+              {/* Engagement & Pages */}
+              <CustomSubmenu parentId="traffic_engagement" trigger="Engagement & Pages">
+                <CustomDropdownItem
+                  onClick={() => handleViewSelect("traffic", "event_funnel_flow")}
+                  isSelected={selectedDropdownItem === "event_funnel_flow"}
+                >
+                  Event Funnel & Flow
+                </CustomDropdownItem>
+  
+                <CustomDropdownItem
+                  onClick={() => handleViewSelect("traffic", "events_top_pages")}
+                  isSelected={selectedDropdownItem === "events_top_pages"}
+                >
+                  Events & Top Pages
+                </CustomDropdownItem>
+  
+                <CustomDropdownItem
+                  onClick={() => handleViewSelect("traffic", "conversion_events")}
+                  isSelected={selectedDropdownItem === "conversion_events"}
+                >
+                  Conversion Events (Breakdown)
+                </CustomDropdownItem>
+  
+                <CustomDropdownItem
+                  onClick={() => handleViewSelect("traffic", "conversion_performance")}
+                  isSelected={selectedDropdownItem === "conversion_performance"}
+                >
+                  Conversion Performance (Overall)
+                </CustomDropdownItem>
+              </CustomSubmenu>
+  
+              {/* AI Traffic Analysis */}
+              <CustomSubmenu parentId="traffic_ai" trigger="AI Traffic Analysis">
+                <CustomDropdownItem
+                  onClick={() => handleViewSelect("traffic", "ai_overview")}
+                  isSelected={selectedDropdownItem === "ai_overview"}
+                >
+                  Overview
+                </CustomDropdownItem>
+  
+                <CustomDropdownItem
+                  onClick={() => handleViewSelect("traffic", "ai_deep_dive")}
+                  isSelected={selectedDropdownItem === "ai_deep_dive"}
+                >
+                  AI Traffic Deep Dive
+                </CustomDropdownItem>
+  
+                <CustomDropdownItem
+                  onClick={() => handleViewSelect("traffic", "ai_engines")}
+                  isSelected={selectedDropdownItem === "ai_engines"}
+                >
+                  AI Engines Breakdown
+                </CustomDropdownItem>
+              </CustomSubmenu>
+            </CustomDropdown>
+  
+            {/* GA4 Connection Testing */}
+            <Button
+              variant={selectedView.key === "ga4_connection" ? "default" : "outline"}
+              onClick={() => handleViewSelect("traffic", "ga4_connection")}
+            >
               GA4 Connection Testing
+            </Button>
+          </div>
+  
+          {/* =========================
+              IFRAME CONTENT
           ========================= */}
-          <Button
-            variant={selectedView.key === "ga4_connection" ? "default" : "outline"}
-            onClick={() => handleViewSelect("traffic", "ga4_connection")}
-          >
-            GA4 Connection Testing
-          </Button>
+          <div className="w-full h-[calc(100vh-220px)]">
+            <iframe
+              src={LOOKERS[selectedView.group]?.[selectedView.key]}
+              className="w-full h-full border-0 rounded-md"
+              allowFullScreen
+            />
+          </div>
         </div>
       )
     }
