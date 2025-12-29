@@ -152,7 +152,8 @@ const LOOKERS = {
         "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_v4vgx00ezd",
       ga4_connection:
         "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_mppqixq3vd",
-    }
+    },
+}
 
 
   const router = useRouter()
