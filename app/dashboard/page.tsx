@@ -126,46 +126,54 @@ const LOOKERS = {
         "https://lookerstudio.google.com/embed/reporting/704ba1ac-c624-464f-a9f5-4f0f7ecadbfc/page/p_q32x6kaatd",
     },
     traffic: {
+      // Cover
       cover_page:
         "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_z2i9rcdktd",
     
-      // We'll use this as the "Traffic Analysis" single item (summary)
-      traffic_user_overview:
+      // Adoption → Overview
+      adoption_overview:
         "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_bppth3a2sd",
     
-      sessions_overview:
+      // Adoption → Traffic Analysis
+      source_pages_device:
         "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_amhq0bb2sd",
-      user_overview:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_zs34w5f2sd",
-    
-      // ✅ Split into two menu items
-      // TODO: replace one of these with the correct Looker page when you have it
-      google_ads_keywords_sessions:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_b5uzxjdktd",
-      google_ads_keywords_conversions:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_hwa25lfzwd",
     
       demographic_info:
         "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_snmx9lgltd",
     
+      // Adoption → Keywords
+      keywords:
+        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_b5uzxjdktd",
+    
+      // Adoption → Engagement & Pages
+      event_funnel_flow:
+        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_q9il50vezd",
+    
       events_top_pages:
         "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_hdoejlb2sd",
+    
       conversion_events:
         "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_od7jq6f2sd",
     
+      // Adoption → Conversion Performance
       conversion_performance:
         "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_pfbpeii2sd",
     
-      ai_vs_human:
+      // AI Traffic Analysis
+      ai_overview:
         "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_60iwvfimtd",
+    
       ai_deep_dive:
         "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_m7azaxhmtd",
     
-      google_analytics_dashboard:
-        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_mppqixq3vd",
+      ai_engines:
+        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_v4vgx00ezd",
     
-    },
-  }
+      // GA4
+      ga4_connection_testing:
+        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_mppqixq3vd",
+    }
+
 
   const router = useRouter()
 
@@ -782,8 +790,9 @@ if (activePage === "gladney_business") {
     // Parte 3.1 — Page Traffic Monitor (FINAL HIERARCHY)
     if (activePage === "page_traffic") {
       return (
-        <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
-          {/* Cover Page */}
+        <div className="flex flex-wrap gap-3">
+    
+          {/* Cover */}
           <Button
             variant={selectedView.key === "cover_page" ? "default" : "outline"}
             onClick={() => handleViewSelect("traffic", "cover_page")}
@@ -793,133 +802,101 @@ if (activePage === "gladney_business") {
     
           {/* Adoption */}
           <CustomDropdown
-            id="traffic_adoption_dropdown"
+            id="traffic_adoption"
             trigger={
-              <Button
-                variant={
-                  selectedView.group === "traffic" &&
-                  [
-                    "traffic_user_overview",
-                    "sessions_overview",
-                    "user_overview",
-                    "google_ads_keywords_sessions",
-                    "google_ads_keywords_conversions",
-                    "demographic_info",
-                    "events_top_pages",
-                    "conversion_events",
-                    "conversion_performance",
-                    "ai_vs_human",
-                    "ai_deep_dive",
-                  ].includes(selectedDropdownItem)
-                    ? "default"
-                    : "outline"
-                }
-                className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
-              >
-                <span className="truncate">Adoption</span>
-                <ChevronDownIcon className="h-4 w-4" />
+              <Button variant="outline" className="gap-2">
+                Adoption <ChevronDownIcon className="h-4 w-4" />
               </Button>
             }
           >
-            {/* Traffic & User Overview (single page) */}
             <CustomDropdownItem
-              onClick={() => handleViewSelect("traffic", "traffic_user_overview")}
-              isSelected={selectedDropdownItem === "traffic_user_overview"}
+              onClick={() => handleViewSelect("traffic", "adoption_overview")}
+              isSelected={selectedDropdownItem === "adoption_overview"}
             >
-              Traffic & User Overview
+              Overview
             </CustomDropdownItem>
     
-            {/* Traffic Analysis */}
-            <CustomSubmenu parentId="traffic_analysis" trigger="Traffic Analysis">
+            <CustomSubmenu parentId="adoption_traffic" trigger="Traffic Analysis">
               <CustomDropdownItem
-                onClick={() => handleViewSelect("traffic", "sessions_overview")}
-                isSelected={selectedDropdownItem === "sessions_overview"}
+                onClick={() => handleViewSelect("traffic", "source_pages_device")}
               >
-                Sessions Overview & Entry Pages
+                Source, Pages, Device
               </CustomDropdownItem>
-    
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("traffic", "user_overview")}
-                isSelected={selectedDropdownItem === "user_overview"}
-              >
-                User Overview & Entry Pages
-              </CustomDropdownItem>
-    
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("traffic", "google_ads_keywords_sessions")}
-                isSelected={selectedDropdownItem === "google_ads_keywords_sessions"}
-              >
-                Google Ads Keywords – Sessions
-              </CustomDropdownItem>
-    
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("traffic", "google_ads_keywords_conversions")}
-                isSelected={selectedDropdownItem === "google_ads_keywords_conversions"}
-              >
-                Google Ads Keywords – Conversions
-              </CustomDropdownItem>
-    
               <CustomDropdownItem
                 onClick={() => handleViewSelect("traffic", "demographic_info")}
-                isSelected={selectedDropdownItem === "demographic_info"}
               >
                 Demographic Information
               </CustomDropdownItem>
             </CustomSubmenu>
     
-            {/* Engagement & Pages */}
-            <CustomSubmenu parentId="traffic_engagement" trigger="Engagement & Pages">
+            <CustomDropdownItem
+              onClick={() => handleViewSelect("traffic", "keywords")}
+            >
+              Keywords
+            </CustomDropdownItem>
+    
+            <CustomSubmenu parentId="adoption_engagement" trigger="Engagement & Pages">
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("traffic", "event_funnel_flow")}
+              >
+                Event Funnel & Flow
+              </CustomDropdownItem>
               <CustomDropdownItem
                 onClick={() => handleViewSelect("traffic", "events_top_pages")}
-                isSelected={selectedDropdownItem === "events_top_pages"}
               >
                 Events & Top Pages
               </CustomDropdownItem>
-    
               <CustomDropdownItem
                 onClick={() => handleViewSelect("traffic", "conversion_events")}
-                isSelected={selectedDropdownItem === "conversion_events"}
               >
                 Conversion Events Breakdown
               </CustomDropdownItem>
             </CustomSubmenu>
     
-            {/* Conversion Performance */}
             <CustomDropdownItem
               onClick={() => handleViewSelect("traffic", "conversion_performance")}
-              isSelected={selectedDropdownItem === "conversion_performance"}
             >
               Conversion Performance
             </CustomDropdownItem>
-    
-            {/* AI Traffic Analysis */}
-            <CustomSubmenu parentId="traffic_ai" trigger="AI Traffic Analysis">
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("traffic", "ai_vs_human")}
-                isSelected={selectedDropdownItem === "ai_vs_human"}
-              >
-                AI vs Human Traffic – Overview
-              </CustomDropdownItem>
-    
-              <CustomDropdownItem
-                onClick={() => handleViewSelect("traffic", "ai_deep_dive")}
-                isSelected={selectedDropdownItem === "ai_deep_dive"}
-              >
-                AI Traffic Deep Dive
-              </CustomDropdownItem>
-            </CustomSubmenu>
           </CustomDropdown>
     
-          {/* Google Analytics Dashboard */}
-          <Button
-            variant={selectedView.key === "google_analytics_dashboard" ? "default" : "outline"}
-            onClick={() => handleViewSelect("traffic", "google_analytics_dashboard")}
+          {/* AI Traffic */}
+          <CustomDropdown
+            id="traffic_ai"
+            trigger={
+              <Button variant="outline" className="gap-2">
+                AI Traffic Analysis <ChevronDownIcon className="h-4 w-4" />
+              </Button>
+            }
           >
-            Google Analytics Dashboard
+            <CustomDropdownItem
+              onClick={() => handleViewSelect("traffic", "ai_overview")}
+            >
+              Overview
+            </CustomDropdownItem>
+            <CustomDropdownItem
+              onClick={() => handleViewSelect("traffic", "ai_deep_dive")}
+            >
+              AI Traffic Deep Dive
+            </CustomDropdownItem>
+            <CustomDropdownItem
+              onClick={() => handleViewSelect("traffic", "ai_engines")}
+            >
+              AI Engines Breakdown
+            </CustomDropdownItem>
+          </CustomDropdown>
+    
+          {/* GA4 */}
+          <Button
+            variant={selectedView.key === "ga4_connection_testing" ? "default" : "outline"}
+            onClick={() => handleViewSelect("traffic", "ga4_connection_testing")}
+          >
+            GA4 Connection Testing
           </Button>
         </div>
       )
     }
+
 
     if (activePage === "dashboard_faq") {
       return (
