@@ -1,7 +1,12 @@
 import type { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 
-const ALLOWED_EMAILS = ["leonardo.decastro.brazil@gmail.com", "rmarquez@upstart13.com", "Ashley.Whiteside@gladney.org", "Caitlyn.ussery@gladney.org", "Clay.thomas@gladney.org", "Corey.Fields@gladney.org", "Diana.DeGroot@gladney.org", "Erin.gibson@gladney.org", "Heidi.Cox@gladney.org", "Holly.Yarborough@gladney.org", "Jennifer.hart@gladney.org", "Kasey.whitley@gladney.org", "Kati.silcox@gladney.org", "Kerry.Tobar@gladney.org", "Kristen.slomka@gladney.org", "Kristin.Porter@gladney.org", "Lisa.Schuessler@gladney.org", "Mark.Melson@gladney.org", "Natalie.Bowen@gladney.org", "Ryan.Doty@gladney.org", "jairosm88@gmail.com", "rjohnson@mojomarketingconsulting.com", "oakley.jones@gladney.org", "chandler.markwardt@gladney.org", "ashley.whiteside@gladney.org", "oakley@adoption.com"]
+const ALLOWED_EMAILS = ["leonardo.decastro.brazil@gmail.com", "rmarquez@upstart13.com", "ashley.whiteside@gladney.org", "caitlyn.ussery@gladney.org",
+                        "clay.thomas@gladney.org", "corey.fields@gladney.org", "diana.deGroot@gladney.org", "erin.gibson@gladney.org", "heidi.cox@gladney.org",
+                        "holly.yarborough@gladney.org", "jennifer.hart@gladney.org", "kasey.whitley@gladney.org", "kati.silcox@gladney.org", "kerry.tobar@gladney.org",
+                        "kristen.slomka@gladney.org", "kristin.porter@gladney.org", "lisa.schuessler@gladney.org", "mark.melson@gladney.org", "natalie.bowen@gladney.org",
+                        "ryan.doty@gladney.org", "jairosm88@gmail.com", "rjohnson@mojomarketingconsulting.com", "oakley.jones@gladney.org", "chandler.markwardt@gladney.org",
+                        "ashley.whiteside@gladney.org", "oakley@adoption.com", "susanne.smith@gladney.org", "tanya.houk@gladney.org"]
 const ALLOWED_DOMAIN = "@upstart13.com"
 
 export const authOptions: NextAuthOptions = {
