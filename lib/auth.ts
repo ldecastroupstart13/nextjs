@@ -7,7 +7,6 @@ const ALLOWED_EMAILS = ["leonardo.decastro.brazil@gmail.com", "rmarquez@upstart1
                         "kristen.slomka@gladney.org", "kristin.porter@gladney.org", "lisa.schuessler@gladney.org", "mark.melson@gladney.org", "natalie.bowen@gladney.org",
                         "ryan.doty@gladney.org", "jairosm88@gmail.com", "rjohnson@mojomarketingconsulting.com", "oakley.jones@gladney.org", "chandler.markwardt@gladney.org",
                         "ashley.whiteside@gladney.org", "oakley@adoption.com", "susanne.smith@gladney.org", "tanya.houk@gladney.org"]
-  
 const ALLOWED_DOMAIN = "@upstart13.com"
 
 export const authOptions: NextAuthOptions = {
