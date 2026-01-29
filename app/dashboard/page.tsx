@@ -139,6 +139,8 @@ const LOOKERS = {
         "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_amhq0bb2sd",
       user_profile:
         "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_snmx9lgltd",
+     landing_pages:
+        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_29ozzq1c0d",
     
       // Keywords
       keywords:
@@ -504,6 +506,7 @@ const LOOKERS = {
     
     historical_trends: "Historical Trends",
     user_profile: "User Profile",
+    landing_pages: "Landing Pages",
     
     keywords: "Keywords",
     
@@ -826,14 +829,23 @@ if (activePage === "gladney_business") {
               >
                 Historical Trends
               </CustomDropdownItem>
-    
+            
               <CustomDropdownItem
                 onClick={() => handleViewSelect("traffic", "user_profile")}
                 isSelected={selectedDropdownItem === "user_profile"}
               >
                 User Profile
               </CustomDropdownItem>
+            
+              {/* ✅ NEW */}
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("traffic", "landing_pages")}
+                isSelected={selectedDropdownItem === "landing_pages"}
+              >
+                Landing Pages
+              </CustomDropdownItem>
             </CustomSubmenu>
+
     
             {/* Keywords */}
             <CustomDropdownItem
