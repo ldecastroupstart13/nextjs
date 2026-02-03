@@ -141,6 +141,8 @@ const LOOKERS = {
         "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_snmx9lgltd",
      landing_pages:
         "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_29ozzq1c0d",
+     ppc_optimizer:
+        "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_7l4gdiwl0d",
     
       // Keywords
       keywords:
@@ -507,6 +509,7 @@ const LOOKERS = {
     historical_trends: "Historical Trends",
     user_profile: "User Profile",
     landing_pages: "Landing Pages",
+    ppc_optimizer: "PPC Performance Optimizer",
     
     keywords: "Keywords",
     
@@ -844,9 +847,18 @@ if (activePage === "gladney_business") {
               >
                 Landing Pages
               </CustomDropdownItem>
+              
+              <CustomDropdownItem
+                onClick={() => handleViewSelect("traffic", "ppc_optimizer")}
+                isSelected={selectedDropdownItem === "ppc_optimizer"}
+              >
+                PPC Performance Optimizer
+              </CustomDropdownItem
+
             </CustomSubmenu>
 
-    
+
+            
             {/* Keywords */}
             <CustomDropdownItem
               onClick={() => handleViewSelect("traffic", "keywords")}
