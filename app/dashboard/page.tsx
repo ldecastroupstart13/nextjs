@@ -853,7 +853,7 @@ if (activePage === "gladney_business") {
                 isSelected={selectedDropdownItem === "ppc_optimizer"}
               >
                 PPC Performance Optimizer
-              </CustomDropdownItem
+              </CustomDropdownItem>
 
             </CustomSubmenu>
 
