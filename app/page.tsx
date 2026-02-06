@@ -56,7 +56,7 @@ export default function LandingPage() {
             Welcome to the Gladney Insight Center
           </h1>
           <p className="text-lg text-muted-foreground mb-8">
-            Behind every number, there's a family waiting for hope.
+            For the best experience, use Google Chrome.
           </p>
           <Button
             onClick={handleStart}
