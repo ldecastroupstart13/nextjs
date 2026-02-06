@@ -5,8 +5,14 @@ import { useSession, signOut } from "next-auth/react"
 
 // ✅ Lista de e-mails autorizados a ver "Dashboard Details"
 const ALLOWED_DASHBOARD_DETAILS = ["oakley.jones@gladney.org", "leonardo.decastro.brazil@gmail.com", 
-                                   "itsai@upstart13.com", "mamantea@upstart13.com",
+                                   "itsai@upstart13.com", "mamantea@upstart13.com", "lfoley@upstart13.com",
+                                   "fmarques@upstart13.com", "rmarquez@upstart13.com", "rmonteiro@upstart13.com", "dbecerra@upstart13.com", 
                                    "ldecastro@upstart13.com", "mgarcia@upstart13.com", "oakley@adoption.com"]
+
+const ALLOWED_DETAIL_SESSIONS = [
+  "expectant_mother",
+  "page_traffic",
+]
 
 import type React from "react"
 import { useState, useEffect } from "react"
@@ -52,7 +58,12 @@ export default function GladneyDashboard() {
   const [selectedDropdownItem, setSelectedDropdownItem] = useState("overview_ads")
   const [openDropdowns, setOpenDropdowns] = useState<Record<string, boolean>>({})
   const { data: session } = useSession()   // <-- PEGA a sessão autenticada
-  const canSeeDashboardDetails = session?.user?.email && ALLOWED_DASHBOARD_DETAILS.includes(session.user.email)   // Verifica se o usuário atual pode ver "Dashboard Details"
+  const canSeeDashboardDetails =
+  (
+    session?.user?.email &&
+    ALLOWED_DASHBOARD_DETAILS.includes(session.user.email)
+  ) ||
+  ALLOWED_DETAIL_SESSIONS.includes(activePage)
   
 const LOOKERS = {
     expectant: {
