@@ -282,7 +282,9 @@ const LOOKERS = {
   // 🚫 Bloqueia acesso direto à aba "Dashboard Details" se o e-mail não for autorizado
   useEffect(() => {
     const url = new URL(window.location.href)
-    const group = url.searchParams.get("group")
+    const group = url.searchParams.get("group") ||
+  (canSeeDashboardDetails ? "expectant" : "gladney")
+
     const view = url.searchParams.get("view")
   
     // Block Dashboard Details
@@ -1184,11 +1186,11 @@ if (activePage === "gladney_business") {
                             <ChevronRightIcon className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-90" />
                           </SidebarMenuButton>
                         </CollapsibleTrigger>
-    
+                    
                         <CollapsibleContent>
                           <SidebarMenuSub className="ml-6 space-y-1 mt-2">
-    
-                            {/* Expectant Mother — only for allowed users */}
+                    
+                            {/* Expectant Mother — only allowed users */}
                             {canSeeDashboardDetails && (
                               <SidebarMenuSubItem>
                                 <SidebarMenuSubButton
@@ -1203,7 +1205,7 @@ if (activePage === "gladney_business") {
                                 </SidebarMenuSubButton>
                               </SidebarMenuSubItem>
                             )}
-    
+                    
                             {/* Gladney Business — visible to everyone */}
                             <SidebarMenuSubItem>
                               <SidebarMenuSubButton
@@ -1221,8 +1223,8 @@ if (activePage === "gladney_business") {
                                 </span>
                               </SidebarMenuSubButton>
                             </SidebarMenuSubItem>
-    
-                            {/* Page Traffic Monitor — only for allowed users */}
+                    
+                            {/* Page Traffic Monitor — only allowed users */}
                             {canSeeDashboardDetails && (
                               <SidebarMenuSubItem>
                                 <SidebarMenuSubButton
@@ -1237,11 +1239,12 @@ if (activePage === "gladney_business") {
                                 </SidebarMenuSubButton>
                               </SidebarMenuSubItem>
                             )}
-    
+                    
                           </SidebarMenuSub>
                         </CollapsibleContent>
                       </SidebarMenuItem>
                     </Collapsible>
+
     
                     {/* INFORMATION */}
                     <Collapsible className="group/collapsible">
