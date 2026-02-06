@@ -3,15 +3,40 @@
 "use client"
 import { useSession, signOut } from "next-auth/react"
 
-// ✅ Lista de e-mails autorizados a ver "Dashboard Details"
-const ALLOWED_DASHBOARD_DETAILS = ["oakley.jones@gladney.org", "itsai@upstart13.com", "mamantea@upstart13.com", "lfoley@upstart13.com",
-                                   "fmarques@upstart13.com", "rmarquez@upstart13.com", "rmonteiro@upstart13.com", "dbecerra@upstart13.com", 
-                                   "ldecastro@upstart13.com", "mgarcia@upstart13.com", "oakley@adoption.com"]
+// ===============================
+// PERMISSION CONFIGURATION
+// ===============================
 
-const ALLOWED_DETAIL_SESSIONS = [
-  "expectant_mother",
-  "page_traffic",
+// Users allowed to see Dashboard Details
+const ALLOWED_DASHBOARD_DETAILS = [
+  "oakley.jones@gladney.org",
+  "itsai@upstart13.com",
+  "mamantea@upstart13.com",
+  "lfoley@upstart13.com",
+  "fmarques@upstart13.com",
+  "rmarquez@upstart13.com",
+  "rmonteiro@upstart13.com",
+  "dbecerra@upstart13.com",
+  "ldecastro@upstart13.com",
+  "mgarcia@upstart13.com",
+  "oakley@adoption.com",
 ]
+
+// Users allowed to access restricted dashboards
+const ALLOWED_RESTRICTED_DASHBOARDS = [
+  "oakley.jones@gladney.org",
+  "itsai@upstart13.com",
+  "mamantea@upstart13.com",
+  "lfoley@upstart13.com",
+  "fmarques@upstart13.com",
+  "rmarquez@upstart13.com",
+  "rmonteiro@upstart13.com",
+  "dbecerra@upstart13.com",
+  "ldecastro@upstart13.com",
+  "mgarcia@upstart13.com",
+  "oakley@adoption.com",
+]
+
 
 import type React from "react"
 import { useState, useEffect } from "react"
@@ -56,7 +81,17 @@ export default function GladneyDashboard() {
   const [activePage, setActivePage] = useState("expectant_mother")
   const [selectedDropdownItem, setSelectedDropdownItem] = useState("overview_ads")
   const [openDropdowns, setOpenDropdowns] = useState<Record<string, boolean>>({})
-  const { data: session } = useSession()   // <-- PEGA a sessão autenticada
+  const { data: session } = useSession()
+  const userEmail = session?.user?.email || ""
+  
+  // Permission A → Dashboard Details
+  const canSeeDashboardDetails =
+    ALLOWED_DASHBOARD_DETAILS.includes(userEmail)
+  
+  // Permission B → restricted dashboards
+  const canAccessRestrictedDashboards =
+    ALLOWED_RESTRICTED_DASHBOARDS.includes(userEmail)
+
   const canSeeDashboardDetails =
   (
     session?.user?.email &&
@@ -255,25 +290,30 @@ const LOOKERS = {
 
 
   const handleNavigation = async (page: string) => {
+    const restrictedPages = ["expectant_mother", "page_traffic"]
+  
+    // 🚫 Block restricted dashboards
+    if (restrictedPages.includes(page) && !canAccessRestrictedDashboards) {
+      setActivePage("dashboard_faq")
+      return
+    }
+  
     setActivePage(page)
     closeAllDropdowns()
   
-    // ✅ For the 3 main dashboard pages, choose a default view
+    // Default view logic
     if (page === "expectant_mother") {
       await handleViewSelect("expectant", "overview_ads")
     } else if (page === "gladney_business") {
-      // ✅ This is exactly what you want:
-      // when selecting Gladney Business Performance, default = Gladney KPIs
       await handleViewSelect("gladney", "overall_report")
     } else if (page === "page_traffic") {
       await handleViewSelect("traffic", "cover_page")
     } else {
-      // For FAQ / Details / Notifications, don't force a Looker view
       setSelectedView({ group: "", key: "" })
       setSelectedDropdownItem("")
     }
   
-    // 🔥 Tracking (keep as-is)
+    // Tracking
     try {
       await fetch("/api/track-action", {
         method: "POST",
@@ -1184,18 +1224,24 @@ if (activePage === "gladney_business") {
                       </CollapsibleTrigger>
                       <CollapsibleContent>
                         <SidebarMenuSub className="ml-6 space-y-1 mt-2">
-                          <SidebarMenuSubItem>
-                            <SidebarMenuSubButton
-                              onClick={() => handleNavigation("expectant_mother")}
-                              className={`transition-colors rounded-lg ${
-                                activePage === "expectant_mother"
-                                  ? "bg-primary text-primary-foreground"
-                                  : "hover:bg-sidebar-accent"
-                              }`}
-                            >
-                              Expectant Mother
-                            </SidebarMenuSubButton>
-                          </SidebarMenuSubItem>
+                        
+                          {/* Expectant Mother */}
+                          {canAccessRestrictedDashboards && (
+                            <SidebarMenuSubItem>
+                              <SidebarMenuSubButton
+                                onClick={() => handleNavigation("expectant_mother")}
+                                className={`transition-colors rounded-lg ${
+                                  activePage === "expectant_mother"
+                                    ? "bg-primary text-primary-foreground"
+                                    : "hover:bg-sidebar-accent"
+                                }`}
+                              >
+                                Expectant Mother
+                              </SidebarMenuSubButton>
+                            </SidebarMenuSubItem>
+                          )}
+                        
+                          {/* Gladney Business (always visible) */}
                           <SidebarMenuSubItem>
                             <SidebarMenuSubButton
                               onClick={() => handleNavigation("gladney_business")}
@@ -1212,18 +1258,23 @@ if (activePage === "gladney_business") {
                               </span>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
-                          <SidebarMenuSubItem>
-                            <SidebarMenuSubButton
-                              onClick={() => handleNavigation("page_traffic")}
-                              className={`transition-colors rounded-lg ${
-                                activePage === "page_traffic"
-                                  ? "bg-primary text-primary-foreground"
-                                  : "hover:bg-sidebar-accent"
-                              }`}
-                            >
-                              Page Traffic Monitor
-                            </SidebarMenuSubButton>
-                          </SidebarMenuSubItem>
+                        
+                          {/* Page Traffic */}
+                          {canAccessRestrictedDashboards && (
+                            <SidebarMenuSubItem>
+                              <SidebarMenuSubButton
+                                onClick={() => handleNavigation("page_traffic")}
+                                className={`transition-colors rounded-lg ${
+                                  activePage === "page_traffic"
+                                    ? "bg-primary text-primary-foreground"
+                                    : "hover:bg-sidebar-accent"
+                                }`}
+                              >
+                                Page Traffic Monitor
+                              </SidebarMenuSubButton>
+                            </SidebarMenuSubItem>
+                          )}
+                        
                         </SidebarMenuSub>
                       </CollapsibleContent>
                     </SidebarMenuItem>
