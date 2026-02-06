@@ -8,11 +8,6 @@ const ALLOWED_DASHBOARD_DETAILS = ["oakley.jones@gladney.org", "itsai@upstart13.
                                    "fmarques@upstart13.com", "rmarquez@upstart13.com", "rmonteiro@upstart13.com", "dbecerra@upstart13.com", 
                                    "ldecastro@upstart13.com", "mgarcia@upstart13.com", "oakley@adoption.com"]
 
-const ALLOWED_DETAIL_SESSIONS = [
-  "expectant_mother",
-  "page_traffic",
-]
-
 import type React from "react"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
@@ -57,12 +52,7 @@ export default function GladneyDashboard() {
   const [selectedDropdownItem, setSelectedDropdownItem] = useState("overview_ads")
   const [openDropdowns, setOpenDropdowns] = useState<Record<string, boolean>>({})
   const { data: session } = useSession()   // <-- PEGA a sessão autenticada
-  const canSeeDashboardDetails =
-  (
-    session?.user?.email &&
-    ALLOWED_DASHBOARD_DETAILS.includes(session.user.email)
-  ) ||
-  ALLOWED_DETAIL_SESSIONS.includes(activePage)
+  const canSeeDashboardDetails = session?.user?.email && ALLOWED_DASHBOARD_DETAILS.includes(session.user.email)   // Verifica se o usuário atual pode ver "Dashboard Details"
   
 const LOOKERS = {
     expectant: {
@@ -295,9 +285,21 @@ const LOOKERS = {
     const group = url.searchParams.get("group")
     const view = url.searchParams.get("view")
   
+    // Block Dashboard Details
     if (group === "info" && view === "details" && !canSeeDashboardDetails) {
       window.location.href = "/dashboard?group=info&view=faq"
     }
+    
+    // Block Expectant Mother
+    if (group === "expectant" && !canSeeDashboardDetails) {
+      window.location.href = "/dashboard?group=gladney&view=overall_report"
+    }
+    
+    // Block Page Traffic
+    if (group === "traffic" && !canSeeDashboardDetails) {
+      window.location.href = "/dashboard?group=gladney&view=overall_report"
+    }
+
   }, [canSeeDashboardDetails])
   
   
@@ -1150,167 +1152,181 @@ if (activePage === "gladney_business") {
 
 // 📄 Parte 4 — Layout Geral (Sidebar + Header + Cards + Iframe)
     return (
-    <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-gray-50">
-        {/* Sidebar */}
-        <Sidebar className="border-r border-sidebar-border bg-sidebar flex-shrink-0 lg:flex hidden lg:relative absolute z-40 lg:z-auto w-64 min-w-64">
-          <SidebarContent className="bg-background h-full flex flex-col">
-            {/* Header Sidebar */}
-            <SidebarHeader className="h-16 flex items-center justify-between px-4 border-b border-sidebar-border">
-              <div className="flex items-center gap-3">
-                <img src="/logo-em-cima.svg" alt="Upstart13" className="h-10 w-10 rounded-lg object-cover" />
-                <div className="flex flex-col">
-                  <h2 className="text-base font-semibold text-sidebar-foreground">Gladney</h2>
-                  <p className="text-xs text-muted-foreground">Analytics Dashboard</p>
+      <SidebarProvider>
+        <div className="min-h-screen flex w-full bg-gray-50">
+          {/* Sidebar */}
+          <Sidebar className="border-r border-sidebar-border bg-sidebar flex-shrink-0 lg:flex hidden lg:relative absolute z-40 lg:z-auto w-64 min-w-64">
+            <SidebarContent className="bg-background h-full flex flex-col">
+              {/* Header Sidebar */}
+              <SidebarHeader className="h-16 flex items-center justify-between px-4 border-b border-sidebar-border">
+                <div className="flex items-center gap-3">
+                  <img src="/logo-em-cima.svg" alt="Upstart13" className="h-10 w-10 rounded-lg object-cover" />
+                  <div className="flex flex-col">
+                    <h2 className="text-base font-semibold text-sidebar-foreground">Gladney</h2>
+                    <p className="text-xs text-muted-foreground">Analytics Dashboard</p>
+                  </div>
                 </div>
-              </div>
-            </SidebarHeader>
-
-            {/* Menu principal */}
-            <SidebarGroup className="flex-1 overflow-y-auto px-2 py-4">
-              <SidebarGroupContent>
-                <SidebarMenu className="space-y-2">
-                  {/* DASHBOARDS */}
-                  <Collapsible defaultOpen className="group/collapsible">
-                    <SidebarMenuItem>
-                      <CollapsibleTrigger asChild>
-                        <SidebarMenuButton className="w-full hover:bg-sidebar-accent transition-colors rounded-lg">
-                          <div className="flex items-center gap-3">
-                            <ChartBarIcon className="h-5 w-5 text-primary flex-shrink-0" />
-                            <span className="font-medium">Dashboard</span>
-                          </div>
-                          <ChevronRightIcon className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-90" />
-                        </SidebarMenuButton>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent>
-                        <SidebarMenuSub className="ml-6 space-y-1 mt-2">
-                          <SidebarMenuSubItem>
-                            <SidebarMenuSubButton
-                              onClick={() => handleNavigation("expectant_mother")}
-                              className={`transition-colors rounded-lg ${
-                                activePage === "expectant_mother"
-                                  ? "bg-primary text-primary-foreground"
-                                  : "hover:bg-sidebar-accent"
-                              }`}
-                            >
-                              Expectant Mother
-                            </SidebarMenuSubButton>
-                          </SidebarMenuSubItem>
-                          <SidebarMenuSubItem>
-                            <SidebarMenuSubButton
-                              onClick={() => handleNavigation("gladney_business")}
-                              className={`py-3 h-auto transition-colors rounded-lg ${
-                                activePage === "gladney_business"
-                                  ? "bg-primary text-primary-foreground"
-                                  : "hover:bg-sidebar-accent"
-                              }`}
-                            >
-                              <span className="text-sm leading-tight">
-                                Gladney Business
-                                <br />
-                                Performance
-                              </span>
-                            </SidebarMenuSubButton>
-                          </SidebarMenuSubItem>
-                          <SidebarMenuSubItem>
-                            <SidebarMenuSubButton
-                              onClick={() => handleNavigation("page_traffic")}
-                              className={`transition-colors rounded-lg ${
-                                activePage === "page_traffic"
-                                  ? "bg-primary text-primary-foreground"
-                                  : "hover:bg-sidebar-accent"
-                              }`}
-                            >
-                              Page Traffic Monitor
-                            </SidebarMenuSubButton>
-                          </SidebarMenuSubItem>
-                        </SidebarMenuSub>
-                      </CollapsibleContent>
-                    </SidebarMenuItem>
-                  </Collapsible>
-
-                  {/* INFORMATION */}
-                  <Collapsible className="group/collapsible">
-                    <SidebarMenuItem>
-                      <CollapsibleTrigger asChild>
-                        <SidebarMenuButton className="w-full hover:bg-sidebar-accent transition-colors rounded-lg">
-                          <div className="flex items-center gap-3">
-                            <InformationCircleIcon className="h-5 w-5 text-primary flex-shrink-0" />
-                            <span className="font-medium">Information</span>
-                          </div>
-                          <ChevronRightIcon className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-90" />
-                        </SidebarMenuButton>
-                      </CollapsibleTrigger>
-                  
-                      <CollapsibleContent>
-                        <SidebarMenuSub className="ml-6 space-y-1 mt-2">
-                          
-                          {/* ✅ Só mostra o Dashboard Details para e-mails autorizados */}
-                          {canSeeDashboardDetails && (
+              </SidebarHeader>
+    
+              {/* Menu principal */}
+              <SidebarGroup className="flex-1 overflow-y-auto px-2 py-4">
+                <SidebarGroupContent>
+                  <SidebarMenu className="space-y-2">
+                    {/* DASHBOARDS */}
+                    <Collapsible defaultOpen className="group/collapsible">
+                      <SidebarMenuItem>
+                        <CollapsibleTrigger asChild>
+                          <SidebarMenuButton className="w-full hover:bg-sidebar-accent transition-colors rounded-lg">
+                            <div className="flex items-center gap-3">
+                              <ChartBarIcon className="h-5 w-5 text-primary flex-shrink-0" />
+                              <span className="font-medium">Dashboard</span>
+                            </div>
+                            <ChevronRightIcon className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                          </SidebarMenuButton>
+                        </CollapsibleTrigger>
+    
+                        <CollapsibleContent>
+                          <SidebarMenuSub className="ml-6 space-y-1 mt-2">
+    
+                            {/* Expectant Mother — only for allowed users */}
+                            {canSeeDashboardDetails && (
+                              <SidebarMenuSubItem>
+                                <SidebarMenuSubButton
+                                  onClick={() => handleNavigation("expectant_mother")}
+                                  className={`transition-colors rounded-lg ${
+                                    activePage === "expectant_mother"
+                                      ? "bg-primary text-primary-foreground"
+                                      : "hover:bg-sidebar-accent"
+                                  }`}
+                                >
+                                  Expectant Mother
+                                </SidebarMenuSubButton>
+                              </SidebarMenuSubItem>
+                            )}
+    
+                            {/* Gladney Business — visible to everyone */}
                             <SidebarMenuSubItem>
                               <SidebarMenuSubButton
-                                onClick={() => handleNavigation("dashboard_details")}
-                                className={`transition-colors rounded-lg ${
-                                  activePage === "dashboard_details"
+                                onClick={() => handleNavigation("gladney_business")}
+                                className={`py-3 h-auto transition-colors rounded-lg ${
+                                  activePage === "gladney_business"
                                     ? "bg-primary text-primary-foreground"
                                     : "hover:bg-sidebar-accent"
                                 }`}
                               >
-                                Dashboard Details
+                                <span className="text-sm leading-tight">
+                                  Gladney Business
+                                  <br />
+                                  Performance
+                                </span>
                               </SidebarMenuSubButton>
                             </SidebarMenuSubItem>
-                          )}
-                  
-                          {/* FAQ — visível para todos */}
-                          <SidebarMenuSubItem>
-                            <SidebarMenuSubButton
-                              onClick={() => handleNavigation("dashboard_faq")}
-                              className={`transition-colors rounded-lg ${
-                                activePage === "dashboard_faq"
-                                  ? "bg-primary text-primary-foreground"
-                                  : "hover:bg-sidebar-accent"
-                              }`}
-                            >
-                              Dashboard FAQ
-                            </SidebarMenuSubButton>
-                          </SidebarMenuSubItem>
-                        </SidebarMenuSub>
-                      </CollapsibleContent>
+    
+                            {/* Page Traffic Monitor — only for allowed users */}
+                            {canSeeDashboardDetails && (
+                              <SidebarMenuSubItem>
+                                <SidebarMenuSubButton
+                                  onClick={() => handleNavigation("page_traffic")}
+                                  className={`transition-colors rounded-lg ${
+                                    activePage === "page_traffic"
+                                      ? "bg-primary text-primary-foreground"
+                                      : "hover:bg-sidebar-accent"
+                                  }`}
+                                >
+                                  Page Traffic Monitor
+                                </SidebarMenuSubButton>
+                              </SidebarMenuSubItem>
+                            )}
+    
+                          </SidebarMenuSub>
+                        </CollapsibleContent>
+                      </SidebarMenuItem>
+                    </Collapsible>
+    
+                    {/* INFORMATION */}
+                    <Collapsible className="group/collapsible">
+                      <SidebarMenuItem>
+                        <CollapsibleTrigger asChild>
+                          <SidebarMenuButton className="w-full hover:bg-sidebar-accent transition-colors rounded-lg">
+                            <div className="flex items-center gap-3">
+                              <InformationCircleIcon className="h-5 w-5 text-primary flex-shrink-0" />
+                              <span className="font-medium">Information</span>
+                            </div>
+                            <ChevronRightIcon className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                          </SidebarMenuButton>
+                        </CollapsibleTrigger>
+    
+                        <CollapsibleContent>
+                          <SidebarMenuSub className="ml-6 space-y-1 mt-2">
+    
+                            {/* Dashboard Details — only for allowed users */}
+                            {canSeeDashboardDetails && (
+                              <SidebarMenuSubItem>
+                                <SidebarMenuSubButton
+                                  onClick={() => handleNavigation("dashboard_details")}
+                                  className={`transition-colors rounded-lg ${
+                                    activePage === "dashboard_details"
+                                      ? "bg-primary text-primary-foreground"
+                                      : "hover:bg-sidebar-accent"
+                                  }`}
+                                >
+                                  Dashboard Details
+                                </SidebarMenuSubButton>
+                              </SidebarMenuSubItem>
+                            )}
+    
+                            {/* FAQ — visible to everyone */}
+                            <SidebarMenuSubItem>
+                              <SidebarMenuSubButton
+                                onClick={() => handleNavigation("dashboard_faq")}
+                                className={`transition-colors rounded-lg ${
+                                  activePage === "dashboard_faq"
+                                    ? "bg-primary text-primary-foreground"
+                                    : "hover:bg-sidebar-accent"
+                                }`}
+                              >
+                                Dashboard FAQ
+                              </SidebarMenuSubButton>
+                            </SidebarMenuSubItem>
+    
+                          </SidebarMenuSub>
+                        </CollapsibleContent>
+                      </SidebarMenuItem>
+                    </Collapsible>
+    
+                    {/* NOTIFICATIONS */}
+                    <SidebarMenuItem>
+                      <SidebarMenuButton
+                        onClick={() => handleNavigation("notifications")}
+                        className={`transition-colors rounded-lg ${
+                          activePage === "notifications"
+                            ? "bg-primary text-primary-foreground"
+                            : "hover:bg-sidebar-accent"
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <BellIcon className="h-5 w-5 text-primary flex-shrink-0" />
+                          <span className="font-medium">Notifications</span>
+                        </div>
+                      </SidebarMenuButton>
                     </SidebarMenuItem>
-                  </Collapsible>
-
-                  {/* NOTIFICATIONS */}
-                  <SidebarMenuItem>
-                    <SidebarMenuButton
-                      onClick={() => handleNavigation("notifications")}
-                      className={`transition-colors rounded-lg ${
-                        activePage === "notifications"
-                          ? "bg-primary text-primary-foreground"
-                          : "hover:bg-sidebar-accent"
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <BellIcon className="h-5 w-5 text-primary flex-shrink-0" />
-                        <span className="font-medium">Notifications</span>
-                      </div>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-
-            {/* Footer */}
-            <div className="mt-auto border-t border-sidebar-border p-4">
-              <div className="flex items-center justify-center gap-3 p-3 rounded-lg bg-slate-50">
-                <img src="/logo-icon-big.jpeg" alt="UpStart13" className="h-8 w-8 rounded" />
-                <div className="text-xs">
-                  <div className="font-medium text-sidebar-foreground">Powered by</div>
-                  <div className="text-primary font-semibold">Upstart13</div>
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </SidebarGroup>
+    
+              {/* Footer */}
+              <div className="mt-auto border-t border-sidebar-border p-4">
+                <div className="flex items-center justify-center gap-3 p-3 rounded-lg bg-slate-50">
+                  <img src="/logo-icon-big.jpeg" alt="UpStart13" className="h-8 w-8 rounded" />
+                  <div className="text-xs">
+                    <div className="font-medium text-sidebar-foreground">Powered by</div>
+                    <div className="text-primary font-semibold">Upstart13</div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </SidebarContent>
-        </Sidebar>
+            </SidebarContent>
+          </Sidebar>
+
 
         {/* Main Content */}
         <div className="flex-1 flex flex-col min-w-0">
