@@ -6,7 +6,7 @@ import { useSession, signOut } from "next-auth/react"
 // ✅ Lista de e-mails autorizados a ver "Dashboard Details"
 const ALLOWED_DASHBOARD_DETAILS = ["oakley.jones@gladney.org", "itsai@upstart13.com", "mamantea@upstart13.com", "lfoley@upstart13.com",
                                    "fmarques@upstart13.com", "rmarquez@upstart13.com", "rmonteiro@upstart13.com", "dbecerra@upstart13.com", 
-                                   "ldecastro@upstart13.com", "mgarcia@upstart13.com", "oakley@adoption.com"]
+                                   "ldecastro@upstart13.com", "mgarcia@upstart13.com", "oakley@adoption.com", "jairosm88@gmail.com"]
 
 import type React from "react"
 import { useState, useEffect } from "react"
