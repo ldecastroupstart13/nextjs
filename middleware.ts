@@ -21,7 +21,7 @@ export default withAuth(
 
     // 🔐 Verifica se o usuário tem acesso (email específico ou domínio permitido)
     const email = req.nextauth.token.email as string
-    const ALLOWED_EMAILS = ["leonardo.decastro.brazil@gmail.com", "mgarcia@upstart13.com", "itsai@upstart13.com", "mamantea@upstart13.com", "jennifer.james@gladney.org",
+    const ALLOWED_EMAILS = ["leonardo.decastro.brazil@gmail.com", "janet.ketcham@gladney.org","mgarcia@upstart13.com", "itsai@upstart13.com", "mamantea@upstart13.com", "jennifer.james@gladney.org",
                             "rmarquez@upstart13.com", "ashley.whiteside@gladney.org", "caitlyn.ussery@gladney.org", "clay.thomas@gladney.org", "corey.fields@gladney.org",
                             "diana.deGroot@gladney.org", "erin.gibson@gladney.org", "heidi.cox@gladney.org", "holly.yarborough@gladney.org", "jennifer.hart@gladney.org",
                             "kasey.whitley@gladney.org", "kati.silcox@gladney.org", "kerry.tobar@gladney.org", "kristen.slomka@gladney.org", "kristin.porter@gladney.org",
