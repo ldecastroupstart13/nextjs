@@ -162,6 +162,10 @@ const LOOKERS = {
       ai_engines:
         "https://lookerstudio.google.com/embed/reporting/186ac7bf-c1de-463f-9fe7-c4eeef98acdb/page/p_v4vgx00ezd",
     },
+      kpis: {
+        user_tracking: "https://lookerstudio.google.com/embed/reporting/4bbf539a-7309-4bf4-b1a0-cd9834f24fa6/page/p_copyojffrd",
+        u13_overview: "https://lookerstudio.google.com/embed/reporting/4bbf539a-7309-4bf4-b1a0-cd9834f24fa6/page/p_ghzufo700d",
+    },
 }
 
 
@@ -301,7 +305,12 @@ const LOOKERS = {
     if (group === "traffic" && !canSeeDashboardDetails) {
       window.location.href = "/dashboard?group=gladney&view=overall_report"
     }
-
+    
+  // Block KPIs
+    if (group === "kpis" && !canSeeDashboardDetails) {
+      window.location.href = "/dashboard?group=gladney&view=overall_report"
+    }
+    
   }, [canSeeDashboardDetails])
   
   
@@ -318,6 +327,7 @@ const LOOKERS = {
     else if (group === "gladney") setActivePage("gladney_business")
     else if (group === "traffic") setActivePage("page_traffic")
     else if (group === "info") setActivePage("dashboard_details")
+    else if (group === "kpis") setActivePage("kpis_dashboard")
     else if (group === "notifications") setActivePage("notifications")
   }, [])
   
@@ -378,6 +388,8 @@ const LOOKERS = {
         return "Gladney Business Performance Dashboard"
       case "page_traffic":
         return "Page Traffic Monitor Dashboard"
+      case "kpis_dashboard":
+        return "KPIs Dashboard"
       case "dashboard_faq":
         return "Dashboard FAQ"
       case "dashboard_details":
@@ -534,6 +546,8 @@ const LOOKERS = {
     ai_overview: "Overview",
     ai_engines: "AI Engines Breakdown",
 
+    user_tracking: "User Tracking",
+    u13_overview: "Overview",
 
   }
 
@@ -926,6 +940,56 @@ if (activePage === "gladney_business") {
       )
     }
 
+    // Parte 3.2 — KPIs Dashboard 
+    if (activePage === "kpis_dashboard" && canSeeDashboardDetails) {
+      return (
+        <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
+          
+          {/* Web App User Tracking */}
+          <CustomDropdown
+            id="web_app_tracking"
+            trigger={
+              <Button
+                variant={selectedDropdownItem === "user_tracking" ? "default" : "outline"}
+                className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+              >
+                <span className="truncate">Web App User Tracking</span>
+                <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+              </Button>
+            }
+          >
+            <CustomDropdownItem
+              onClick={() => handleViewSelect("kpis", "user_tracking")}
+              isSelected={selectedDropdownItem === "user_tracking"}
+            >
+              {LABELS["user_tracking"]}
+            </CustomDropdownItem>
+          </CustomDropdown>
+
+          {/* U13 - KPIs */}
+          <CustomDropdown
+            id="u13_kpis_dropdown"
+            trigger={
+              <Button
+                variant={selectedDropdownItem === "u13_overview" ? "default" : "outline"}
+                className="gap-2 w-full sm:w-auto justify-between sm:justify-center"
+              >
+                <span className="truncate">U13 - KPIs</span>
+                <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
+              </Button>
+            }
+          >
+            <CustomDropdownItem
+              onClick={() => handleViewSelect("kpis", "u13_overview")}
+              isSelected={selectedDropdownItem === "u13_overview"}
+            >
+              {LABELS["u13_overview"]}
+            </CustomDropdownItem>
+          </CustomDropdown>
+          
+        </div>
+      )
+    }
 
 
 
@@ -1239,7 +1303,21 @@ if (activePage === "gladney_business") {
                                 </SidebarMenuSubButton>
                               </SidebarMenuSubItem>
                             )}
-                    
+
+                            {canSeeDashboardDetails && (
+                              <SidebarMenuSubItem>
+                                <SidebarMenuSubButton
+                                  onClick={() => handleNavigation("kpis_dashboard")}
+                                  className={`transition-colors rounded-lg ${
+                                    activePage === "kpis_dashboard"
+                                      ? "bg-primary text-primary-foreground"
+                                      : "hover:bg-sidebar-accent"
+                                  }`}
+                                >
+                                  KPIs
+                                </SidebarMenuSubButton>
+                              </SidebarMenuSubItem>
+                            )}
                           </SidebarMenuSub>
                         </CollapsibleContent>
                       </SidebarMenuItem>
