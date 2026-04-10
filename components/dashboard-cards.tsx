@@ -42,7 +42,7 @@ const dashboards = [
     icon: LayoutDashboard,
     group: "kpis",
     view: "user_tracking",
-    gradient: "from-slate-500 to-slate-700",
+    gradient: "from-[#8092BD] to-[#5F719D]",
     restricted: true, 
   },
   {
